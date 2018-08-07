@@ -5,11 +5,16 @@
  */
 package AnalisadorLexicoCalculadora.ui;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -57,7 +62,7 @@ public class Interface extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItemAbrirArquivo = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -79,14 +84,14 @@ public class Interface extends javax.swing.JFrame {
 
         jMenu1.setText("Arquivo");
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Abrir Arquivo");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemAbrirArquivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemAbrirArquivo.setText("Abrir Arquivo");
+        jMenuItemAbrirArquivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jMenuItemAbrirArquivoActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu1.add(jMenuItemAbrirArquivo);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("Salvar");
@@ -219,9 +224,26 @@ public class Interface extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(null, string);    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void jMenuItemAbrirArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAbrirArquivoActionPerformed
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Selecione um código fonte");
+        int returnVal = fc.showOpenDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION){
+            File arquivo = fc.getSelectedFile();
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(arquivo));
+                String line = reader.readLine();
+                while(line != null){
+                    jTextArea1.append(line + "\n");
+                    line = reader.readLine();
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
+            }           
+        }
+    }//GEN-LAST:event_jMenuItemAbrirArquivoActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
@@ -269,11 +291,11 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItemAbrirArquivo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
