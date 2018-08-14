@@ -5,6 +5,7 @@
  */
 package AnalisadorLexicoCalculadora.ui;
 
+import AnalisadorLexicoCalculadora.classes.ItemLexico;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,7 +37,7 @@ public class Interface extends javax.swing.JFrame {
 
     public void inicializaTabela() {
         Object[][] conteudo = {{}};
-        Object[] colunas = {"Símbolos", "Tokens"};
+        Object[] colunas = {"Lexemas", "Tokens", "Linha", "Coluna Inicial", "Coluna Final"};
         tableModel = new DefaultTableModel(conteudo, colunas);
     }
 
@@ -184,13 +185,19 @@ public class Interface extends javax.swing.JFrame {
             zeraConteudoTabela();
             String expressao = jTextArea1.getText();
             LexicalAnalyzer lexical = new LexicalAnalyzer(new StringReader(expressao));
-            lexical.yylex();
-            ArrayList<String> descricoes = lexical.getDescricoes();
-            ArrayList<String> lexemas = lexical.getLexemas();
-            for (int i = 0; i < descricoes.size(); i++) {
-                Object[] array = {lexemas.get(i), descricoes.get(i)};
+            lexical.yylex(); 
+//            ArrayList<String> descricoes = lexical.getDescricoes();
+//            ArrayList<String> lexemas = lexical.getLexemas();
+            ArrayList<ItemLexico> itens = lexical.getItens();
+    
+            for (int i = 0; i < itens.size(); i++) {
+                //Object[] array = {lexemas.get(i), descricoes.get(i)};
+                Object[] array = {itens.get(i).getLexema(), itens.get(i).getToken(), itens.get(i).getLinha(), itens.get(i).getColuna_inicio(), itens.get(i).getColuna_fim()};
                 tableModel.addRow(array);
             }
+            
+           String codigo = lexical.getCodigoFonteColorido();
+            System.out.println(codigo);
         } catch (IOException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }

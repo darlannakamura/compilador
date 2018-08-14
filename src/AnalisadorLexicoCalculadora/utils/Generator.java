@@ -13,7 +13,8 @@ import java.io.File;
  */
 public class Generator {
     public static void main(String[] args) {
-        String file = "language.lex";
+        String subPath = "src/AnalisadorLexicoCalculadora/ui/";
+        String file = subPath + "language.lex";
         File sourceCode = new File(file);
         jflex.Main.generate(sourceCode);
     }

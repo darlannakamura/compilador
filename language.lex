@@ -1,5 +1,7 @@
 	
 %%
+import java.util.ArrayList;
+
 
 %{
 
@@ -7,6 +9,7 @@ private void imprimir(String descricao, String lexema) {
 System.out.println(lexema + " - " + descricao);
 descricoes.add(descricao);
 lexemas.add(lexema);
+
 }
 
 private ArrayList<String> descricoes = new ArrayList<>();
@@ -34,6 +37,12 @@ this.lexemas = lexemas;
 %class LexicalAnalyzer
 %type void
 
+PALAVRA_RESERVADA_BEGIN = "begin"
+PALAVRA_RESERVADA_END = "end"
+
+SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL = ">="
+SIMBOLOS_ESPECIAIS_MAIOR_QUE = ">"
+SIMBOLOS_
 
 BRANCO = [\n| |\t|\r]
 MULTIPLICACAO = "*"
@@ -44,6 +53,7 @@ INTEIRO = [0-9][0-9]*
 REAL = [0-9][0-9]*.[0-9][0-9]*|[0-9][0-9]*,[0-9][0-9]*
 ABRE_PARENTESE = "("
 FECHA_PARENTESE = ")"
+
 
 %%
 
@@ -56,6 +66,10 @@ FECHA_PARENTESE = ")"
 {INTEIRO}                     { imprimir("NUM_INT", yytext()); }
 {ABRE_PARENTESE}                     { imprimir("ABRE_PARENTESES", yytext()); }
 {FECHA_PARENTESE}                     { imprimir("FECHA_PARENTESES", yytext()); }
+{SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL} { imprimir("SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL", yytext()); }
+{SIMBOLOS_ESPECIAIS_MAIOR_QUE} { imprimir("SIMBOLOS_ESPECIAIS_MAIOR_QUE", yytext()); }
+{PALAVRA_RESERVADA_BEGIN} {  imprimir("PALAVRA_RESERVADA_BEGIN", yytext()); }
+{PALAVRA_RESERVADA_END} {  imprimir("PALAVRA_RESERVADA_END", yytext()); }
 
 
 . { imprimir("DESCONHECIDO", yytext()); }
