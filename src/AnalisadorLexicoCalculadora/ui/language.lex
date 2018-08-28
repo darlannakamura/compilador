@@ -18,7 +18,7 @@ private void add(String token){
     item.setToken(token);
     item.setLinha(yyline);
     item.setColuna_inicio(yycolumn);   
-    item.setColuna_fim(yycolumn - yylength());
+    item.setColuna_fim(yycolumn + yylength());
 
     itens.add(item);
 }
@@ -104,10 +104,6 @@ TIPO_VARIAVEL_BOOLEAN = "boolean"
 ABRE_PARENTESE = "("
 FECHA_PARENTESE = ")"
 
-ABRE_COMENTARIO = "{"
-FECHA_COMENTARIO = "}"
-COMENTARIO_LINHA = "//"
-
 QUEBRA_DE_LINHA = \r|\n|\r\n
 
 
@@ -179,8 +175,8 @@ CARACTERE_DE_ENTRADA = [^\r\n]
 
 {IDENTIFICADOR}    { add("IDENTIFICADOR"); escrever(""); }
 
-{CARACTERE_DE_ENTRADA}			{}
+{CARACTERE_DE_ENTRADA}			{ add("DESCONHECIDO"); escrever("red"); }
 
 
 
-. { add("DESCONHECIDO"); escrever("red"); }
+// . { add("DESCONHECIDO"); escrever("red"); }

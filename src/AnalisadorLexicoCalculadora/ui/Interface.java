@@ -5,7 +5,10 @@
  */
 package AnalisadorLexicoCalculadora.ui;
 
+import AnalisadorLexicoCalculadora.classes.HtmlToText;
+import AnalisadorLexicoCalculadora.classes.ItemErro;
 import AnalisadorLexicoCalculadora.classes.ItemLexico;
+import AnalisadorLexicoCalculadora.utils.TratamentoErros;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,26 +28,47 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Interface extends javax.swing.JFrame {
 
-    public DefaultTableModel tableModel;
+    public DefaultTableModel tableModelTokens, tableModelErros;
 
     /**
      * Creates new form Interface
      */
     public Interface() {
-        inicializaTabela();
+        inicializaTabelas();
         initComponents();
     }
 
-    public void inicializaTabela() {
-        Object[][] conteudo = {{}};
-        Object[] colunas = {"Lexemas", "Tokens", "Linha", "Coluna Inicial", "Coluna Final"};
-        tableModel = new DefaultTableModel(conteudo, colunas);
+    public void inicializaTabelas() {
+        Object[][] conteudoTokens = {{}};
+        Object[] colunasTokens = {"Lexema", "Token", "Linha", "Coluna Inicial", "Coluna Final"};
+        tableModelTokens = new DefaultTableModel(conteudoTokens, colunasTokens);
+        
+        Object[][] conteudoErros = {{}};
+        Object[] colunasErros = {"Erro", "Lexema", "Linha"};
+        tableModelErros = new DefaultTableModel(conteudoErros, colunasErros);
     }
 
-    public void zeraConteudoTabela() {
-        while (tableModel.getRowCount() > 0) {
-            tableModel.removeRow(0);
+    public void zeraConteudoTabelas() {
+        while (tableModelTokens.getRowCount() > 0) {
+            tableModelTokens.removeRow(0);
         }
+        while (tableModelErros.getRowCount() > 0) {
+            tableModelErros.removeRow(0);
+        }
+    }
+
+    public String limpaHtml(String stringComHtml) {
+        HtmlToText htmlToText = new HtmlToText();
+
+        try {
+            htmlToText.parse(stringComHtml);
+            System.out.println(htmlToText.getText());
+            return htmlToText.getText();
+            // Saida do sistema: "Correções Monitor 1.0.0.43:"
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**
@@ -57,10 +81,13 @@ public class Interface extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextPane1 = new javax.swing.JTextPane();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableTokensReconhecidos = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableErrosLexicos = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemAbrirArquivo = new javax.swing.JMenuItem();
@@ -76,12 +103,22 @@ public class Interface extends javax.swing.JFrame {
 
         jLabel1.setText("Analisador Léxico da Calculadora");
 
-        jTable1.setModel(tableModel);
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane2.setViewportView(jTextPane1);
+        // Retirado de https://tips4java.wordpress.com/2009/05/23/text-component-line-number/
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        TextLineNumber tln = new TextLineNumber(jTextPane1);
+
+        jScrollPane2.setRowHeaderView(tln);
+
+        jTableTokensReconhecidos.setModel(tableModelTokens);
+        jScrollPane3.setViewportView(jTableTokensReconhecidos);
+
+        jTabbedPane1.addTab("Tokens Reconhecidos", jScrollPane3);
+
+        jTableErrosLexicos.setModel(tableModelErros);
+        jScrollPane5.setViewportView(jTableErrosLexicos);
+
+        jTabbedPane1.addTab("Erros Léxicos", jScrollPane5);
 
         jMenu1.setText("Arquivo");
 
@@ -155,25 +192,27 @@ public class Interface extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1207, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(148, 148, 148)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(13, 13, 13)
+                .addContainerGap()
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -182,22 +221,31 @@ public class Interface extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         try {
-            zeraConteudoTabela();
-            String expressao = jTextArea1.getText();
+            zeraConteudoTabelas();
+            String expressao = jTextPane1.getText();
             LexicalAnalyzer lexical = new LexicalAnalyzer(new StringReader(expressao));
-            lexical.yylex(); 
-//            ArrayList<String> descricoes = lexical.getDescricoes();
-//            ArrayList<String> lexemas = lexical.getLexemas();
+            lexical.yylex();
             ArrayList<ItemLexico> itens = lexical.getItens();
-    
+
+            // Impressão dos tokens
             for (int i = 0; i < itens.size(); i++) {
                 //Object[] array = {lexemas.get(i), descricoes.get(i)};
-                Object[] array = {itens.get(i).getLexema(), itens.get(i).getToken(), itens.get(i).getLinha(), itens.get(i).getColuna_inicio(), itens.get(i).getColuna_fim()};
-                tableModel.addRow(array);
+                if (! itens.get(i).getToken().equals("DESCONHECIDO")){
+                    Object[] array = {itens.get(i).getLexema(), itens.get(i).getToken(), itens.get(i).getLinha(), itens.get(i).getColuna_inicio(), itens.get(i).getColuna_fim()};
+                    tableModelTokens.addRow(array);
+                }
+            }
+
+            // Tratamento de Erros
+            ArrayList<ItemErro> erros = TratamentoErros.tratamentoLexico(itens);
+            // Impressão dos tokens
+            jTabbedPane1.setTitleAt(1, "Erros Léxicos (" + String.valueOf(erros.size()) + ")");
+            for(ItemErro erro: erros){
+                Object[] array = {erro.getMensagem(), erro.getLexema(), erro.getLinha()};
+                tableModelErros.addRow(array);
             }
             
-           String codigo = lexical.getCodigoFonteColorido();
-            System.out.println(codigo);
+            //String codigo = lexical.getCodigoFonteColorido();
         } catch (IOException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -235,20 +283,23 @@ public class Interface extends javax.swing.JFrame {
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Selecione um código fonte");
         int returnVal = fc.showOpenDialog(this);
-        if(returnVal == JFileChooser.APPROVE_OPTION){
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             File arquivo = fc.getSelectedFile();
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(arquivo));
                 String line = reader.readLine();
-                while(line != null){
-                    jTextArea1.append(line + "\n");
+                String html = "";
+                while (line != null) {
+                    //jTextArea1.append(line + "\n");
+                    html += line+"\n";
                     line = reader.readLine();
                 }
+                jTextPane1.setText(line);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
-            }           
+            }
         }
     }//GEN-LAST:event_jMenuItemAbrirArquivoActionPerformed
 
@@ -303,9 +354,12 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItemAbrirArquivo;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTableErrosLexicos;
+    private javax.swing.JTable jTableTokensReconhecidos;
+    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }

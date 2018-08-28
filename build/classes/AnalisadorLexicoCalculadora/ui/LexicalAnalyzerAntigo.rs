@@ -1,1 +1,0 @@
-AnalisadorLexicoCalculadora.ui.LexicalAnalyzer
