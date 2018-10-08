@@ -39,6 +39,7 @@ terminal OPERADOR_LOGICO_AND, OPERADOR_LOGICO_OR, OPERADOR_LOGICO_NOT, OPERADOR_
 terminal OPERADOR_MATEMATICO_SUBTRACAO, OPERADOR_MATEMATICO_MULTIPLICACAO, OPERADOR_MATEMATICO_DIVISAO;
 terminal NUMERO_INTEIRO, TIPO_VARIAVEL_INT, TIPO_VARIAVEL_BOOLEAN, ABRE_PARENTESES, FECHA_PARENTESES;
 terminal IDENTIFICADOR, FIM;
+terminal COMENTARIO, DESCONHECIDO;
 
 non terminal program, bloco, parte_de_declaracoes_de_variaveis, declaracao_de_variavel;
 non terminal tipo, lista_de_identificadores, parte_de_declaracoes_de_subrotinas;

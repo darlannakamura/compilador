@@ -18,6 +18,7 @@ public class Sym {
   public static final int SIMBOLOS_ESPECIAIS_VIRGULA = 20;
   public static final int OPERADOR_LOGICO_OR = 23;
   public static final int PALAVRA_RESERVADA_THEN = 5;
+  public static final int DESCONHECIDO = 37;
   public static final int PALAVRA_RESERVADA_PROCEDURE = 10;
   public static final int FIM = 35;
   public static final int IDENTIFICADOR = 34;
@@ -29,6 +30,7 @@ public class Sym {
   public static final int EOF = 0;
   public static final int ABRE_PARENTESES = 32;
   public static final int error = 1;
+  public static final int COMENTARIO = 36;
   public static final int PALAVRA_RESERVADA_IF = 4;
   public static final int PALAVRA_RESERVADA_BEGIN = 2;
   public static final int SIMBOLOS_ESPECIAIS_MENOR_QUE = 16;
@@ -80,7 +82,9 @@ public class Sym {
   "ABRE_PARENTESES",
   "FECHA_PARENTESES",
   "IDENTIFICADOR",
-  "FIM"
+  "FIM",
+  "COMENTARIO",
+  "DESCONHECIDO"
   };
 }
 

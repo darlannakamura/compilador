@@ -18,6 +18,10 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java_cup.runtime.ComplexSymbolFactory;
+import java_cup.runtime.DefaultSymbolFactory;
+import java_cup.runtime.Symbol;
+import java_cup.runtime.SymbolFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -42,7 +46,7 @@ public class Interface extends javax.swing.JFrame {
         Object[][] conteudoTokens = {{}};
         Object[] colunasTokens = {"Lexema", "Token", "Linha", "Coluna Inicial", "Coluna Final"};
         tableModelTokens = new DefaultTableModel(conteudoTokens, colunasTokens);
-        
+
         Object[][] conteudoErros = {{}};
         Object[] colunasErros = {"Erro", "Lexema", "Linha"};
         tableModelErros = new DefaultTableModel(conteudoErros, colunasErros);
@@ -220,35 +224,10 @@ public class Interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        try {
-            zeraConteudoTabelas();
-            String expressao = jTextPane1.getText();
-            LexicalAnalyzer lexical = new LexicalAnalyzer(new StringReader(expressao));
-            lexical.yylex();
-            ArrayList<ItemLexico> itens = lexical.getItens();
-
-            // Impressão dos tokens
-            for (int i = 0; i < itens.size(); i++) {
-                //Object[] array = {lexemas.get(i), descricoes.get(i)};
-                if (! itens.get(i).getToken().equals("DESCONHECIDO")){
-                    Object[] array = {itens.get(i).getLexema(), itens.get(i).getToken(), itens.get(i).getLinha(), itens.get(i).getColuna_inicio(), itens.get(i).getColuna_fim()};
-                    tableModelTokens.addRow(array);
-                }
-            }
-
-            // Tratamento de Erros
-            ArrayList<ItemErro> erros = TratamentoErros.tratamentoLexico(itens);
-            // Impressão dos tokens
-            jTabbedPane1.setTitleAt(1, "Erros Léxicos (" + String.valueOf(erros.size()) + ")");
-            for(ItemErro erro: erros){
-                Object[] array = {erro.getMensagem(), erro.getLexema(), erro.getLinha()};
-                tableModelErros.addRow(array);
-            }
-            
-            //String codigo = lexical.getCodigoFonteColorido();
-        } catch (IOException ex) {
-            Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        analiseLexica();
+        analiseSintatica();
+        
+        //String codigo = lexical.getCodigoFonteColorido();
      }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -291,7 +270,7 @@ public class Interface extends javax.swing.JFrame {
                 String html = "";
                 while (line != null) {
                     //jTextArea1.append(line + "\n");
-                    html += line+"\n";
+                    html += line + "\n";
                     line = reader.readLine();
                 }
                 jTextPane1.setText(line);
@@ -306,6 +285,88 @@ public class Interface extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    public void analiseSintatica(){
+        try {
+            String expressao = jTextPane1.getText();
+            //Parser parser = new Parser(new LexicalAnalyzer(new StringReader(expressao)));
+            SymbolFactory symbolFactory = new DefaultSymbolFactory();
+            LexicalAnalyzer lex = new LexicalAnalyzer((new StringReader((expressao))));
+          
+            Parser parser = new Parser(lex, symbolFactory);
+            parser.debug_parse();
+            parser.debug_stack();
+            //System.out.println("Compilacao concluida com sucesso...");
+            JOptionPane.showMessageDialog(null, "Compilacao concluida com sucesso!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "ERRO");
+
+        }
+        
+    }
+    
+    
+    public void analiseLexica() {
+        zeraConteudoTabelas();
+        String expressao = jTextPane1.getText();
+        LexicalAnalyzer lexical = new LexicalAnalyzer(new StringReader(expressao));
+        ArrayList<ItemLexico> itens = getItensLexicos(lexical);
+
+        // Impressão dos tokens
+        for (int i = 0; i < itens.size(); i++) {
+            //Object[] array = {lexemas.get(i), descricoes.get(i)};
+            if (!itens.get(i).getToken().equals("DESCONHECIDO")) {
+                Object[] array = {itens.get(i).getLexema(), itens.get(i).getToken(), itens.get(i).getLinha(), itens.get(i).getColuna_inicio(), itens.get(i).getColuna_fim()};
+                tableModelTokens.addRow(array);
+            }
+        }
+
+        // Tratamento de Erros
+        ArrayList<ItemErro> erros = TratamentoErros.tratamentoLexico(itens);
+        // Impressão dos tokens
+        jTabbedPane1.setTitleAt(1, "Erros Léxicos (" + String.valueOf(erros.size()) + ")");
+        for (ItemErro erro : erros) {
+            Object[] array = {erro.getMensagem(), erro.getLexema(), erro.getLinha()};
+            tableModelErros.addRow(array);
+        }
+    }
+
+    public String getTerminal(int sym) {
+        for (int i = 0; i < Sym.terminalNames.length; i++) {
+            if (sym == i) {
+                return Sym.terminalNames[i];
+            }
+        }
+        return "UNKNOWN";
+    }
+
+    public ArrayList<ItemLexico> getItensLexicos(LexicalAnalyzer lexical) {
+        try {
+            ArrayList<ItemLexico> itens = new ArrayList<>();
+
+            Symbol s = lexical.next_token();
+            String terminal = "";
+            while (s.sym != 0) { // 0 é EOF
+                ItemLexico aux = new ItemLexico();
+                terminal = getTerminal(s.sym);
+                aux.setToken(terminal);
+                aux.setLexema(lexical.yytext());
+                aux.setLinha(lexical.get_yyline() + 1);
+                aux.setColuna_inicio(lexical.get_yycolumn() + 1);
+                aux.setColuna_fim(lexical.get_yycolumn() + lexical.yylength() + 1);
+                itens.add(aux);
+                s = lexical.next_token();
+            }
+            return itens;
+            /**
+             * @param args the command line arguments
+             */
+        } catch (IOException ex) {
+            Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     /**
      * @param args the command line arguments

@@ -8,7 +8,7 @@ package AnalisadorLexicoCalculadora.ui;
 import java_cup.runtime.*;
 import java.util.*;
 import java.io.*;
-import java_cup.runtime.XMLElement;
+//import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
   */
@@ -811,7 +811,7 @@ class CUP$Parser$actions {
             {
               Object RESULT =null;
 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("repeticao_termo",17, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("repeticao_termo",17, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), (Symbol) RESULT);
             }
           return CUP$Parser$result;
 
@@ -856,7 +856,7 @@ class CUP$Parser$actions {
             {
               Object RESULT =null;
 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("repeticao_fator",19, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("repeticao_fator",19, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), (Symbol) RESULT);
             }
           return CUP$Parser$result;
 
