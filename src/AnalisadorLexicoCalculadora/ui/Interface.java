@@ -296,6 +296,7 @@ public class Interface extends javax.swing.JFrame {
             Parser parser = new Parser(lex, symbolFactory);
             parser.debug_parse();
             parser.debug_stack();
+            
             //System.out.println("Compilacao concluida com sucesso...");
             JOptionPane.showMessageDialog(null, "Compilacao concluida com sucesso!");
         } catch (Exception e) {

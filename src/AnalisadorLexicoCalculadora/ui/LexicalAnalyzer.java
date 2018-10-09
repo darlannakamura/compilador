@@ -469,7 +469,14 @@ public class LexicalAnalyzer implements java_cup.runtime.Scanner {
   public LexicalAnalyzer(java.io.Reader in) {
     this.zzReader = in;
   }
+
+  public int get_yyline(){
+      return yyline;
+  }
   
+  public int get_yycolumn(){
+      return yycolumn;
+  }
 
   /** 
    * Unpacks the compressed character translation table.
@@ -597,7 +604,7 @@ public class LexicalAnalyzer implements java_cup.runtime.Scanner {
   public final int yystate() {
     return zzLexicalState;
   }
-  
+
 
   /**
    * Enters a new lexical state
@@ -997,14 +1004,6 @@ public class LexicalAnalyzer implements java_cup.runtime.Scanner {
         }
       }
     }
-  }
-  
-  public int get_yyline(){
-      return yyline;
-  }
-  
-  public int get_yycolumn(){
-      return yycolumn;
   }
 
 

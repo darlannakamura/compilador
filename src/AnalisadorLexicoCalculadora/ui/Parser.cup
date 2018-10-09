@@ -55,13 +55,15 @@ start with program;
 
 //DECLARAÇÕES
 
+//program ::= PALAVRA_RESERVADA_PROGRAM IDENTIFICADOR SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
 program ::= PALAVRA_RESERVADA_PROGRAM IDENTIFICADOR SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
 
-bloco ::= parte_de_declaracoes_de_variaveis parte_de_declaracoes_de_subrotinas comando_composto | parte_de_declaracoes_de_variaveis comando_composto | parte_de_declaracoes_de_subrotinas comando_composto | comando_composto;
+//bloco ::= parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | comando_composto;
+bloco ::= parte_de_declaracoes_de_variaveis comando_composto;
 
-parte_de_declaracoes_de_variaveis ::= parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA declaracao_de_variavel | declaracao_de_variavel;
+parte_de_declaracoes_de_variaveis ::= parte_de_declaracoes_de_variaveis declaracao_de_variavel | declaracao_de_variavel ;
 
-declaracao_de_variavel ::= tipo lista_de_identificadores;
+declaracao_de_variavel ::= tipo lista_de_identificadores SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA;
 
 tipo ::= TIPO_VARIAVEL_INT | TIPO_VARIAVEL_BOOLEAN;
 
@@ -87,7 +89,7 @@ comandos ::= comandos comando | comando;
 
 comando ::= casado | nao_casado;
 
-casado ::= atribuicao | chamada_de_procedimento | comando_condicional_casado | comando_repetitivo_casado;
+casado ::= atribuicao SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA | chamada_de_procedimento | comando_condicional_casado | comando_repetitivo_casado;
 
 comando_condicional_casado ::= PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN casado PALAVRA_RESERVADA_ELSE casado; 
 
@@ -113,12 +115,12 @@ expressao ::= expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_IGUAL exp
 
 expressao_simples ::= termo repeticao_termo | OPERADOR_MATEMATICO_SOMA termo | OPERADOR_MATEMATICO_SUBTRACAO termo;
 
-repeticao_termo ::= repeticao_termo OPERADOR_MATEMATICO_SOMA termo | repeticao_termo OPERADOR_MATEMATICO_SUBTRACAO termo | repeticao_termo OPERADOR_LOGICO_OR termo | ;
+repeticao_termo ::= repeticao_termo OPERADOR_MATEMATICO_SOMA termo | repeticao_termo OPERADOR_MATEMATICO_SUBTRACAO termo | repeticao_termo OPERADOR_LOGICO_OR termo ;
 
 termo ::= fator repeticao_fator;
 
 //repeticao_fator ::= repeticao_fator OPERADOR_MATEMATICO_MULTIPLICACAO fator | repeticao_fator OPERADOR_MATEMATICO_DIVISAO fator | repeticao_fator OPERADOR_LOGICO_AND fator | OPERADOR_MATEMATICO_MULTIPLICACAO fator | OPERADOR_MATEMATICO_DIVISAO fator | OPERADOR_LOGICO_AND fator | ;
-repeticao_fator ::= repeticao_fator OPERADOR_MATEMATICO_MULTIPLICACAO fator | repeticao_fator OPERADOR_MATEMATICO_DIVISAO fator | repeticao_fator OPERADOR_LOGICO_AND fator | ;
+repeticao_fator ::= repeticao_fator OPERADOR_MATEMATICO_MULTIPLICACAO fator | repeticao_fator OPERADOR_MATEMATICO_DIVISAO fator | repeticao_fator OPERADOR_LOGICO_AND fator ;
 
 fator ::= IDENTIFICADOR | NUMERO_INTEIRO | ABRE_PARENTESES expressao FECHA_PARENTESES | OPERADOR_LOGICO_NOT fator;
 
