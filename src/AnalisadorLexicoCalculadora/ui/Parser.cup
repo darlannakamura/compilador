@@ -50,13 +50,15 @@ non terminal termo, repeticao_fator, fator, lista_de_expressoes;
 non terminal secao_de_parametros_formais2;
 non terminal comando_condicional_casado, casado, nao_casado;
 non terminal comando_repetitivo_casado, comando_repetitivo_nao_casado;
+non terminal repeticao_fator2;
+non terminal repeticao_termo2;
 
 start with program;
 
 //DECLARAÇÕES
 
 //program ::= PALAVRA_RESERVADA_PROGRAM IDENTIFICADOR SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
-program ::= PALAVRA_RESERVADA_PROGRAM IDENTIFICADOR SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
+program ::= expressao FIM;
 
 //bloco ::= parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | comando_composto;
 bloco ::= parte_de_declaracoes_de_variaveis comando_composto;
@@ -113,14 +115,17 @@ comando_repetitivo_nao_casado ::= PALAVRA_RESERVADA_WHILE expressao PALAVRA_RESE
 
 expressao ::= expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_IGUAL expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MAIOR_QUE expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_DIFERENTE expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MENOR_QUE expressao_simples;
 
-expressao_simples ::= termo repeticao_termo | OPERADOR_MATEMATICO_SOMA termo | OPERADOR_MATEMATICO_SUBTRACAO termo;
+expressao_simples ::= termo repeticao_termo | termo;
 
-repeticao_termo ::= repeticao_termo OPERADOR_MATEMATICO_SOMA termo | repeticao_termo OPERADOR_MATEMATICO_SUBTRACAO termo | repeticao_termo OPERADOR_LOGICO_OR termo ;
+//repeticao_termo ::= repeticao_termo OPERADOR_MATEMATICO_SOMA termo | repeticao_termo OPERADOR_MATEMATICO_SUBTRACAO termo | repeticao_termo OPERADOR_LOGICO_OR termo ;
+repeticao_termo ::= repeticao_termo repeticao_termo2 | repeticao_termo2 ;
+repeticao_termo2 ::= OPERADOR_MATEMATICO_SOMA termo | OPERADOR_MATEMATICO_SUBTRACAO termo OPERADOR_LOGICO_OR termo;
 
-termo ::= fator repeticao_fator;
+termo ::= fator repeticao_fator | fator;
 
 //repeticao_fator ::= repeticao_fator OPERADOR_MATEMATICO_MULTIPLICACAO fator | repeticao_fator OPERADOR_MATEMATICO_DIVISAO fator | repeticao_fator OPERADOR_LOGICO_AND fator | OPERADOR_MATEMATICO_MULTIPLICACAO fator | OPERADOR_MATEMATICO_DIVISAO fator | OPERADOR_LOGICO_AND fator | ;
-repeticao_fator ::= repeticao_fator OPERADOR_MATEMATICO_MULTIPLICACAO fator | repeticao_fator OPERADOR_MATEMATICO_DIVISAO fator | repeticao_fator OPERADOR_LOGICO_AND fator ;
+repeticao_fator ::= repeticao_fator  repeticao_fator2 | repeticao_fator2;
+repeticao_fator2 ::= OPERADOR_MATEMATICO_MULTIPLICACAO fator | OPERADOR_MATEMATICO_DIVISAO fator | OPERADOR_LOGICO_AND fator;
 
 fator ::= IDENTIFICADOR | NUMERO_INTEIRO | ABRE_PARENTESES expressao FECHA_PARENTESES | OPERADOR_LOGICO_NOT fator;
 
