@@ -52,8 +52,8 @@ non terminal comando_condicional_casado, casado, nao_casado;
 non terminal comando_repetitivo_casado, comando_repetitivo_nao_casado;
 non terminal repeticao_fator2;
 non terminal repeticao_termo2;
-//non terminal chamada_de_procedimento;
-//non terminal lista_de_expressoes;
+non terminal chamada_de_procedimento;
+non terminal lista_de_expressoes;
 
 start with program;
 
@@ -62,7 +62,7 @@ start with program;
 program ::= PALAVRA_RESERVADA_PROGRAM IDENTIFICADOR SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
 
 //bloco ::= parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | comando_composto;
-bloco ::= parte_de_declaracoes_de_variaveis comando_composto | comando_composto;
+bloco ::= parte_de_declaracoes_de_variaveis parte_de_declaracoes_de_subrotinas comando_composto | parte_de_declaracoes_de_subrotinas comando_composto | parte_de_declaracoes_de_variaveis comando_composto | comando_composto;
 
 parte_de_declaracoes_de_variaveis ::= parte_de_declaracoes_de_variaveis declaracao_de_variavel | declaracao_de_variavel ;
 
@@ -74,13 +74,13 @@ lista_de_identificadores ::= lista_de_identificadores SIMBOLOS_ESPECIAIS_VIRGULA
 
 parte_de_declaracoes_de_subrotinas ::= parte_de_declaracoes_de_subrotinas declaracao_de_procedimento | declaracao_de_procedimento;
 
-declaracao_de_procedimento ::= PALAVRA_RESERVADA_PROCEDURE IDENTIFICADOR ABRE_PARENTESES parametros_formais FECHA_PARENTESES SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco;
+declaracao_de_procedimento ::= PALAVRA_RESERVADA_PROCEDURE IDENTIFICADOR parametros_formais SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco;
 
 parametros_formais ::= ABRE_PARENTESES secao_de_parametros_formais FECHA_PARENTESES;
 
 secao_de_parametros_formais ::= secao_de_parametros_formais SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA  secao_de_parametros_formais2 | secao_de_parametros_formais2;
 
-secao_de_parametros_formais2 ::=  PALAVRA_RESERVADA_VAR lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS IDENTIFICADOR | lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS IDENTIFICADOR;
+secao_de_parametros_formais2 ::=  PALAVRA_RESERVADA_VAR lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS TIPO_VARIAVEL_BOOLEAN | PALAVRA_RESERVADA_VAR lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS TIPO_VARIAVEL_INT |lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS TIPO_VARIAVEL_INT | lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS TIPO_VARIAVEL_BOOLEAN;
 
 //COMANDOS
 
@@ -106,7 +106,9 @@ nao_casado ::= PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN comando | P
 
 atribuicao ::= IDENTIFICADOR SIMBOLOS_ESPECIAIS_ATRIBUICAO expressao;
 
-//chamada_de_procedimento ::= IDENTIFICADOR lista_de_expressoes;
+chamada_de_procedimento ::= IDENTIFICADOR ABRE_PARENTESES lista_de_expressoes FECHA_PARENTESES | IDENTIFICADOR ABRE_PARENTESES FECHA_PARENTESES;
+
+lista_de_expressoes ::= expressao |  lista_de_expressoes SIMBOLOS_ESPECIAIS_VIRGULA expressao;
 
 // comando_repetitivo_1 ::= PALAVRA_RESERVADA_WHILE expressao PALAVRA_RESERVADA_DO comando;
 

@@ -107,6 +107,7 @@ public class Interface extends javax.swing.JFrame {
 
         jLabel1.setText("Analisador Léxico da Calculadora");
 
+        jTextPane1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jScrollPane2.setViewportView(jTextPane1);
         // Retirado de https://tips4java.wordpress.com/2009/05/23/text-component-line-number/
 
@@ -213,7 +214,7 @@ public class Interface extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
