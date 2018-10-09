@@ -6,6 +6,11 @@ nbdist/
 .nb-gradle/
 .scannerwork/
 lib/
-nbproject/
+nbproject/private/
 vendor/
 build.xml
+sonar-project.properties
+manifest.mf
+language.lex
+LexicalAnalyzer.java~
+LexicalAnalyzer.java
