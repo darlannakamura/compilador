@@ -44,21 +44,23 @@ terminal COMENTARIO, DESCONHECIDO;
 non terminal program, bloco, parte_de_declaracoes_de_variaveis, declaracao_de_variavel;
 non terminal tipo, lista_de_identificadores, parte_de_declaracoes_de_subrotinas;
 non terminal declaracao_de_procedimento, parametros_formais, secao_de_parametros_formais;
-non terminal comando, comando_composto, comandos, atribuicao, chamada_de_procedimento;
+non terminal comando, comando_composto, comandos, atribuicao;
 non terminal expressao, expressao_simples, repeticao_termo;
-non terminal termo, repeticao_fator, fator, lista_de_expressoes;
+non terminal termo, repeticao_fator, fator;
 non terminal secao_de_parametros_formais2;
 non terminal comando_condicional_casado, casado, nao_casado;
 non terminal comando_repetitivo_casado, comando_repetitivo_nao_casado;
 non terminal repeticao_fator2;
 non terminal repeticao_termo2;
+//non terminal chamada_de_procedimento;
+//non terminal lista_de_expressoes;
 
 start with program;
 
 //DECLARAÇÕES
 
 //program ::= PALAVRA_RESERVADA_PROGRAM IDENTIFICADOR SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
-program ::= expressao FIM;
+program ::= comando;
 
 //bloco ::= parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | comando_composto;
 bloco ::= parte_de_declaracoes_de_variaveis comando_composto;
@@ -80,6 +82,7 @@ parametros_formais ::= ABRE_PARENTESES secao_de_parametros_formais FECHA_PARENTE
 secao_de_parametros_formais ::= secao_de_parametros_formais SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA  secao_de_parametros_formais2 | secao_de_parametros_formais2;
 
 secao_de_parametros_formais2 ::=  PALAVRA_RESERVADA_VAR lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS IDENTIFICADOR | lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS IDENTIFICADOR;
+
 //COMANDOS
 
 comando_composto ::= PALAVRA_RESERVADA_BEGIN comandos PALAVRA_RESERVADA_END;
@@ -91,7 +94,8 @@ comandos ::= comandos comando | comando;
 
 comando ::= casado | nao_casado;
 
-casado ::= atribuicao SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA | chamada_de_procedimento | comando_condicional_casado | comando_repetitivo_casado;
+//casado ::= atribuicao SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA | chamada_de_procedimento | comando_condicional_casado | comando_repetitivo_casado;
+casado ::= comando_composto | atribuicao SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA | comando_condicional_casado | comando_repetitivo_casado;
 
 comando_condicional_casado ::= PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN casado PALAVRA_RESERVADA_ELSE casado; 
 
@@ -103,7 +107,7 @@ nao_casado ::= PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN comando | P
 
 atribuicao ::= IDENTIFICADOR SIMBOLOS_ESPECIAIS_ATRIBUICAO expressao;
 
-chamada_de_procedimento ::= IDENTIFICADOR lista_de_expressoes;
+//chamada_de_procedimento ::= IDENTIFICADOR lista_de_expressoes;
 
 // comando_repetitivo_1 ::= PALAVRA_RESERVADA_WHILE expressao PALAVRA_RESERVADA_DO comando;
 
@@ -128,7 +132,3 @@ repeticao_fator ::= repeticao_fator  repeticao_fator2 | repeticao_fator2;
 repeticao_fator2 ::= OPERADOR_MATEMATICO_MULTIPLICACAO fator | OPERADOR_MATEMATICO_DIVISAO fator | OPERADOR_LOGICO_AND fator;
 
 fator ::= IDENTIFICADOR | NUMERO_INTEIRO | ABRE_PARENTESES expressao FECHA_PARENTESES | OPERADOR_LOGICO_NOT fator;
-
-// variavel ::= IDENTIFICADOR;
-
-lista_de_expressoes ::= expressao |  lista_de_expressoes SIMBOLOS_ESPECIAIS_VIRGULA expressao;
