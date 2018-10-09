@@ -59,11 +59,10 @@ start with program;
 
 //DECLARAÇÕES
 
-//program ::= PALAVRA_RESERVADA_PROGRAM IDENTIFICADOR SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
-program ::= comando;
+program ::= PALAVRA_RESERVADA_PROGRAM IDENTIFICADOR SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
 
 //bloco ::= parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | comando_composto;
-bloco ::= parte_de_declaracoes_de_variaveis comando_composto;
+bloco ::= parte_de_declaracoes_de_variaveis comando_composto | comando_composto;
 
 parte_de_declaracoes_de_variaveis ::= parte_de_declaracoes_de_variaveis declaracao_de_variavel | declaracao_de_variavel ;
 
