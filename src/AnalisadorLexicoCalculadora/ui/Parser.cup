@@ -122,7 +122,7 @@ expressao_simples ::= termo repeticao_termo | termo;
 
 //repeticao_termo ::= repeticao_termo OPERADOR_MATEMATICO_SOMA termo | repeticao_termo OPERADOR_MATEMATICO_SUBTRACAO termo | repeticao_termo OPERADOR_LOGICO_OR termo ;
 repeticao_termo ::= repeticao_termo repeticao_termo2 | repeticao_termo2 ;
-repeticao_termo2 ::= OPERADOR_MATEMATICO_SOMA termo | OPERADOR_MATEMATICO_SUBTRACAO termo OPERADOR_LOGICO_OR termo;
+repeticao_termo2 ::= OPERADOR_MATEMATICO_SOMA termo | OPERADOR_MATEMATICO_SUBTRACAO termo | OPERADOR_LOGICO_OR termo;
 
 termo ::= fator repeticao_fator | fator;
 
