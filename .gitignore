@@ -5,9 +5,7 @@ dist/
 nbdist/
 .nb-gradle/
 .scannerwork/
-lib/
 nbproject/private/
-vendor/
 build.xml
 sonar-project.properties
 manifest.mf
