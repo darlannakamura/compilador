@@ -4,6 +4,18 @@ import java_cup.runtime.Symbol;
 
 %%
 
+%{
+
+    public int getYyline() {
+        return yyline;
+    }
+
+    public int getYycolumn() {
+        return yycolumn;
+    }
+
+%}
+
 %cup
 %public
 %type java_cup.runtime.Symbol

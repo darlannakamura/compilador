@@ -16,6 +16,10 @@ parser code {:
         System.exit(-1);
     }
 
+    public void syntax_error(String mensagem){
+        System.out.println(mensagem + " Linha: " + String.valueOf(scanner.getYyline()));
+    }
+
 :};
 
 
@@ -66,7 +70,7 @@ bloco ::= parte_de_declaracoes_de_variaveis parte_de_declaracoes_de_subrotinas c
 
 parte_de_declaracoes_de_variaveis ::= parte_de_declaracoes_de_variaveis declaracao_de_variavel | declaracao_de_variavel ;
 
-declaracao_de_variavel ::= tipo lista_de_identificadores SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA;
+declaracao_de_variavel ::= error {: syntax_error("Erro na declaração de variável."); :} | tipo lista_de_identificadores SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA;
 
 tipo ::= TIPO_VARIAVEL_INT | TIPO_VARIAVEL_BOOLEAN;
 
@@ -104,7 +108,7 @@ nao_casado ::= PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN comando | P
 
 //comando_condicional_2 ::= PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN comando PALAVRA_RESERVADA_ELSE comando ;
 
-atribuicao ::= IDENTIFICADOR SIMBOLOS_ESPECIAIS_ATRIBUICAO expressao;
+atribuicao ::= error {: syntax_error("Erro na atribuição."); :} | IDENTIFICADOR SIMBOLOS_ESPECIAIS_ATRIBUICAO expressao;
 
 chamada_de_procedimento ::= IDENTIFICADOR ABRE_PARENTESES lista_de_expressoes FECHA_PARENTESES | IDENTIFICADOR ABRE_PARENTESES FECHA_PARENTESES;
 

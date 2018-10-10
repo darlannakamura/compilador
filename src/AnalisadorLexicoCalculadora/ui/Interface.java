@@ -8,6 +8,7 @@ package AnalisadorLexicoCalculadora.ui;
 import AnalisadorLexicoCalculadora.classes.HtmlToText;
 import AnalisadorLexicoCalculadora.classes.ItemErro;
 import AnalisadorLexicoCalculadora.classes.ItemLexico;
+import AnalisadorLexicoCalculadora.classes.ItemSintatico;
 import AnalisadorLexicoCalculadora.utils.TratamentoErros;
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,7 +19,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.DefaultSymbolFactory;
 import java_cup.runtime.Symbol;
 import java_cup.runtime.SymbolFactory;
@@ -32,7 +32,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Interface extends javax.swing.JFrame {
 
-    public DefaultTableModel tableModelTokens, tableModelErros;
+    public DefaultTableModel tableModelTokens, tableModelErros, tableModelErrosSintaticos;
 
     /**
      * Creates new form Interface
@@ -50,6 +50,10 @@ public class Interface extends javax.swing.JFrame {
         Object[][] conteudoErros = {{}};
         Object[] colunasErros = {"Erro", "Lexema", "Linha"};
         tableModelErros = new DefaultTableModel(conteudoErros, colunasErros);
+        
+        Object[][] conteudoErrosSintaticos = {{}};
+        Object[] colunasErrosSintaticos = {"Erro", "Linha"};
+        tableModelErrosSintaticos = new DefaultTableModel(conteudoErrosSintaticos, colunasErrosSintaticos);
     }
 
     public void zeraConteudoTabelas() {
@@ -58,6 +62,9 @@ public class Interface extends javax.swing.JFrame {
         }
         while (tableModelErros.getRowCount() > 0) {
             tableModelErros.removeRow(0);
+        }
+        while (tableModelErrosSintaticos.getRowCount() > 0) {
+            tableModelErrosSintaticos.removeRow(0);
         }
     }
 
@@ -92,6 +99,8 @@ public class Interface extends javax.swing.JFrame {
         jTableTokensReconhecidos = new javax.swing.JTable();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTableErrosLexicos = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableErrosSintaticos = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemAbrirArquivo = new javax.swing.JMenuItem();
@@ -115,6 +124,14 @@ public class Interface extends javax.swing.JFrame {
 
         jScrollPane2.setRowHeaderView(tln);
 
+        jTabbedPane1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jTabbedPane1CaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+
         jTableTokensReconhecidos.setModel(tableModelTokens);
         jScrollPane3.setViewportView(jTableTokensReconhecidos);
 
@@ -124,6 +141,11 @@ public class Interface extends javax.swing.JFrame {
         jScrollPane5.setViewportView(jTableErrosLexicos);
 
         jTabbedPane1.addTab("Erros Léxicos", jScrollPane5);
+
+        jTableErrosSintaticos.setModel(tableModelErrosSintaticos);
+        jScrollPane1.setViewportView(jTableErrosSintaticos);
+
+        jTabbedPane1.addTab("Erros Sintáticos", jScrollPane1);
 
         jMenu1.setText("Arquivo");
 
@@ -287,6 +309,10 @@ public class Interface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jTabbedPane1CaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTabbedPane1CaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTabbedPane1CaretPositionChanged
+
     public void analiseSintatica(){
         try {
             String expressao = jTextPane1.getText();
@@ -295,8 +321,15 @@ public class Interface extends javax.swing.JFrame {
             LexicalAnalyzer lex = new LexicalAnalyzer((new StringReader((expressao))));
           
             Parser parser = new Parser(lex, symbolFactory);
-            parser.debug_parse();
-            parser.debug_stack();
+            parser.parse();
+            
+            ArrayList<ItemSintatico> erros = parser.getItensSintaticos();
+            
+            jTabbedPane1.setTitleAt(2, "Erros Sintáticos (" + String.valueOf(erros.size()) + ")");
+            for(ItemSintatico erro: erros){
+                Object[] array = {erro.getMensagem(), erro.getLinha()};
+                tableModelErrosSintaticos.addRow(array);
+            }
             
             //System.out.println("Compilacao concluida com sucesso...");
             JOptionPane.showMessageDialog(null, "Compilacao concluida com sucesso!");
@@ -354,9 +387,9 @@ public class Interface extends javax.swing.JFrame {
                 terminal = getTerminal(s.sym);
                 aux.setToken(terminal);
                 aux.setLexema(lexical.yytext());
-                aux.setLinha(lexical.get_yyline() + 1);
-                aux.setColuna_inicio(lexical.get_yycolumn() + 1);
-                aux.setColuna_fim(lexical.get_yycolumn() + lexical.yylength() + 1);
+                aux.setLinha(lexical.getYyline() + 1);
+                aux.setColuna_inicio(lexical.getYycolumn() + 1);
+                aux.setColuna_fim(lexical.getYycolumn() + lexical.yylength() + 1);
                 itens.add(aux);
                 s = lexical.next_token();
             }
@@ -417,11 +450,13 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItemAbrirArquivo;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableErrosLexicos;
+    private javax.swing.JTable jTableErrosSintaticos;
     private javax.swing.JTable jTableTokensReconhecidos;
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
