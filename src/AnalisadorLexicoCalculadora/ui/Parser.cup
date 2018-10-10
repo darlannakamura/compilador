@@ -91,7 +91,7 @@ comandos ::= comandos comando | comando;
 //comando ::= atribuicao | chamada_de_procedimento | comando_composto | comando_condicional_1 | comando_condicional_2 | comando_repetitivo_1;
 //comando ::= atribuicao | chamada_de_procedimento | comando_condicional_1 | comando_repetitivo_1;
 
-comando ::= casado | nao_casado;
+comando ::= casado | nao_casado | chamada_de_procedimento SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA;
 
 //casado ::= atribuicao SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA | chamada_de_procedimento | comando_condicional_casado | comando_repetitivo_casado;
 casado ::= comando_composto | atribuicao SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA | comando_condicional_casado | comando_repetitivo_casado;
@@ -108,7 +108,7 @@ atribuicao ::= IDENTIFICADOR SIMBOLOS_ESPECIAIS_ATRIBUICAO expressao;
 
 chamada_de_procedimento ::= IDENTIFICADOR ABRE_PARENTESES lista_de_expressoes FECHA_PARENTESES | IDENTIFICADOR ABRE_PARENTESES FECHA_PARENTESES;
 
-lista_de_expressoes ::= expressao |  lista_de_expressoes SIMBOLOS_ESPECIAIS_VIRGULA expressao;
+lista_de_expressoes ::= expressao | lista_de_expressoes SIMBOLOS_ESPECIAIS_VIRGULA expressao;
 
 // comando_repetitivo_1 ::= PALAVRA_RESERVADA_WHILE expressao PALAVRA_RESERVADA_DO comando;
 
