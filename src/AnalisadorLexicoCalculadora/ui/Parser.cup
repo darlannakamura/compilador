@@ -6,6 +6,16 @@ import java.io.*;
 
 
 parser code {:
+    public LexicalAnalyzer scanner;
+    private ArrayList<ItemSintatico> itensSintaticos = new ArrayList();
+    private ArrayList<ItemSintatico> itensSemanticos = new ArrayList();
+
+    public Parser(java_cup.runtime.Scanner s, java_cup.runtime.SymbolFactory sf) {
+        super(s,sf);
+        scanner = (LexicalAnalyzer) getScanner();
+        s = scanner;
+    }
+
 
     public void report_error(String message, Object info)  {
         System.out.println("Warning - " + message);
@@ -18,6 +28,25 @@ parser code {:
 
     public void syntax_error(String mensagem){
         System.out.println(mensagem + " Linha: " + String.valueOf(scanner.getYyline()));
+    }
+
+    public void addSymbol(String symbol){
+        switch(symbol){
+        case "program": 
+        System.out.println(scanner.yytext());
+    }
+
+    
+
+    /**
+     * @return the itensSintaticos
+     */
+    public ArrayList<ItemSintatico> getItensSintaticos() {
+        return itensSintaticos;
+    }
+    
+    public ArrayList<ItemSintatico> getItensSemanticos() {
+        return itensSemanticos;
     }
 
 :};
@@ -63,7 +92,7 @@ start with program;
 
 //DECLARAÇÕES
 
-program ::= PALAVRA_RESERVADA_PROGRAM IDENTIFICADOR SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
+program ::= PALAVRA_RESERVADA_PROGRAM {: addSymbol("program"); :} IDENTIFICADOR  SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
 
 //bloco ::= parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | comando_composto;
 bloco ::= parte_de_declaracoes_de_variaveis parte_de_declaracoes_de_subrotinas comando_composto | parte_de_declaracoes_de_subrotinas comando_composto | parte_de_declaracoes_de_variaveis comando_composto | comando_composto;
@@ -78,7 +107,7 @@ lista_de_identificadores ::= lista_de_identificadores SIMBOLOS_ESPECIAIS_VIRGULA
 
 parte_de_declaracoes_de_subrotinas ::= parte_de_declaracoes_de_subrotinas declaracao_de_procedimento | declaracao_de_procedimento;
 
-declaracao_de_procedimento ::= PALAVRA_RESERVADA_PROCEDURE IDENTIFICADOR parametros_formais SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco;
+declaracao_de_procedimento ::= PALAVRA_RESERVADA_PROCEDURE {: addSymbol("procedure"); abreEscopo(); :} IDENTIFICADOR parametros_formais SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco {: fechaEscopo(); :};
 
 parametros_formais ::= ABRE_PARENTESES secao_de_parametros_formais FECHA_PARENTESES;
 

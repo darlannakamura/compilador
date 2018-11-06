@@ -62,7 +62,7 @@ public class Teste {
     String terminal = "";
     while(s.sym != 0){
         terminal = getTerminal(s.sym);
-        System.out.println(terminal+" "+lexical.yytext()+" "+lexical.get_yyline()+" "+lexical.get_yycolumn());
+        System.out.println(terminal+" "+lexical.yytext()+" "+lexical.getYyline()+" "+lexical.getYycolumn());
         
         s = lexical.next_token();
                 
