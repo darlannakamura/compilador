@@ -8,7 +8,6 @@ import java.io.*;
 parser code {:
     public LexicalAnalyzer scanner;
     private ArrayList<ItemSintatico> itensSintaticos = new ArrayList();
-    private ArrayList<ItemSintatico> itensSemanticos = new ArrayList();
 
     public Parser(java_cup.runtime.Scanner s, java_cup.runtime.SymbolFactory sf) {
         super(s,sf);
@@ -30,11 +29,6 @@ parser code {:
         System.out.println(mensagem + " Linha: " + String.valueOf(scanner.getYyline()));
     }
 
-    public void addSymbol(String symbol){
-        switch(symbol){
-        case "program": 
-        System.out.println(scanner.yytext());
-    }
 
     
 
@@ -45,22 +39,9 @@ parser code {:
         return itensSintaticos;
     }
     
-    public ArrayList<ItemSintatico> getItensSemanticos() {
-        return itensSemanticos;
-    }
 
 :};
 
-
-// terminal PROGRAM, BEGIN, END, VARIABLE, COLON, INTEGER_TYPE, STRING_TYPE, CALL_FUNCTION;
-// terminal RIGHT_PARAMETER, LEFT_PARAMETER, INTEGER, STRING, SEMICOLON, FUNCTION;
-// terminal FUNCTION_PARAMS, LEFT_BRACKETS, RIGHT_BRACKETS, TT, FF, IF, ASSIGNMENT;
-// terminal SYMBOL_ASSIGNMENT;
-
-// non terminal program, statements, statement, statement_function;
-// non terminal decl_variable, decl_call_function, decl_call_params, decl_params, decl_function, decl_if;
-// non terminal decl_boolean,decl_assignments, decl_assignment;
-// non terminal params_type, data_types;
 
 terminal PALAVRA_RESERVADA_BEGIN, PALAVRA_RESERVADA_END, PALAVRA_RESERVADA_IF, PALAVRA_RESERVADA_THEN;
 terminal PALAVRA_RESERVADA_ELSE, PALAVRA_RESERVADA_DO, PALAVRA_RESERVADA_WHILE, PALAVRA_RESERVADA_VAR;
@@ -92,77 +73,237 @@ start with program;
 
 //DECLARAÇÕES
 
-program ::= PALAVRA_RESERVADA_PROGRAM {: addSymbol("program"); :} IDENTIFICADOR  SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco FIM;
+program ::= 
+            PALAVRA_RESERVADA_PROGRAM 
+            IDENTIFICADOR  
+            SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA 
+            bloco:b
+            {:  Programa p = new Programa(b);
+                p.exec();
+            :}
+            FIM
+        ;
 
-//bloco ::= parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | parte_de_declaracoes_de_subrotinas SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA comando_composto | comando_composto;
-bloco ::= parte_de_declaracoes_de_variaveis parte_de_declaracoes_de_subrotinas comando_composto | parte_de_declaracoes_de_subrotinas comando_composto | parte_de_declaracoes_de_variaveis comando_composto | comando_composto;
+bloco ::= 
+          parte_de_declaracoes_de_variaveis:pdv
+          parte_de_declaracoes_de_subrotinas:pds
+          comando_composto:cc
+          {: RESULT = new Bloco(pdv,pds,cc); :}
+        | parte_de_declaracoes_de_subrotinas:pds comando_composto:cc {: RESULT = new Bloco(null,pds,cc); :}
+        | parte_de_declaracoes_de_variaveis:pdv comando_composto:cc  {: RESULT = new Bloco(pdv,null,cc); :}
+        | comando_composto:cc {: RESULT = new Bloco(null,null,cc); :}
+    ;
 
-parte_de_declaracoes_de_variaveis ::= parte_de_declaracoes_de_variaveis declaracao_de_variavel | declaracao_de_variavel ;
+parte_de_declaracoes_de_variaveis ::= 
+                                        parte_de_declaracoes_de_variaveis 
+                                        declaracao_de_variavel 
+                                        | declaracao_de_variavel 
+                                    ;
 
-declaracao_de_variavel ::= error {: syntax_error("Erro na declaração de variável."); :} | tipo lista_de_identificadores SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA;
+declaracao_de_variavel ::= 
+                        error {: syntax_error("Erro na declaração de variável."); :} 
+                        | tipo:t lista_de_identificadores:li SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA
+                          {: RESULT = new DeclaraoVariaveis(t,li); :}
+                    ;
 
-tipo ::= TIPO_VARIAVEL_INT | TIPO_VARIAVEL_BOOLEAN;
+tipo ::= 
+          TIPO_VARIAVEL_INT 
+        | TIPO_VARIAVEL_BOOLEAN
+    ;
 
-lista_de_identificadores ::= lista_de_identificadores SIMBOLOS_ESPECIAIS_VIRGULA IDENTIFICADOR | IDENTIFICADOR;
+lista_de_identificadores ::= 
+                        lista_de_identificadores:li
+                        SIMBOLOS_ESPECIAIS_VIRGULA
+                        IDENTIFICADOR:id
+                        {: li.add(id); RESULT = li; :}
+                        | IDENTIFICADOR:id
+                          {: RESULT = new ListaIdentificadores(id); :}
+                        ;
 
-parte_de_declaracoes_de_subrotinas ::= parte_de_declaracoes_de_subrotinas declaracao_de_procedimento | declaracao_de_procedimento;
+parte_de_declaracoes_de_subrotinas ::= 
+                                        parte_de_declaracoes_de_subrotinas 
+                                        declaracao_de_procedimento 
+                                        | declaracao_de_procedimento
+                                    ;
 
-declaracao_de_procedimento ::= PALAVRA_RESERVADA_PROCEDURE {: addSymbol("procedure"); abreEscopo(); :} IDENTIFICADOR parametros_formais SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco {: fechaEscopo(); :};
+declaracao_de_procedimento ::= 
+                                PALAVRA_RESERVADA_PROCEDURE 
+                                IDENTIFICADOR 
+                                parametros_formais 
+                                SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA 
+                                bloco 
+                            ;
 
-parametros_formais ::= ABRE_PARENTESES secao_de_parametros_formais FECHA_PARENTESES;
+parametros_formais ::= 
+                        ABRE_PARENTESES 
+                        secao_de_parametros_formais 
+                        FECHA_PARENTESES
+                    ;
 
-secao_de_parametros_formais ::= secao_de_parametros_formais SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA  secao_de_parametros_formais2 | secao_de_parametros_formais2;
+secao_de_parametros_formais ::= 
+                                secao_de_parametros_formais:spf 
+                                SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA  
+                                secao_de_parametros_formais2:spf2 
+                                {:spf.add(spf2); RESULT = spf; :} 
 
-secao_de_parametros_formais2 ::=  PALAVRA_RESERVADA_VAR lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS TIPO_VARIAVEL_BOOLEAN | PALAVRA_RESERVADA_VAR lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS TIPO_VARIAVEL_INT |lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS TIPO_VARIAVEL_INT | lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS TIPO_VARIAVEL_BOOLEAN;
+                                | secao_de_parametros_formais2
+                                {: RESULT = new SecaoParametrosFormais(spf2); :} 
+                            ;
+
+secao_de_parametros_formais2 ::=  
+                                        PALAVRA_RESERVADA_VAR:v 
+                                        lista_de_identificadores:li 
+                                        SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
+                                        TIPO_VARIAVEL_BOOLEAN:t 
+                                        {: RESULT = new SecaoParametrosFormais2(v,li,t); :}
+
+                                        | PALAVRA_RESERVADA_VAR:v 
+                                        lista_de_identificadores:li
+                                        SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
+                                        TIPO_VARIAVEL_INT:t
+                                        {: RESULT = new SecaoParametrosFormais2(v,li,t); :}
+
+                                        |lista_de_identificadores:li 
+                                        SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
+                                        TIPO_VARIAVEL_INT:t
+                                        {: RESULT = new SecaoParametrosFormais2(null,li,t); :}
+
+                                        | lista_de_identificadores:li
+                                        SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
+                                        TIPO_VARIAVEL_BOOLEAN:t
+                                        {: RESULT = new SecaoParametrosFormais2(null,li,t); :}
+                                ;
 
 //COMANDOS
 
-comando_composto ::= PALAVRA_RESERVADA_BEGIN comandos PALAVRA_RESERVADA_END;
+comando_composto ::= 
+                        PALAVRA_RESERVADA_BEGIN 
+                        comandos:c 
+                        PALAVRA_RESERVADA_END
+                        {: RESULT = new ComandoComposto(c); :} 
+                    ;
 
-comandos ::= comandos comando | comando;  
+comandos ::= 
+                comandos:cs comando:c {: cs.add(c); RESULT = cs;:}
+                | comando {: RESULT = new comandos(c); :}
+            ;  
 
-//comando ::= atribuicao | chamada_de_procedimento | comando_composto | comando_condicional_1 | comando_condicional_2 | comando_repetitivo_1;
-//comando ::= atribuicao | chamada_de_procedimento | comando_condicional_1 | comando_repetitivo_1;
+comando ::= 
+            casado:c        {: RESULT = new Comando(c);  :}
+            | nao_casado:nc {: RESULT = new Comando(nc); :}
+            | chamada_de_procedimento:cp SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA {: RESULT = new Comando(cp); :}
+        ;
 
-comando ::= casado | nao_casado | chamada_de_procedimento SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA;
+casado ::= 
+            comando_composto:cc {: RESULT = new Casado(cc); :}
+            | atribuicao:a SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA {: RESULT = new Casado(a); :}
+            | comando_condicional_casado:ccc {: RESULT = new Casado(ccc); :}
+            | comando_repetitivo_casado:crp  {: RESULT = new Casado(crp); :}
+        ;
 
-//casado ::= atribuicao SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA | chamada_de_procedimento | comando_condicional_casado | comando_repetitivo_casado;
-casado ::= comando_composto | atribuicao SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA | comando_condicional_casado | comando_repetitivo_casado;
+comando_condicional_casado ::= 
+                                PALAVRA_RESERVADA_IF expressao:e PALAVRA_RESERVADA_THEN 
+                                casado:c
+                                PALAVRA_RESERVADA_ELSE 
+                                casado:c2
 
-comando_condicional_casado ::= PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN casado PALAVRA_RESERVADA_ELSE casado; 
+                                {: RESULT = new ComandoCondicionalCasado(e,c,c2); :}
+                            ; 
 
-nao_casado ::= PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN comando | PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN casado PALAVRA_RESERVADA_ELSE nao_casado | comando_repetitivo_nao_casado;
+nao_casado ::= 
+                    PALAVRA_RESERVADA_IF expressao:e PALAVRA_RESERVADA_THEN 
+                    comando:c
 
-//comando_condicional_1 ::= PALAVRA_RESERVADA_IF expressao comando | PALAVRA_RESERVADA_IF expressao comando_composto;
+                    {: RESULT = new NaoCasado(e,c,null); :}
 
-//comando_condicional_2 ::= PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN comando PALAVRA_RESERVADA_ELSE comando ;
+                    | PALAVRA_RESERVADA_IF expressao:e PALAVRA_RESERVADA_THEN 
+                      casado:c 
+                      PALAVRA_RESERVADA_ELSE 
+                      nao_casado:nc
 
-atribuicao ::= error {: syntax_error("Erro na atribuição."); :} | IDENTIFICADOR SIMBOLOS_ESPECIAIS_ATRIBUICAO expressao;
+                      {: RESULT = new NaoCasado(e,c,nc); :}
 
-chamada_de_procedimento ::= IDENTIFICADOR ABRE_PARENTESES lista_de_expressoes FECHA_PARENTESES | IDENTIFICADOR ABRE_PARENTESES FECHA_PARENTESES;
+                    | comando_repetitivo_nao_casado:crnc {: RESULT = new NaoCasado(crnc); :}
+                ;
 
-lista_de_expressoes ::= expressao | lista_de_expressoes SIMBOLOS_ESPECIAIS_VIRGULA expressao;
 
-// comando_repetitivo_1 ::= PALAVRA_RESERVADA_WHILE expressao PALAVRA_RESERVADA_DO comando;
+atribuicao ::= 
+                error {: syntax_error("Erro na atribuição."); :} 
+                | IDENTIFICADOR:i SIMBOLOS_ESPECIAIS_ATRIBUICAO expressao:e {: RESULT = new Atribuicao(i,e); :}
+            ;
 
-comando_repetitivo_casado ::= PALAVRA_RESERVADA_WHILE expressao PALAVRA_RESERVADA_DO casado;
+chamada_de_procedimento ::= 
+                            IDENTIFICADOR:i
+                            ABRE_PARENTESES lista_de_expressoes:le FECHA_PARENTESES 
+                            {: RESULT = new ChamadaProcedimento(i,le); :}
+                            | IDENTIFICADOR ABRE_PARENTESES FECHA_PARENTESES {: RESULT = new ChamadaProcedimento(i,null); :}
+                        ;
 
-comando_repetitivo_nao_casado ::= PALAVRA_RESERVADA_WHILE expressao PALAVRA_RESERVADA_DO nao_casado;
+lista_de_expressoes ::= 
+                        expressao:e {: RESULT = new ListaExpressoes(e); :}
+                        | lista_de_expressoes:le SIMBOLOS_ESPECIAIS_VIRGULA expressao:e {: le.add(e); RESULT = le; :}
+                    ;
+
+comando_repetitivo_casado ::= 
+                                PALAVRA_RESERVADA_WHILE expressao:e PALAVRA_RESERVADA_DO 
+                                casado:c
+                                {: RESULT = new ComandoRepetitivoCasado(e,c); :}
+                            ;
+
+comando_repetitivo_nao_casado ::= 
+                                PALAVRA_RESERVADA_WHILE expressao:e PALAVRA_RESERVADA_DO 
+                                nao_casado:nc
+                                {: RESULT = new ComandoRepetitivoNaoCasado(e,nc); :}
+
+                            ;
 
 //EXPRESSÕES
 
-expressao ::= expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_IGUAL expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MAIOR_QUE expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_DIFERENTE expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MENOR_QUE expressao_simples;
+expressao ::= 
+                  expressao_simples:e                                                              {: RESULT = new Expressao(e,null,null); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_IGUAL:s expressao_simples:e2             {: RESULT = new Expressao(e1,s,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL:s expressao_simples:e2    {: RESULT = new Expressao(e1,s,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MAIOR_QUE:s expressao_simples:e2         {: RESULT = new Expressao(e1,s,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_DIFERENTE:s expressao_simples:e2         {: RESULT = new Expressao(e1,s,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL:s expressao_simples:e2    {: RESULT = new Expressao(e1,s,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MENOR_QUE:s expressao_simples:e2         {: RESULT = new Expressao(e1,s,e2); :}
+            ;
 
-expressao_simples ::= termo repeticao_termo | termo;
+expressao_simples ::= 
+                          termo:t repeticao_termo:rt {: rt.add(t); RESULT = rt; :}
+                        | termo:t {: RESULT = ExpressaoSimples(t); :}
+                    ;
 
-//repeticao_termo ::= repeticao_termo OPERADOR_MATEMATICO_SOMA termo | repeticao_termo OPERADOR_MATEMATICO_SUBTRACAO termo | repeticao_termo OPERADOR_LOGICO_OR termo ;
-repeticao_termo ::= repeticao_termo repeticao_termo2 | repeticao_termo2 ;
-repeticao_termo2 ::= OPERADOR_MATEMATICO_SOMA termo | OPERADOR_MATEMATICO_SUBTRACAO termo | OPERADOR_LOGICO_OR termo;
+repeticao_termo ::= 
+                      repeticao_termo:rt repeticao_termo2:rt2 {: rt.add(rt2); RESULT = rt; :}
+                    | repeticao_termo2:rt2                    {: RESULT = new RepeticaoTermo(rt2); :}
+                ;
 
-termo ::= fator repeticao_fator | fator;
+repeticao_termo2 ::= 
+                          OPERADOR_MATEMATICO_SOMA:o termo:t      {: RESULT = new RepeticaoTermo2(o,t); :} 
+                        | OPERADOR_MATEMATICO_SUBTRACAO:o termo:t {: RESULT = new RepeticaoTermo2(o,t); :} 
+                        | OPERADOR_LOGICO_OR:o termo:t            {: RESULT = new RepeticaoTermo2(o,t); :}
+                    ;
 
-//repeticao_fator ::= repeticao_fator OPERADOR_MATEMATICO_MULTIPLICACAO fator | repeticao_fator OPERADOR_MATEMATICO_DIVISAO fator | repeticao_fator OPERADOR_LOGICO_AND fator | OPERADOR_MATEMATICO_MULTIPLICACAO fator | OPERADOR_MATEMATICO_DIVISAO fator | OPERADOR_LOGICO_AND fator | ;
-repeticao_fator ::= repeticao_fator  repeticao_fator2 | repeticao_fator2;
-repeticao_fator2 ::= OPERADOR_MATEMATICO_MULTIPLICACAO fator | OPERADOR_MATEMATICO_DIVISAO fator | OPERADOR_LOGICO_AND fator;
+termo ::=   
+              fator:f repeticao_fator:rf {: RESULT = rf.add(f); RESULT = rf; :}
+            | fator:f                    {: RESULT = f; :}
+        ;
 
-fator ::= IDENTIFICADOR | NUMERO_INTEIRO | ABRE_PARENTESES expressao FECHA_PARENTESES | OPERADOR_LOGICO_NOT fator;
+repeticao_fator ::= 
+                      repeticao_fator:rf  repeticao_fator2:rf2    {: rf.add(rf2); RESULT = rf; :}
+                    | repeticao_fator2:rf2                        {: RESULT = new RepeticaoFator(rf2); :}
+                ;
+
+repeticao_fator2 ::= 
+                      OPERADOR_MATEMATICO_MULTIPLICACAO:o fator:f {: RESULT = new RepeticaoFator2(o,f); :}
+                    | OPERADOR_MATEMATICO_DIVISAO:o fator:f       {: RESULT = new RepeticaoFator2(o,f); :}
+                    | OPERADOR_LOGICO_AND:o fator:f               {: RESULT = new RepeticaoFator2(o,f); :}
+                ;
+
+fator ::= 
+              IDENTIFICADOR:i                                 {: RESULT = new Identificador(i); :}
+            | NUMERO_INTEIRO:n                                {: RESULT = new Numero(n); :}
+            | ABRE_PARENTESES expressao:e FECHA_PARENTESES    {: RESULT = e; :}
+            | OPERADOR_LOGICO_NOT fator:f                     {: RESULT = new NotFator(f); :}
+        ;
