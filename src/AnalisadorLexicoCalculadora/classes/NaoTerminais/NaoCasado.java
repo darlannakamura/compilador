@@ -36,6 +36,6 @@ public class NaoCasado extends Comando {
     
     @Override
     public void run(TabelaSimbolos global, TabelaSimbolos local) {
-
+        System.out.println("Entrou no não casado (ELSE) ");
     }
 }

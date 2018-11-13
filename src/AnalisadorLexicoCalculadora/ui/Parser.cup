@@ -60,6 +60,7 @@ terminal FIM;
 terminal COMENTARIO, DESCONHECIDO;
 terminal String IDENTIFICADOR;
 terminal Integer NUMERO_INTEIRO;
+terminal String VALOR_BOOLEANO;
 
 non terminal Programa program;
 non terminal Bloco bloco;
@@ -220,10 +221,10 @@ comando ::=
         ;
 
 casado ::= 
-            comando_composto:cc {: RESULT = cc; :}
-            | atribuicao:a SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA {: RESULT = a; :}
-            | comando_condicional_casado:ccc {: RESULT = ccc; :}
-            | comando_repetitivo_casado:crp  {: RESULT = crp; :}
+            comando_composto:cc {: RESULT = new Casado(cc); :}
+            | atribuicao:a SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA {: RESULT = new Casado(a); :}
+            | comando_condicional_casado:ccc {: RESULT = new Casado(ccc); :}
+            | comando_repetitivo_casado:crp  {: RESULT = new Casado(crp); :}
         ;
 
 comando_condicional_casado ::= 
@@ -327,7 +328,8 @@ repeticao_fator2 ::=
                 ;
 
 fator ::= 
-              IDENTIFICADOR:i                                 {: RESULT = new Identificador(i); :}
+              VALOR_BOOLEANO:v                                {: RESULT = new Booleano(v); :}
+            | IDENTIFICADOR:i                                 {: RESULT = new Identificador(i); :}
             | NUMERO_INTEIRO:n                                {: RESULT = new Numero(n); :}
             | ABRE_PARENTESES expressao:e FECHA_PARENTESES    {: RESULT = e; :}
             | OPERADOR_LOGICO_NOT fator:f                     {: RESULT = new NotFator(f); :}

@@ -24,10 +24,10 @@ public class ParteDeclaracaoSubrotinas {
         declaracoesProcedimentos.add(declaracao);
     }
      
-    public void run(TabelaSimbolos global, TabelaSimbolos local){
+    public void run(TabelaSimbolos global){
         // Declara todas as subrotinas
         for(DeclaracaoProcedimento d: declaracoesProcedimentos){
-            d.run(global, local);
+            d.run(global);
         }
     }    
 }

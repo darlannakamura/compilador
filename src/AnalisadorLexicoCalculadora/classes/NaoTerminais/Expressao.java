@@ -34,7 +34,12 @@ public class Expressao extends Fator{
                 case Sym.SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL:
                     return (expressaoSimples1.run(global, local) <= expressaoSimples2.run(global, local)) ? 1: 0;
                 case Sym.SIMBOLOS_ESPECIAIS_MENOR_QUE:
-                    return (expressaoSimples1.run(global, local) < expressaoSimples2.run(global, local)) ? 1: 0;
+                    System.out.println("Entrou no menor que:");
+                    System.out.println("Exp 1: "+ expressaoSimples1.run(global, local));
+                    System.out.println("Exp 2: "+expressaoSimples2.run(global, local));
+                    int resp = (expressaoSimples1.run(global, local) < expressaoSimples2.run(global, local)) ? 1: 0;
+                    System.out.println("resultado:" + resp);
+                    return resp;
                 default:
                     // erro
                     return Integer.MIN_VALUE;

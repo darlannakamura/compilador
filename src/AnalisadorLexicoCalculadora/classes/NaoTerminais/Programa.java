@@ -21,9 +21,14 @@ public class Programa {
         this.nomePrograma = nome;
     }
     
+    public Programa(Bloco bloco){
+        this.bloco = bloco;
+        this.nomePrograma = "0global";
+    }
+    
     public void exec(){
         // Cria a tabela global
-        TabelaSimbolos tabelaGlobal = new TabelaSimbolos("0global");
+        TabelaSimbolos tabelaGlobal = new TabelaSimbolos(nomePrograma);
         bloco.setTabela(tabelaGlobal);
         bloco.run(tabelaGlobal);
         

@@ -11,7 +11,7 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  *
  * @author rafae
  */
-public class ComandoComposto extends Casado {
+public class ComandoComposto extends Comando {
     Comandos listaComandos;
 
     public ComandoComposto(Comandos listaComandos){

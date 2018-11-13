@@ -7,12 +7,13 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.Simbolo;
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import java.util.ArrayList;
 
 /**
  *
  * @author rafae
  */
-public class Atribuicao extends Casado {
+public class Atribuicao extends Comando {
     String identificador;
     Expressao expressao;
     
@@ -28,8 +29,26 @@ public class Atribuicao extends Casado {
     @Override
     public void run(TabelaSimbolos global, TabelaSimbolos local){
         // Adiciona, na tabela de símbolos, o valor atribuído
-        if(tabela.atribuicao(identificador, expressao.run(tabela)).size() > 0){
-            System.out.println("Deu erro!");
+//        global.print();
+//        local.print();
+        
+        int retornoExp = expressao.run(global, local);
+        ArrayList<String> resultadoLocal = local.atribuicao(identificador, expressao.run(global, local));
+        local.print();
+        System.out.println("Retorno exp:"+retornoExp+" size resultadoLocal: "+resultadoLocal.size());
+        for(int i =0; i < resultadoLocal.size(); i++){
+            System.out.println(resultadoLocal.get(i));
         }
+        if(resultadoLocal.size() > 0){
+            System.out.println("Deu erro semantico");
+            System.exit(1);
+        }
+        
+        
+//        if(local.atribuicao(identificador, expressao.run(global, local)).size() > 0){;
+//            if(global.atribuicao(identificador, expressao.run(global, local)).size() > 0){
+//                System.out.println("Deu erro!");
+//            }
+//        }
     }
 }

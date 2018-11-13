@@ -12,6 +12,7 @@ public class Sym {
   public static final int SIMBOLOS_ESPECIAIS_ATRIBUICAO = 17;
   public static final int OPERADOR_MATEMATICO_SOMA = 25;
   public static final int PALAVRA_RESERVADA_ELSE = 6;
+  public static final int VALOR_BOOLEANO = 38;
   public static final int PALAVRA_RESERVADA_DO = 7;
   public static final int PALAVRA_RESERVADA_VAR = 9;
   public static final int OPERADOR_MATEMATICO_MULTIPLICACAO = 27;
@@ -84,7 +85,8 @@ public class Sym {
   "COMENTARIO",
   "DESCONHECIDO",
   "IDENTIFICADOR",
-  "NUMERO_INTEIRO"
+  "NUMERO_INTEIRO",
+  "VALOR_BOOLEANO"
   };
 }
 

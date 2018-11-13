@@ -11,7 +11,7 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  *
  * @author rafae
  */
-public class ComandoCondicionalCasado extends Casado {
+public class ComandoCondicionalCasado extends Comando {
     Expressao expressao;
     Casado comandoTrue, comandoFalse;
     
@@ -23,10 +23,13 @@ public class ComandoCondicionalCasado extends Casado {
 
     @Override
     public void run(TabelaSimbolos global, TabelaSimbolos local) {
+            System.out.println("Entou aqui");
         if(expressao.run(global, local) != 0){
+            System.out.println("resultado != 0");
             comandoTrue.run(global, local);
         }
         else{
+            System.out.println("resultado == 0");
             comandoFalse.run(global, local);
         }
     }

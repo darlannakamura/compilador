@@ -13,7 +13,7 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  *
  * @author rafae
  */
-public class ComandoRepetitivoCasado extends Casado {
+public class ComandoRepetitivoCasado extends Comando {
     Expressao expressao;
     Casado casado;
     

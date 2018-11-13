@@ -9,20 +9,25 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 
 /**
  *
- * @author rafae
+ * @author darla
  */
-public class NotFator extends Fator {
-
-    Fator fator;
+public class Booleano extends Fator{
+    int valor;
     
-    public NotFator(Fator fator){
-        this.fator = fator;
+    
+    public Booleano(String valor){
+        if(valor.equals("true")){
+           this.valor = 1;
+        } else{
+            this.valor = 0;
+        }
     }
-
-  
+    
 
     @Override
     public int run(TabelaSimbolos global, TabelaSimbolos local) {
-        return (fator.run(global, local) == 0)? 1 : 0;
+        System.out.println("Entrou no boolean :D vai retornar: "+this.valor);
+        return this.valor;
     }
+    
 }

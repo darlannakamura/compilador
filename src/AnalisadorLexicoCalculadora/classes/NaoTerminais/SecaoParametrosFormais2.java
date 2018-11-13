@@ -29,7 +29,7 @@ public class SecaoParametrosFormais2 {
         this.lista = lista;
     }
     
-    public void run(TabelaSimbolos global, TabelaSimbolos local){
+    public void run(TabelaSimbolos local){
         // Adiciona a seção dos parâmetros no procedimento
         for(String parametro: lista.getLista()){
             /*

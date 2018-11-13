@@ -32,8 +32,10 @@ public class Bloco {
         if(parteDeclaracaoVariaveis != null)
             parteDeclaracaoVariaveis.run(global, tabelaLocal);
         if(parteDeclaracaoSubrotinas != null)
-            parteDeclaracaoSubrotinas.run(global, tabelaLocal);
+            parteDeclaracaoSubrotinas.run(global);
         comandoComposto.run(global, tabelaLocal);
+        
+        global.print();
     }
 
     /**

@@ -18,6 +18,7 @@ public class Termo {
     
     public Termo(Fator fator){
         this.fator = fator;
+        repeticaoFator = null;
     }
     
     public Termo(Fator fator, RepeticaoFator repeticaoFator){
@@ -26,20 +27,32 @@ public class Termo {
     }
     
     public int run(TabelaSimbolos global, TabelaSimbolos local){
+  
         int valor = fator.run(global, local);
-        for(RepeticaoFator2 rep2: repeticaoFator.getRepeticoesFator2()){
-            switch(rep2.getOperador()){
-                case Sym.OPERADOR_MATEMATICO_MULTIPLICACAO:
-                    valor *= rep2.getFator().run(global, local);
-                    break;
-                case Sym.OPERADOR_MATEMATICO_DIVISAO:
-                    valor /= rep2.getFator().run(global, local);
-                    break;
-                case Sym.OPERADOR_LOGICO_AND:
-                    // 0 * 0 = 0; 1 * 0 = 0; 1 * 1 = 1
-                    valor *= rep2.getFator().run(global, local);
-                    break;
-                            
+        System.out.println("valor: "+valor);
+        if(repeticaoFator != null){
+            for(RepeticaoFator2 rep2: repeticaoFator.getRepeticoesFator2()){
+                switch(rep2.getOperador()){
+                    case Sym.OPERADOR_MATEMATICO_MULTIPLICACAO:
+                        valor *= rep2.getFator().run(global, local);
+                        break;
+                    case Sym.OPERADOR_MATEMATICO_DIVISAO:
+                        //TO DO
+                        //Se rep2.getFator().run(global, local) == 0 dá erro
+                        //pois não se pode dividir por zero!!!
+                        int retorno = rep2.getFator().run(global, local);
+                        if(retorno == 0){
+                            System.out.println("Não se pode fazer divisão por zero!");
+                            System.exit(1);
+                        }
+                        valor /= retorno;
+                        break;
+                    case Sym.OPERADOR_LOGICO_AND:
+                        // 0 * 0 = 0; 1 * 0 = 0; 1 * 1 = 1
+                        valor *= rep2.getFator().run(global, local);
+                        break;
+
+                }
             }
         }
         return valor;

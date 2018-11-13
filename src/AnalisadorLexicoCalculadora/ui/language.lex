@@ -27,7 +27,7 @@ import java_cup.runtime.Symbol;
 OPERADOR_MATEMATICO_DIVISAO = "div"|"/"
 
 NUMERO_INTEIRO = [0-9][0-9]*
-
+VALOR_BOOLEANO = "true"|"false"
 QUEBRA_DE_LINHA = \r|\n|\r\n
 
 COMENTARIO = {COMENTARIO_TRADICIONAL} | {COMENTARIO_DE_LINHA}
@@ -79,7 +79,7 @@ CARACTERE_DE_ENTRADA = [^\r\n]
     {OPERADOR_MATEMATICO_DIVISAO  } { return new Symbol(Sym.OPERADOR_MATEMATICO_DIVISAO );}
 
     {NUMERO_INTEIRO}                     { return new Symbol(Sym.NUMERO_INTEIRO, new Integer(yytext()));}
-
+    {VALOR_BOOLEANO}                     { return new Symbol(Sym.VALOR_BOOLEANO, yytext());}
     "int"					{ return new Symbol(Sym.TIPO_VARIAVEL_INT);}
     "boolean"				{ return new Symbol(Sym.TIPO_VARIAVEL_BOOLEAN);}
 
