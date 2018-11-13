@@ -41,11 +41,35 @@ public class TabelaSimbolos {
     
     public int getValorVariavel(String identificador){
         for(Simbolo s: tabela){
-            if(s.getLexema().equals("identificador") && (s.getTipo().equals("variavel") || 
+            if(s.getLexema().equals(identificador) && (s.getTipo().equals("variavel") || 
                     s.getLexema().equals("parametro"))){
-                return Integer.parseInt(s.getValor());
+                return s.getValor();
             }
         }
         return Integer.MIN_VALUE;
+    }
+    
+    public ArrayList<String> atribuicao(String identificador, int valor){
+        ArrayList<String> error = new ArrayList<>();
+        boolean existe = false;
+        for(Simbolo s: tabela){
+            if(s.getLexema().equals(identificador) && (s.getTipo().equals("variavel"))) {
+                existe = true;
+                s.setValor(valor);
+                
+                if(s.getTipo().equals("boolean")){
+                    if(s.getValor() > 1 || s.getValor() < 0){
+                        error.add("Boolean só pode receber 1 ou 0!");
+                        //BOOLEAN só pode receber 1 ou 0
+                        //return Integer.MIN_VALUE;
+                    }
+                }
+            }
+        }
+        if(!existe){
+            error.add("Variável inexistente!");
+            //Variável inexistente!
+        }
+        return error;
     }
 }

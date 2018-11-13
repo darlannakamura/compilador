@@ -14,15 +14,28 @@ public class Simbolo {
     private String token;
     private String categoria;
     private String tipo;
-    private String valor;
+    private int valor;
     private boolean utilizada;
     
+    public Simbolo(String lexema){
+        this.lexema = lexema;
+        this.utilizada = false;
+        this.valor = 0;
+    }
+    
+    
+    /**
+     * categoria: se é uma variável, se é nome de procedimento, nome do programa
+     * Tipo: int ou boolean -> se for variável
+     * valor -> valor
+     * utilizada -> simm ou não
+     **/
     public Simbolo(String lexema, String token, String categoria, String tipo){
         this.lexema = lexema;
         this.token = token;
         this.categoria = categoria;
         this.tipo = tipo;
-        this.valor = null;
+        this.valor = 0;
         this.utilizada = false;
     }
 
@@ -64,14 +77,14 @@ public class Simbolo {
     /**
      * @return the valor
      */
-    public String getValor() {
+    public int getValor() {
         return valor;
     }
 
     /**
      * @param valor the valor to set
      */
-    public void setValor(String valor) {
+    public void setValor(int valor) {
         this.valor = valor;
     }
 
