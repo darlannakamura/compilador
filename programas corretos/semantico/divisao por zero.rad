@@ -1,0 +1,24 @@
+program correto;
+int a, b;
+boolean c, d;
+begin
+
+if (a < b) then
+begin
+	if (c < d) then 
+		a := b;
+	else 
+		begin 
+		a := c + d;
+		end
+end
+else
+begin 
+	a := 10;
+	a := a/0;
+	c := d;
+	c := c + d;
+end
+
+end
+.
