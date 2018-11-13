@@ -38,6 +38,10 @@ parser code {:
     public ArrayList<ItemSintatico> getItensSintaticos() {
         return itensSintaticos;
     }
+
+    interface Expressao_Interface { int run(TabelaSimbolos tabela); }
+    interface Condicao_Interface { boolean test(TabelaSimbolos tabela); }
+    interface Comando_Interface { void run(TabelaSimbolos tabela); }
     
 
 :};
@@ -55,19 +59,36 @@ terminal NUMERO_INTEIRO, TIPO_VARIAVEL_INT, TIPO_VARIAVEL_BOOLEAN, ABRE_PARENTES
 terminal IDENTIFICADOR, FIM;
 terminal COMENTARIO, DESCONHECIDO;
 
-non terminal program, bloco, parte_de_declaracoes_de_variaveis, declaracao_de_variavel;
-non terminal tipo, lista_de_identificadores, parte_de_declaracoes_de_subrotinas;
-non terminal declaracao_de_procedimento, parametros_formais, secao_de_parametros_formais;
-non terminal comando, comando_composto, comandos, atribuicao;
-non terminal expressao, expressao_simples, repeticao_termo;
-non terminal termo, repeticao_fator, fator;
-non terminal secao_de_parametros_formais2;
-non terminal comando_condicional_casado, casado, nao_casado;
-non terminal comando_repetitivo_casado, comando_repetitivo_nao_casado;
-non terminal repeticao_fator2;
-non terminal repeticao_termo2;
-non terminal chamada_de_procedimento;
-non terminal lista_de_expressoes;
+non terminal Programa program;
+non terminal Bloco bloco;
+non terminal ParteDeclaracaoVariaveis parte_de_declaracoes_de_variaveis;
+non terminal DeclaracaoVariaveis declaracao_de_variavel;
+non terminal Tipo tipo;
+non terminal ListaIdentificadores lista_de_identificadores;
+non terminal ParteDeclaracaoSubrotinas parte_de_declaracoes_de_subrotinas;
+non terminal DeclaracaoProcedimento declaracao_de_procedimento;
+non terminal parametros_formais;
+non terminal SecaoParametrosFormais secao_de_parametros_formais;
+non terminal SecaoParametrosFormais2 secao_de_parametros_formais2;
+non terminal ComandoComposto comando_composto;
+non terminal Comandos comandos;
+non terminal Comando comando;
+non terminal Atribuicao atribuicao;
+non terminal Expressao expressao;
+non terminal ExpressaoSimples expressao_simples;
+non terminal RepeticaoTermo repeticao_termo;
+non terminal Termo termo;
+non terminal RepeticaoFator repeticao_fator;
+non terminal Fator fator;
+non terminal ComandoCondicionalCasado comando_condicional_casado;
+non terminal Casado casado;
+non terminal NaoCasado nao_casado;
+non terminal ComandoRepetitivoCasado comando_repetitivo_casado;
+non terminal ComandoRepetitivoNaoCasado comando_repetitivo_nao_casado;
+non terminal RepeticaoFator2 repeticao_fator2;
+non terminal RepeticaoTermo2 repeticao_termo2;
+non terminal ChamadaProcedimento chamada_de_procedimento;
+non terminal ListaExpressoes lista_de_expressoes;
 
 start with program;
 
@@ -78,10 +99,10 @@ program ::=
             IDENTIFICADOR  
             SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA 
             bloco:b
-            {:  Programa p = new Programa(b);
-                p.exec();
-            :}
             FIM
+            {:  Programa p = new Programa(b);
+                            p.exec();
+            :}
         ;
 
 bloco ::= 
@@ -95,20 +116,22 @@ bloco ::=
     ;
 
 parte_de_declaracoes_de_variaveis ::= 
-                                        parte_de_declaracoes_de_variaveis 
-                                        declaracao_de_variavel 
-                                        | declaracao_de_variavel 
+                                        parte_de_declaracoes_de_variaveis:pdv 
+                                        declaracao_de_variavel:dv 
+                                        {: RESULT = pdv.add(dv); :}
+                                        | declaracao_de_variavel:dv
+                                        {: RESULT = new ParteDeclaracaoVariaveis(dv); :}
                                     ;
 
 declaracao_de_variavel ::= 
                         error {: syntax_error("Erro na declaração de variável."); :} 
                         | tipo:t lista_de_identificadores:li SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA
-                          {: RESULT = new DeclaraoVariaveis(t,li); :}
+                          {: RESULT = new DeclaracaoVariaveis(t,li); :}
                     ;
 
 tipo ::= 
-          TIPO_VARIAVEL_INT 
-        | TIPO_VARIAVEL_BOOLEAN
+          TIPO_VARIAVEL_INT:tp {: RESULT = new Tipo(tp); :}
+        | TIPO_VARIAVEL_BOOLEAN:tp {: RESULT = new Tipo(tp); :}
     ;
 
 lista_de_identificadores ::= 
@@ -146,7 +169,7 @@ secao_de_parametros_formais ::=
                                 secao_de_parametros_formais2:spf2 
                                 {:spf.add(spf2); RESULT = spf; :} 
 
-                                | secao_de_parametros_formais2
+                                | secao_de_parametros_formais2:spf2
                                 {: RESULT = new SecaoParametrosFormais(spf2); :} 
                             ;
 
@@ -214,7 +237,7 @@ nao_casado ::=
                     PALAVRA_RESERVADA_IF expressao:e PALAVRA_RESERVADA_THEN 
                     comando:c
 
-                    {: RESULT = new NaoCasado(e,c,null); :}
+                    {: RESULT = new NaoCasado(e,c); :}
 
                     | PALAVRA_RESERVADA_IF expressao:e PALAVRA_RESERVADA_THEN 
                       casado:c 
@@ -260,7 +283,7 @@ comando_repetitivo_nao_casado ::=
 //EXPRESSÕES
 
 expressao ::= 
-                  expressao_simples:e                                                              {: RESULT = new Expressao(e,null,null); :}
+                  expressao_simples:e                                                              {: RESULT = new Expressao(e); :}
                 | expressao_simples:e1 SIMBOLOS_ESPECIAIS_IGUAL:s expressao_simples:e2             {: RESULT = new Expressao(e1,s,e2); :}
                 | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL:s expressao_simples:e2    {: RESULT = new Expressao(e1,s,e2); :}
                 | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MAIOR_QUE:s expressao_simples:e2         {: RESULT = new Expressao(e1,s,e2); :}
