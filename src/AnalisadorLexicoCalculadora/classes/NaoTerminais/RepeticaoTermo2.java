@@ -10,6 +10,7 @@ import AnalisadorLexicoCalculadora.classes.NaoTerminais.Termo;
 /**
  *
  * @author rafae
+
  */
 public class RepeticaoTermo2 {
     int operador;

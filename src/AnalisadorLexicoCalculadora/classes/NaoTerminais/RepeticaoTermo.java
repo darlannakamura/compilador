@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 /**
  *
+
  * @author rafae
+
  */
 public class RepeticaoTermo {
     ArrayList<RepeticaoTermo2> repeticaoTermo;
@@ -19,12 +21,15 @@ public class RepeticaoTermo {
         repeticaoTermo.add(repeticaoTermo2);
     }
     
+
     public RepeticaoTermo add(RepeticaoTermo2 repeticaoTermo2){
         repeticaoTermo.add(repeticaoTermo2);
         return this;
+
     }
    
     public ArrayList<RepeticaoTermo2> getRepeticoesTermo2(){
         return repeticaoTermo;
     }
+
 }

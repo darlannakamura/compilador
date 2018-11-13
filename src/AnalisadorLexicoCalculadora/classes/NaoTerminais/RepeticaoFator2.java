@@ -8,6 +8,7 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 /**
  *
  * @author rafae
+
  */
 public class RepeticaoFator2 {
     int operador;

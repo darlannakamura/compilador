@@ -13,6 +13,7 @@ import AnalisadorLexicoCalculadora.ui.Sym;
  * @author rafae
  */
 public class Expressao extends Fator{
+
         ExpressaoSimples expressaoSimples1;
         int operacao;
         ExpressaoSimples expressaoSimples2;
@@ -40,6 +41,7 @@ public class Expressao extends Fator{
                     int resp = (expressaoSimples1.run(global, local) < expressaoSimples2.run(global, local)) ? 1: 0;
                     System.out.println("resultado:" + resp);
                     return resp;
+
                 default:
                     // erro
                     return Integer.MIN_VALUE;
@@ -58,5 +60,5 @@ public class Expressao extends Fator{
             this.operacao = operacao;
             this.expressaoSimples2 = expressaoSimples2;
         }
-        
+
 }

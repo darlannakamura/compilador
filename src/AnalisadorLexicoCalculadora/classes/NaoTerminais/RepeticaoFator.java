@@ -15,6 +15,8 @@ public class RepeticaoFator {
     ArrayList<RepeticaoFator2> repeticaoFator2;
     
     public RepeticaoFator(RepeticaoFator2 rf2){
+
+  
         this.repeticaoFator2 = new ArrayList<>();
         repeticaoFator2.add(rf2);
         
@@ -28,4 +30,5 @@ public class RepeticaoFator {
     public ArrayList<RepeticaoFator2> getRepeticoesFator2(){
         return repeticaoFator2;
     }
+
 }

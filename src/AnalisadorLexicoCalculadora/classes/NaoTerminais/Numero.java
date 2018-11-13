@@ -13,6 +13,7 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  */
 public class Numero extends Fator {
 
+
     Integer numero;
     
     public Numero(Integer numero){
@@ -23,3 +24,4 @@ public class Numero extends Fator {
         return numero;
     }
 }
+

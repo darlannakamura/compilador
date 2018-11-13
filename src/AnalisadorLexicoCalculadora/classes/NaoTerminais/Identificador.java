@@ -10,11 +10,13 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 
 /**
  *
+
  * @author rafae
  */
 public class Identificador extends Fator {
 
     String identificador;
+
 
     public Identificador(String identificador){
         this.identificador = identificador;
@@ -42,3 +44,4 @@ public class Identificador extends Fator {
     }
     
 }
+

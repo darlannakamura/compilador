@@ -18,11 +18,11 @@ public class NotFator extends Fator {
     public NotFator(Fator fator){
         this.fator = fator;
     }
-
   
 
     @Override
     public int run(TabelaSimbolos global, TabelaSimbolos local) {
         return (fator.run(global, local) == 0)? 1 : 0;
     }
+
 }

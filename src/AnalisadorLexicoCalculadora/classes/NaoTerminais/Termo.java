@@ -11,6 +11,7 @@ import AnalisadorLexicoCalculadora.ui.Sym;
 /**
  *
  * @author rafae
+
  */
 public class Termo {
     Fator fator;
@@ -19,6 +20,7 @@ public class Termo {
     public Termo(Fator fator){
         this.fator = fator;
         repeticaoFator = null;
+
     }
     
     public Termo(Fator fator, RepeticaoFator repeticaoFator){
@@ -53,8 +55,10 @@ public class Termo {
                         break;
 
                 }
+
             }
         }
         return valor;
     }
 }
+
