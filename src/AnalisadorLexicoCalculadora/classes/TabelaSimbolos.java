@@ -24,6 +24,14 @@ public class TabelaSimbolos {
     public void adicionarSimbolo(Simbolo simbolo){
         tabela.add(simbolo);
     }
+    
+    public void print(){
+        System.out.println("NOME:"+nome);
+        for(int i = 0; i < tabela.size(); i++){
+            System.out.println(tabela.get(i).getLexema()+ "|"+tabela.get(i).getToken()+
+                    "|"+tabela.get(i).getTipo()+"|"+tabela.get(i).getCategoria()+"|"+tabela.get(i).getValor());
+        }
+    }
 
     /**
      * @return the nome
@@ -41,11 +49,38 @@ public class TabelaSimbolos {
     
     public int getValorVariavel(String identificador){
         for(Simbolo s: tabela){
-            if(s.getLexema().equals("identificador") && (s.getTipo().equals("variavel") || 
-                    s.getLexema().equals("parametro"))){
-                return Integer.parseInt(s.getValor());
+            if(s.getLexema().equals(identificador) && (s.getCategoria().equals("variavel") || 
+                    s.getCategoria().equals("parametro"))){
+                return s.getValor();
             }
         }
         return Integer.MIN_VALUE;
+    }
+    
+    public ArrayList<String> atribuicao(String identificador, int valor){
+        ArrayList<String> error = new ArrayList<>();
+        boolean existe = false;
+        System.out.println("Entra no método atribuição ");
+        for(Simbolo s: tabela){
+            System.out.println("entrou no for: "+s.getLexema());
+            System.out.println("valor: "+String.valueOf(valor));
+            if(s.getLexema().equals(identificador) && (s.getCategoria().equals("variavel"))) {
+                existe = true;
+                s.setValor(valor);
+                
+                if(s.getTipo().equals("boolean")){
+                    if(s.getValor() > 1 || s.getValor() < 0){
+                        error.add("Boolean só pode receber true ou false!");
+                        //BOOLEAN só pode receber 1 ou 0
+                        //return Integer.MIN_VALUE;
+                    }
+                }
+            }
+        }
+        if(!existe){
+            error.add("Variável inexistente!");
+            //Variável inexistente!
+        }
+        return error;
     }
 }

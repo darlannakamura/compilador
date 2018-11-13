@@ -10,32 +10,38 @@ import AnalisadorLexicoCalculadora.ui.Sym;
 
 /**
  *
- * @author darla
+ * @author rafae
  */
-class Expressao implements  Expressao_Interface {
+public class Expressao extends Fator{
 
         ExpressaoSimples expressaoSimples1;
         int operacao;
         ExpressaoSimples expressaoSimples2;
     
         @Override
-        public int run(TabelaSimbolos tabela) {
+        public int run(TabelaSimbolos global, TabelaSimbolos local) {
             if (expressaoSimples2 == null){
-                return expressaoSimples1.run(tabela);
+                return expressaoSimples1.run(global, local);
             }
             switch(operacao){
                 case Sym.SIMBOLOS_ESPECIAIS_IGUAL:
-                    return (expressaoSimples1.run(tabela) == expressaoSimples2.run(tabela)) ? 1: 0;
+                    return (expressaoSimples1.run(global, local) == expressaoSimples2.run(global, local)) ? 1: 0;
                 case Sym.SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL:
-                    return (expressaoSimples1.run(tabela) >= expressaoSimples2.run(tabela)) ? 1: 0;
+                    return (expressaoSimples1.run(global, local) >= expressaoSimples2.run(global, local)) ? 1: 0;
                 case Sym.SIMBOLOS_ESPECIAIS_MAIOR_QUE:
-                    return (expressaoSimples1.run(tabela) > expressaoSimples2.run(tabela)) ? 1: 0;
+                    return (expressaoSimples1.run(global, local) > expressaoSimples2.run(global, local)) ? 1: 0;
                 case Sym.SIMBOLOS_ESPECIAIS_DIFERENTE:
-                    return (expressaoSimples1.run(tabela) != expressaoSimples2.run(tabela)) ? 1: 0;
+                    return (expressaoSimples1.run(global, local) != expressaoSimples2.run(global, local)) ? 1: 0;
                 case Sym.SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL:
-                    return (expressaoSimples1.run(tabela) <= expressaoSimples2.run(tabela)) ? 1: 0;
+                    return (expressaoSimples1.run(global, local) <= expressaoSimples2.run(global, local)) ? 1: 0;
                 case Sym.SIMBOLOS_ESPECIAIS_MENOR_QUE:
-                    return (expressaoSimples1.run(tabela) < expressaoSimples2.run(tabela)) ? 1: 0;
+                    System.out.println("Entrou no menor que:");
+                    System.out.println("Exp 1: "+ expressaoSimples1.run(global, local));
+                    System.out.println("Exp 2: "+expressaoSimples2.run(global, local));
+                    int resp = (expressaoSimples1.run(global, local) < expressaoSimples2.run(global, local)) ? 1: 0;
+                    System.out.println("resultado:" + resp);
+                    return resp;
+
                 default:
                     // erro
                     return Integer.MIN_VALUE;
@@ -54,5 +60,5 @@ class Expressao implements  Expressao_Interface {
             this.operacao = operacao;
             this.expressaoSimples2 = expressaoSimples2;
         }
-    
+
 }

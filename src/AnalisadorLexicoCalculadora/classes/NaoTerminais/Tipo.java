@@ -9,6 +9,15 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
  *
  * @author rafae
  */
-public abstract class Fator implements Expressao_Interface {
+public class Tipo {
+    private String tipo;
+    
+    public Tipo(String tipo){
+        this.tipo = tipo;
+    }
+    
+    public String getTipo(){
+        return tipo;
+    }
     
 }

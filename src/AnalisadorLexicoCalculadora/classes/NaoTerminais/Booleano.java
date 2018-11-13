@@ -9,19 +9,25 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 
 /**
  *
- * @author rafae
+ * @author darla
  */
-public class Numero extends Fator {
-
-
-    Integer numero;
+public class Booleano extends Fator{
+    int valor;
     
-    public Numero(Integer numero){
-        this.numero = numero;
+    
+    public Booleano(String valor){
+        if(valor.equals("true")){
+           this.valor = 1;
+        } else{
+            this.valor = 0;
+        }
     }
+    
 
+    @Override
     public int run(TabelaSimbolos global, TabelaSimbolos local) {
-        return numero;
+        System.out.println("Entrou no boolean :D vai retornar: "+this.valor);
+        return this.valor;
     }
+    
 }
-

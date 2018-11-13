@@ -9,18 +9,25 @@ import java.util.ArrayList;
 
 /**
  *
- * @author darla
+ * @author rafae
  */
 public class RepeticaoFator {
-    ArrayList<AnalisadorLexicoCalculadora.classes.NaoTerminais.RepeticaoFator2> repeticaoFator2;
+    ArrayList<RepeticaoFator2> repeticaoFator2;
     
-    public RepeticaoFator(AnalisadorLexicoCalculadora.classes.NaoTerminais.RepeticaoFator2 rf2){
+    public RepeticaoFator(RepeticaoFator2 rf2){
+
+  
         this.repeticaoFator2 = new ArrayList<>();
         repeticaoFator2.add(rf2);
         
     }
     
-    public ArrayList<AnalisadorLexicoCalculadora.classes.NaoTerminais.RepeticaoFator2> getRepeticoesFator2(){
+    public RepeticaoFator add(RepeticaoFator2 rf2){
+        repeticaoFator2.add(rf2);
+        return this;
+    }
+    
+    public ArrayList<RepeticaoFator2> getRepeticoesFator2(){
         return repeticaoFator2;
     }
 

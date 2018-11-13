@@ -14,7 +14,8 @@ begin
 end
 else
 begin 
-	a := true;
+	a := 10;
+	a := a/0;
 	c := d;
 	c := c + d;
 end

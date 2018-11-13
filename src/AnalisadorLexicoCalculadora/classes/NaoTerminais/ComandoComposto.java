@@ -11,18 +11,15 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  *
  * @author rafae
  */
-public class NotFator extends Fator {
+public class ComandoComposto extends Comando {
+    Comandos listaComandos;
 
-    Fator fator;
+    public ComandoComposto(Comandos listaComandos){
+        this.listaComandos = listaComandos;
+    }
     
-    public NotFator(Fator fator){
-        this.fator = fator;
-    }
-  
-
-    @Override
-    public int run(TabelaSimbolos global, TabelaSimbolos local) {
-        return (fator.run(global, local) == 0)? 1 : 0;
-    }
-
+    public void run(TabelaSimbolos global, TabelaSimbolos local) {
+        // Executar todos os comandos da lista
+        listaComandos.run(global, local);
+    }  
 }

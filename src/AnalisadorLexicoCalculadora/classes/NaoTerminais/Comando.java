@@ -5,10 +5,14 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
+import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+
 /**
  *
  * @author rafae
  */
-public abstract class Fator implements Expressao_Interface {
+public abstract class Comando {
+
+    public abstract void run(TabelaSimbolos global, TabelaSimbolos local);
     
 }

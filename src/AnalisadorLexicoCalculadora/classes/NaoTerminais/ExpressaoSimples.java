@@ -5,12 +5,15 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
+import AnalisadorLexicoCalculadora.classes.NaoTerminais.RepeticaoTermo;
+import AnalisadorLexicoCalculadora.classes.NaoTerminais.RepeticaoTermo2;
+import AnalisadorLexicoCalculadora.classes.NaoTerminais.Termo;
+
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 import AnalisadorLexicoCalculadora.ui.Sym;
 
 /**
  *
- * @author darla
  */
 public class ExpressaoSimples implements Expressao_Interface {
     Termo termo;
@@ -27,28 +30,32 @@ public class ExpressaoSimples implements Expressao_Interface {
         this.repeticaoTermo = repeticaoTermo;
     }
 
+
+
     @Override
-    public int run(TabelaSimbolos tabela) {
-        int valor = termo.run(tabela);
+    public int run(TabelaSimbolos global, TabelaSimbolos local) {
+            int valor = termo.run(global, local);
         if (repeticaoTermo != null){
             for(RepeticaoTermo2 rep2: repeticaoTermo.getRepeticoesTermo2()){
                 switch(rep2.getOperador()){
                     case Sym.OPERADOR_MATEMATICO_SOMA:
-                        valor += rep2.getTermo().run(tabela);
+
+                        valor += rep2.getTermo().run(global, local);
                         break;
                     case Sym.OPERADOR_MATEMATICO_SUBTRACAO:
-                        valor -= rep2.getTermo().run(tabela);
+                        valor -= rep2.getTermo().run(global, local);
                         break;
                     case Sym.OPERADOR_LOGICO_OR:
-                        valor += rep2.getTermo().run(tabela);
+                        valor += rep2.getTermo().run(global, local);
+
                         if (valor == 2)
                             valor = 1;
                         break;
                 }
             }
         }
-        return valor;
+
+        return valor;    
     }
-    
 }
 

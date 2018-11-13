@@ -5,10 +5,12 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
+import AnalisadorLexicoCalculadora.classes.NaoTerminais.Termo;
 
 /**
  *
- * @author darla
+ * @author rafae
+
  */
 public class RepeticaoTermo2 {
     int operador;

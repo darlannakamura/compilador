@@ -12,37 +12,38 @@ public class Sym {
   public static final int SIMBOLOS_ESPECIAIS_ATRIBUICAO = 17;
   public static final int OPERADOR_MATEMATICO_SOMA = 25;
   public static final int PALAVRA_RESERVADA_ELSE = 6;
+  public static final int VALOR_BOOLEANO = 38;
   public static final int PALAVRA_RESERVADA_DO = 7;
   public static final int PALAVRA_RESERVADA_VAR = 9;
   public static final int OPERADOR_MATEMATICO_MULTIPLICACAO = 27;
   public static final int SIMBOLOS_ESPECIAIS_VIRGULA = 20;
   public static final int OPERADOR_LOGICO_OR = 23;
   public static final int PALAVRA_RESERVADA_THEN = 5;
-  public static final int DESCONHECIDO = 37;
+  public static final int DESCONHECIDO = 35;
   public static final int PALAVRA_RESERVADA_PROCEDURE = 10;
-  public static final int FIM = 35;
-  public static final int IDENTIFICADOR = 34;
+  public static final int FIM = 33;
+  public static final int IDENTIFICADOR = 36;
   public static final int SIMBOLOS_ESPECIAIS_MAIOR_QUE = 13;
   public static final int SIMBOLOS_ESPECIAIS_DOIS_PONTOS = 21;
-  public static final int TIPO_VARIAVEL_BOOLEAN = 31;
+  public static final int TIPO_VARIAVEL_BOOLEAN = 30;
   public static final int OPERADOR_MATEMATICO_DIVISAO = 28;
   public static final int SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL = 12;
   public static final int EOF = 0;
-  public static final int ABRE_PARENTESES = 32;
+  public static final int ABRE_PARENTESES = 31;
   public static final int error = 1;
-  public static final int COMENTARIO = 36;
   public static final int PALAVRA_RESERVADA_IF = 4;
+  public static final int COMENTARIO = 34;
   public static final int PALAVRA_RESERVADA_BEGIN = 2;
   public static final int SIMBOLOS_ESPECIAIS_MENOR_QUE = 16;
   public static final int SIMBOLOS_ESPECIAIS_IGUAL = 18;
   public static final int OPERADOR_LOGICO_NOT = 24;
   public static final int OPERADOR_LOGICO_AND = 22;
-  public static final int TIPO_VARIAVEL_INT = 30;
-  public static final int FECHA_PARENTESES = 33;
+  public static final int TIPO_VARIAVEL_INT = 29;
+  public static final int FECHA_PARENTESES = 32;
   public static final int PALAVRA_RESERVADA_PROGRAM = 11;
   public static final int SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA = 19;
   public static final int SIMBOLOS_ESPECIAIS_DIFERENTE = 14;
-  public static final int NUMERO_INTEIRO = 29;
+  public static final int NUMERO_INTEIRO = 37;
   public static final int SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL = 15;
   public static final int PALAVRA_RESERVADA_WHILE = 8;
   public static final int PALAVRA_RESERVADA_END = 3;
@@ -76,15 +77,16 @@ public class Sym {
   "OPERADOR_MATEMATICO_SUBTRACAO",
   "OPERADOR_MATEMATICO_MULTIPLICACAO",
   "OPERADOR_MATEMATICO_DIVISAO",
-  "NUMERO_INTEIRO",
   "TIPO_VARIAVEL_INT",
   "TIPO_VARIAVEL_BOOLEAN",
   "ABRE_PARENTESES",
   "FECHA_PARENTESES",
-  "IDENTIFICADOR",
   "FIM",
   "COMENTARIO",
-  "DESCONHECIDO"
+  "DESCONHECIDO",
+  "IDENTIFICADOR",
+  "NUMERO_INTEIRO",
+  "VALOR_BOOLEANO"
   };
 }
 
