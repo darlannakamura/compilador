@@ -21,10 +21,10 @@ public class DeclaracaoVariaveis {
         this.listaIdentificadores = lista;
     }
 
-    public void run(TabelaSimbolos tabela) {
+    public void run(TabelaSimbolos local) {
         // Adiciona as variáveis na tabela do procedimento (ou global), checando se já existe
         for(String identificador: listaIdentificadores.getLista()){
-            tabela.adicionarSimbolo(new Simbolo(identificador, "identificador", "variavel", this.tipo.tipo));
+            local.adicionarSimbolo(new Simbolo(identificador, "identificador", "variavel", this.tipo.getTipo()));
         }
     }    
 }

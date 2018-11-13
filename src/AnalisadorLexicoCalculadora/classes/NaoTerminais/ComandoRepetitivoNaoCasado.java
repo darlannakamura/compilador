@@ -20,9 +20,9 @@ public class ComandoRepetitivoNaoCasado implements Comando_Interface {
         this.naoCasado = naoCasado;
     }
     
-    public void run(TabelaSimbolos tabela) {
-        while(expressao.run(tabela) != 0){
-            naoCasado.run(tabela);
+    public void run(TabelaSimbolos global, TabelaSimbolos local) {
+        while(expressao.run(global, local) != 0){
+            naoCasado.run(global, local);
         }
     }
 }

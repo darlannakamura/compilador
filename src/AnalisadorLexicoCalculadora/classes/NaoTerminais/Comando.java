@@ -13,6 +13,6 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  */
 public abstract class Comando {
 
-    public abstract void run(TabelaSimbolos tabela);
+    public abstract void run(TabelaSimbolos global, TabelaSimbolos local);
     
 }

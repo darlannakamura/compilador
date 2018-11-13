@@ -5,6 +5,7 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
+import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 import java.util.ArrayList;
 
 /**
@@ -23,10 +24,10 @@ public class ParteDeclaracaoSubrotinas {
         declaracoesProcedimentos.add(declaracao);
     }
      
-    public void run(){
+    public void run(TabelaSimbolos global, TabelaSimbolos local){
         // Declara todas as subrotinas
         for(DeclaracaoProcedimento d: declaracoesProcedimentos){
-            d.run();
+            d.run(global, local);
         }
     }    
 }

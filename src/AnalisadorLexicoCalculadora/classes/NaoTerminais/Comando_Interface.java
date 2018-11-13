@@ -12,5 +12,5 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  * @author rafae
  */
 public interface Comando_Interface {
-    void run(TabelaSimbolos tabela);
+    void run(TabelaSimbolos global, TabelaSimbolos local);
 }

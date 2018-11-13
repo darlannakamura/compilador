@@ -29,7 +29,7 @@ public class SecaoParametrosFormais2 {
         this.lista = lista;
     }
     
-    public void run(TabelaSimbolos tabelaProcedimento){
+    public void run(TabelaSimbolos global, TabelaSimbolos local){
         // Adiciona a seção dos parâmetros no procedimento
         for(String parametro: lista.getLista()){
             /*
@@ -43,7 +43,7 @@ public class SecaoParametrosFormais2 {
             
             
             */
-            tabelaProcedimento.adicionarSimbolo(new Simbolo(parametro, "identificador", "parametro", this.tipo));
+            local.adicionarSimbolo(new Simbolo(parametro, "identificador", "parametro", this.tipo));
         }
     }
 }

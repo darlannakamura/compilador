@@ -20,7 +20,12 @@ public class Atribuicao extends Casado {
         this.expressao = expressao;
     }
     
-    public void run(TabelaSimbolos tabela){
+    /**
+     *
+     * @param tabela
+     */
+    @Override
+    public void run(TabelaSimbolos global, TabelaSimbolos local){
         // Adiciona, na tabela de símbolos, o valor atribuído
         
         //tabela.atribuicao(identificador, expressao.run());

@@ -35,7 +35,7 @@ public class NaoCasado extends Comando {
     }
     
     @Override
-    public void run(TabelaSimbolos tabela) {
+    public void run(TabelaSimbolos global, TabelaSimbolos local) {
 
     }
 }

@@ -25,10 +25,10 @@ public class SecaoParametrosFormais {
         return this;
     }
     
-    public void run(TabelaSimbolos tabela){
+    public void run(TabelaSimbolos global, TabelaSimbolos local){
         // Adiciona os parâmetros na tabela do procedimento
         for(SecaoParametrosFormais2 sp2: secaoParametros){
-            sp2.run(tabela);
+            sp2.run(global, local);
         }
     }
 }

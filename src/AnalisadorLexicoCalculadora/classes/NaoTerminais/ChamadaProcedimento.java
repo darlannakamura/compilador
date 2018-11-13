@@ -20,7 +20,7 @@ public class ChamadaProcedimento extends Comando {
         this.listaExpressoes = listaExpressoes;
     }
     
-    public void run(TabelaSimbolos tabela) {
+    public void run(TabelaSimbolos global, TabelaSimbolos local) {
         if (listaExpressoes == null){
             // Achar o procedimento e chamar
         }

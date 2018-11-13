@@ -98,11 +98,11 @@ start with program;
 
 program ::= 
             PALAVRA_RESERVADA_PROGRAM 
-            IDENTIFICADOR  
+            IDENTIFICADOR:id  
             SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA 
             bloco:b
             FIM
-            {:  Programa p = new Programa(b);
+            {:  Programa p = new Programa(b, id);
                             p.exec();
             :}
         ;
@@ -132,8 +132,8 @@ declaracao_de_variavel ::=
                     ;
 
 tipo ::= 
-          TIPO_VARIAVEL_INT {: RESULT = new Tipo("inteiro"); :}
-        | TIPO_VARIAVEL_BOOLEAN {: RESULT = new Tipo("booleano"); :}
+          TIPO_VARIAVEL_INT {: RESULT = new Tipo("int"); :}
+        | TIPO_VARIAVEL_BOOLEAN {: RESULT = new Tipo("boolean"); :}
     ;
 
 lista_de_identificadores ::= 
@@ -180,23 +180,23 @@ secao_de_parametros_formais2 ::=
                                         lista_de_identificadores:li 
                                         SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
                                         TIPO_VARIAVEL_BOOLEAN 
-                                        {: RESULT = new SecaoParametrosFormais2(true,"booleano",li); :}
+                                        {: RESULT = new SecaoParametrosFormais2(true,"boolean",li); :}
 
                                         | PALAVRA_RESERVADA_VAR
                                         lista_de_identificadores:li
                                         SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
                                         TIPO_VARIAVEL_INT
-                                        {: RESULT = new SecaoParametrosFormais2(true,"inteiro",li); :}
+                                        {: RESULT = new SecaoParametrosFormais2(true,"int",li); :}
 
                                         |lista_de_identificadores:li 
                                         SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
                                         TIPO_VARIAVEL_INT
-                                        {: RESULT = new SecaoParametrosFormais2("inteiro", li); :}
+                                        {: RESULT = new SecaoParametrosFormais2("int", li); :}
 
                                         | lista_de_identificadores:li
                                         SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
                                         TIPO_VARIAVEL_BOOLEAN
-                                        {: RESULT = new SecaoParametrosFormais2("booleano", li); :}
+                                        {: RESULT = new SecaoParametrosFormais2("boolean", li); :}
                                 ;
 
 //COMANDOS
@@ -286,12 +286,12 @@ comando_repetitivo_nao_casado ::=
 
 expressao ::= 
                   expressao_simples:e                                                              {: RESULT = new Expressao(e); :}
-                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_IGUAL:s expressao_simples:e2             {: RESULT = new Expressao(e1,s,e2); :}
-                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL:s expressao_simples:e2    {: RESULT = new Expressao(e1,s,e2); :}
-                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MAIOR_QUE:s expressao_simples:e2         {: RESULT = new Expressao(e1,s,e2); :}
-                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_DIFERENTE:s expressao_simples:e2         {: RESULT = new Expressao(e1,s,e2); :}
-                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL:s expressao_simples:e2    {: RESULT = new Expressao(e1,s,e2); :}
-                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MENOR_QUE:s expressao_simples:e2         {: RESULT = new Expressao(e1,s,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_IGUAL expressao_simples:e2             {: RESULT = new Expressao(e1,Sym.SIMBOLOS_ESPECIAIS_IGUAL,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL expressao_simples:e2    {: RESULT = new Expressao(e1,Sym.SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MAIOR_QUE expressao_simples:e2         {: RESULT = new Expressao(e1,Sym.SIMBOLOS_ESPECIAIS_MAIOR_QUE,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_DIFERENTE expressao_simples:e2         {: RESULT = new Expressao(e1,Sym.SIMBOLOS_ESPECIAIS_DIFERENTE,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL expressao_simples:e2    {: RESULT = new Expressao(e1,Sym.SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL,e2); :}
+                | expressao_simples:e1 SIMBOLOS_ESPECIAIS_MENOR_QUE expressao_simples:e2         {: RESULT = new Expressao(e1,Sym.SIMBOLOS_ESPECIAIS_MENOR_QUE,e2); :}
             ;
 
 expressao_simples ::= 
@@ -305,9 +305,9 @@ repeticao_termo ::=
                 ;
 
 repeticao_termo2 ::= 
-                          OPERADOR_MATEMATICO_SOMA:o termo:t      {: RESULT = new RepeticaoTermo2(o,t); :} 
-                        | OPERADOR_MATEMATICO_SUBTRACAO:o termo:t {: RESULT = new RepeticaoTermo2(o,t); :} 
-                        | OPERADOR_LOGICO_OR:o termo:t            {: RESULT = new RepeticaoTermo2(o,t); :}
+                          OPERADOR_MATEMATICO_SOMA termo:t      {: RESULT = new RepeticaoTermo2(Sym.OPERADOR_MATEMATICO_SOMA,t); :} 
+                        | OPERADOR_MATEMATICO_SUBTRACAO termo:t {: RESULT = new RepeticaoTermo2(Sym.OPERADOR_MATEMATICO_SUBTRACAO,t); :} 
+                        | OPERADOR_LOGICO_OR termo:t            {: RESULT = new RepeticaoTermo2(Sym.OPERADOR_LOGICO_OR,t); :}
                     ;
 
 termo ::=   
@@ -321,9 +321,9 @@ repeticao_fator ::=
                 ;
 
 repeticao_fator2 ::= 
-                      OPERADOR_MATEMATICO_MULTIPLICACAO:o fator:f {: RESULT = new RepeticaoFator2(o,f); :}
-                    | OPERADOR_MATEMATICO_DIVISAO:o fator:f       {: RESULT = new RepeticaoFator2(o,f); :}
-                    | OPERADOR_LOGICO_AND:o fator:f               {: RESULT = new RepeticaoFator2(o,f); :}
+                      OPERADOR_MATEMATICO_MULTIPLICACAO fator:f {: RESULT = new RepeticaoFator2(Sym.OPERADOR_MATEMATICO_MULTIPLICACAO,f); :}
+                    | OPERADOR_MATEMATICO_DIVISAO fator:f       {: RESULT = new RepeticaoFator2(Sym.OPERADOR_MATEMATICO_DIVISAO,f); :}
+                    | OPERADOR_LOGICO_AND fator:f               {: RESULT = new RepeticaoFator2(Sym.OPERADOR_LOGICO_AND,f); :}
                 ;
 
 fator ::= 

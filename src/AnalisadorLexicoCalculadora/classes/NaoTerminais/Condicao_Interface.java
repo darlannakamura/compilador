@@ -12,5 +12,5 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  * @author rafae
  */
 public interface Condicao_Interface {
-    boolean test(TabelaSimbolos tabela);
+    boolean test(TabelaSimbolos global, TabelaSimbolos local);
 }

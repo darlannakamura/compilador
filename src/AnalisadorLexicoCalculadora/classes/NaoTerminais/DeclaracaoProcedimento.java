@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.NaoTerminais.Bloco;
+import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 
 /**
  *
@@ -22,8 +23,12 @@ public class DeclaracaoProcedimento {
         this.b = b;
     }
     
-    public void run(){
+    public void run(TabelaSimbolos global){
+        // Cria a tabela do procedimento
+        TabelaSimbolos tabelaLocal = new TabelaSimbolos(this.nome);
+        // Adiciona a tabela no bloco
+        b.setTabela(tabelaLocal);
         // Adiciona os parâmetros formais na tabela do procedimento
-        secaoParametros.run(b.getTabela());
+        secaoParametros.run(tabelaLocal);
     }
 }

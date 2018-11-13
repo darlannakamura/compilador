@@ -18,8 +18,8 @@ public class ComandoComposto extends Casado {
         this.listaComandos = listaComandos;
     }
     
-    public void run(TabelaSimbolos tabela) {
+    public void run(TabelaSimbolos global, TabelaSimbolos local) {
         // Executar todos os comandos da lista
-        listaComandos.run(tabela);
+        listaComandos.run(global, local);
     }  
 }

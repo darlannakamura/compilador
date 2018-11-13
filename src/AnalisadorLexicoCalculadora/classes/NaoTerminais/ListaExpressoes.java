@@ -24,10 +24,10 @@ public class ListaExpressoes {
         listaExpressoes.add(expressao);
     }
     
-    public void run(TabelaSimbolos tabela){
+    public void run(TabelaSimbolos global, TabelaSimbolos local){
         // Executar cada expressão
         for(Expressao e: listaExpressoes){
-            e.run(tabela);
+            e.run(global, local);
         }
     }    
 }

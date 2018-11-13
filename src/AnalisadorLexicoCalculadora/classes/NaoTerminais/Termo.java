@@ -25,19 +25,19 @@ public class Termo {
         this.repeticaoFator = repeticaoFator;
     }
     
-    public int run(TabelaSimbolos tabela){
-        int valor = fator.run(tabela);
+    public int run(TabelaSimbolos global, TabelaSimbolos local){
+        int valor = fator.run(global, local);
         for(RepeticaoFator2 rep2: repeticaoFator.getRepeticoesFator2()){
             switch(rep2.getOperador()){
                 case Sym.OPERADOR_MATEMATICO_MULTIPLICACAO:
-                    valor *= rep2.getFator().run(tabela);
+                    valor *= rep2.getFator().run(global, local);
                     break;
                 case Sym.OPERADOR_MATEMATICO_DIVISAO:
-                    valor /= rep2.getFator().run(tabela);
+                    valor /= rep2.getFator().run(global, local);
                     break;
                 case Sym.OPERADOR_LOGICO_AND:
                     // 0 * 0 = 0; 1 * 0 = 0; 1 * 1 = 1
-                    valor *= rep2.getFator().run(tabela);
+                    valor *= rep2.getFator().run(global, local);
                     break;
                             
             }

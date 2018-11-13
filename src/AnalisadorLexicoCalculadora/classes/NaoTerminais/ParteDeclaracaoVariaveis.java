@@ -26,10 +26,10 @@ public class ParteDeclaracaoVariaveis {
         return this;
     }
     
-    public void run(TabelaSimbolos tabela){
+    public void run(TabelaSimbolos global, TabelaSimbolos local){
         // Roda todas as declarações de variáveis
         for(DeclaracaoVariaveis d: declaracoesVariaveis){
-            d.run(tabela);
+            d.run(global, local);
         }
     }
 }

@@ -12,5 +12,5 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  * @author rafae
  */
 public interface Expressao_Interface {
-    int run(TabelaSimbolos tabela);
+    int run(TabelaSimbolos global, TabelaSimbolos local);
 }

@@ -19,7 +19,7 @@ public class Numero extends Fator {
         this.numero = numero;
     }
 
-    public int run(TabelaSimbolos tabela) {
+    public int run(TabelaSimbolos global, TabelaSimbolos local) {
         return numero;
     }
 }

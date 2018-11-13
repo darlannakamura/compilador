@@ -24,9 +24,9 @@ public class Comandos {
         comandos.add(comando);
     }
     
-    public void run(TabelaSimbolos tabela){
+    public void run(TabelaSimbolos global, TabelaSimbolos local){
         for(Comando c: comandos){
-            c.run(tabela);
+            c.run(global, local);
         }
     }   
 }

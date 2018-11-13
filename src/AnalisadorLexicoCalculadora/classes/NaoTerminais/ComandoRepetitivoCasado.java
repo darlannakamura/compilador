@@ -23,9 +23,9 @@ public class ComandoRepetitivoCasado extends Casado {
     }
     
     @Override
-    public void run(TabelaSimbolos tabela){
-        while(expressao.run(tabela) != 0){
-            casado.run(tabela);
+    public void run(TabelaSimbolos global, TabelaSimbolos local){
+        while(expressao.run(global, local) != 0){
+            casado.run(global, local);
         }
     }
 

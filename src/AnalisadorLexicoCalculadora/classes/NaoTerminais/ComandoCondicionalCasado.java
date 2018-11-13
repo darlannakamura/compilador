@@ -22,12 +22,12 @@ public class ComandoCondicionalCasado extends Casado {
     }
 
     @Override
-    public void run(TabelaSimbolos tabela) {
-        if(expressao.run(tabela) != 0){
-            comandoTrue.run(tabela);
+    public void run(TabelaSimbolos global, TabelaSimbolos local) {
+        if(expressao.run(global, local) != 0){
+            comandoTrue.run(global, local);
         }
         else{
-            comandoFalse.run(tabela);
+            comandoFalse.run(global, local);
         }
     }
 }
