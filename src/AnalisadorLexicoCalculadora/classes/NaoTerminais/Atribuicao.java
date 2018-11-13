@@ -5,6 +5,7 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
+import AnalisadorLexicoCalculadora.classes.Simbolo;
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 
 /**
@@ -27,7 +28,8 @@ public class Atribuicao extends Casado {
     @Override
     public void run(TabelaSimbolos global, TabelaSimbolos local){
         // Adiciona, na tabela de símbolos, o valor atribuído
-        
-        //tabela.atribuicao(identificador, expressao.run());
+        if(tabela.atribuicao(identificador, expressao.run(tabela)).size() > 0){
+            System.out.println("Deu erro!");
+        }
     }
 }
