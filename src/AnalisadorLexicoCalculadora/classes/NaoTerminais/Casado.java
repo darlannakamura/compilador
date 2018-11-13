@@ -11,10 +11,6 @@ import AnalisadorLexicoCalculadora.classes.NaoTerminais.Comando;
  *
  * @author rafae
  */
-public class Casado extends Comando {
-        
-    public Casado(Casado c) {
-        super(c);
-    }
-        
+public abstract class Casado extends Comando {
+                
 }

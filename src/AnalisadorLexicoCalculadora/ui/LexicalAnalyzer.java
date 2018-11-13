@@ -840,7 +840,7 @@ public class LexicalAnalyzer implements java_cup.runtime.Scanner {
             }
           case 38: break;
           case 2: 
-            { return new Symbol(Sym.IDENTIFICADOR);
+            { return new Symbol(Sym.IDENTIFICADOR, yytext());
             }
           case 39: break;
           case 3: 
@@ -848,7 +848,7 @@ public class LexicalAnalyzer implements java_cup.runtime.Scanner {
             }
           case 40: break;
           case 4: 
-            { return new Symbol(Sym.NUMERO_INTEIRO);
+            { return new Symbol(Sym.NUMERO_INTEIRO, new Integer(yytext()));
             }
           case 41: break;
           case 5: 

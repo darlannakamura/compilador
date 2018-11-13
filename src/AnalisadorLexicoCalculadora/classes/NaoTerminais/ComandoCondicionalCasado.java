@@ -5,6 +5,8 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
+import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+
 /**
  *
  * @author rafae
@@ -18,8 +20,14 @@ public class ComandoCondicionalCasado extends Casado {
         this.comandoTrue = comandoTrue;
         this.comandoFalse = comandoFalse;
     }
-    
-    public void run(){
 
-    }    
+    @Override
+    public void run(TabelaSimbolos tabela) {
+        if(expressao.run(tabela) != 0){
+            comandoTrue.run(tabela);
+        }
+        else{
+            comandoFalse.run(tabela);
+        }
+    }
 }

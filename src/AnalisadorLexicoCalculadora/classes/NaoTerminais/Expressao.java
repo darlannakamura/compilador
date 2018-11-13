@@ -12,7 +12,7 @@ import AnalisadorLexicoCalculadora.ui.Sym;
  *
  * @author rafae
  */
-public class Expressao implements Expressao_Interface{
+public class Expressao extends Fator{
         ExpressaoSimples expressaoSimples1;
         int operacao;
         ExpressaoSimples expressaoSimples2;
@@ -53,4 +53,5 @@ public class Expressao implements Expressao_Interface{
             this.operacao = operacao;
             this.expressaoSimples2 = expressaoSimples2;
         }
+        
 }

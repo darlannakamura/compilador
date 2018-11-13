@@ -5,6 +5,8 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
+import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+
 /**
  *
  * @author rafae
@@ -18,8 +20,9 @@ public class ComandoRepetitivoNaoCasado implements Comando_Interface {
         this.naoCasado = naoCasado;
     }
     
-    @Override
     public void run(TabelaSimbolos tabela) {
-
+        while(expressao.run(tabela) != 0){
+            naoCasado.run(tabela);
+        }
     }
 }

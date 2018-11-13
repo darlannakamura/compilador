@@ -5,6 +5,9 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
+import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import java.util.ArrayList;
+
 /**
  *
  * @author rafae
@@ -21,8 +24,10 @@ public class ListaExpressoes {
         listaExpressoes.add(expressao);
     }
     
-    public void run(){
+    public void run(TabelaSimbolos tabela){
         // Executar cada expressão
-   
+        for(Expressao e: listaExpressoes){
+            e.run(tabela);
+        }
     }    
 }

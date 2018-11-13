@@ -9,6 +9,6 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
  *
  * @author rafae
  */
-public class Fator {
+public abstract class Fator implements Expressao_Interface {
     
 }

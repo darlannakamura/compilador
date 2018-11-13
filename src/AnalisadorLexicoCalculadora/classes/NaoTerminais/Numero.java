@@ -5,7 +5,7 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
-import AnalisadorLexicoCalculadora.classes.NaoTerminais.Fator;
+import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 
 /**
  *

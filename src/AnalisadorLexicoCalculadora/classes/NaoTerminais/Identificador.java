@@ -15,7 +15,7 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 public class Identificador extends Fator {
 
     String identificador;
-    
+
     public Identificador(String identificador){
         this.identificador = identificador;
     }

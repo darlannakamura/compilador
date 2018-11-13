@@ -20,8 +20,12 @@ public class ChamadaProcedimento extends Comando {
         this.listaExpressoes = listaExpressoes;
     }
     
-    @Override
     public void run(TabelaSimbolos tabela) {
-
+        if (listaExpressoes == null){
+            // Achar o procedimento e chamar
+        }
+        else{
+            // Calcular cada valor e chamar o procedimento com os valores
+        }
     }
 }

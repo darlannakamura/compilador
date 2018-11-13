@@ -55,9 +55,11 @@ terminal SIMBOLOS_ESPECIAIS_MENOR_QUE, SIMBOLOS_ESPECIAIS_ATRIBUICAO, SIMBOLOS_E
 terminal SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA, SIMBOLOS_ESPECIAIS_VIRGULA, SIMBOLOS_ESPECIAIS_DOIS_PONTOS;
 terminal OPERADOR_LOGICO_AND, OPERADOR_LOGICO_OR, OPERADOR_LOGICO_NOT, OPERADOR_MATEMATICO_SOMA;
 terminal OPERADOR_MATEMATICO_SUBTRACAO, OPERADOR_MATEMATICO_MULTIPLICACAO, OPERADOR_MATEMATICO_DIVISAO;
-terminal NUMERO_INTEIRO, TIPO_VARIAVEL_INT, TIPO_VARIAVEL_BOOLEAN, ABRE_PARENTESES, FECHA_PARENTESES;
-terminal IDENTIFICADOR, FIM;
+terminal TIPO_VARIAVEL_INT, TIPO_VARIAVEL_BOOLEAN, ABRE_PARENTESES, FECHA_PARENTESES;
+terminal FIM;
 terminal COMENTARIO, DESCONHECIDO;
+terminal String IDENTIFICADOR;
+terminal Integer NUMERO_INTEIRO;
 
 non terminal Programa program;
 non terminal Bloco bloco;
@@ -130,8 +132,8 @@ declaracao_de_variavel ::=
                     ;
 
 tipo ::= 
-          TIPO_VARIAVEL_INT:tp {: RESULT = new Tipo(tp); :}
-        | TIPO_VARIAVEL_BOOLEAN:tp {: RESULT = new Tipo(tp); :}
+          TIPO_VARIAVEL_INT {: RESULT = new Tipo("inteiro"); :}
+        | TIPO_VARIAVEL_BOOLEAN {: RESULT = new Tipo("booleano"); :}
     ;
 
 lista_de_identificadores ::= 
@@ -174,27 +176,27 @@ secao_de_parametros_formais ::=
                             ;
 
 secao_de_parametros_formais2 ::=  
-                                        PALAVRA_RESERVADA_VAR:v 
+                                        PALAVRA_RESERVADA_VAR
                                         lista_de_identificadores:li 
                                         SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
-                                        TIPO_VARIAVEL_BOOLEAN:t 
-                                        {: RESULT = new SecaoParametrosFormais2(v,li,t); :}
+                                        TIPO_VARIAVEL_BOOLEAN 
+                                        {: RESULT = new SecaoParametrosFormais2(true,"booleano",li); :}
 
-                                        | PALAVRA_RESERVADA_VAR:v 
+                                        | PALAVRA_RESERVADA_VAR
                                         lista_de_identificadores:li
                                         SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
-                                        TIPO_VARIAVEL_INT:t
-                                        {: RESULT = new SecaoParametrosFormais2(v,li,t); :}
+                                        TIPO_VARIAVEL_INT
+                                        {: RESULT = new SecaoParametrosFormais2(true,"inteiro",li); :}
 
                                         |lista_de_identificadores:li 
                                         SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
-                                        TIPO_VARIAVEL_INT:t
-                                        {: RESULT = new SecaoParametrosFormais2(null,li,t); :}
+                                        TIPO_VARIAVEL_INT
+                                        {: RESULT = new SecaoParametrosFormais2("inteiro", li); :}
 
                                         | lista_de_identificadores:li
                                         SIMBOLOS_ESPECIAIS_DOIS_PONTOS 
-                                        TIPO_VARIAVEL_BOOLEAN:t
-                                        {: RESULT = new SecaoParametrosFormais2(null,li,t); :}
+                                        TIPO_VARIAVEL_BOOLEAN
+                                        {: RESULT = new SecaoParametrosFormais2("booleano", li); :}
                                 ;
 
 //COMANDOS
@@ -208,20 +210,20 @@ comando_composto ::=
 
 comandos ::= 
                 comandos:cs comando:c {: cs.add(c); RESULT = cs;:}
-                | comando {: RESULT = new comandos(c); :}
+                | comando:c {: RESULT = new Comandos(c); :}
             ;  
 
 comando ::= 
-            casado:c        {: RESULT = new Comando(c);  :}
-            | nao_casado:nc {: RESULT = new Comando(nc); :}
-            | chamada_de_procedimento:cp SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA {: RESULT = new Comando(cp); :}
+            casado:c        {: RESULT = c;  :}
+            | nao_casado:nc {: RESULT = nc; :}
+            | chamada_de_procedimento:cp SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA {: RESULT = cp; :}
         ;
 
 casado ::= 
-            comando_composto:cc {: RESULT = new Casado(cc); :}
-            | atribuicao:a SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA {: RESULT = new Casado(a); :}
-            | comando_condicional_casado:ccc {: RESULT = new Casado(ccc); :}
-            | comando_repetitivo_casado:crp  {: RESULT = new Casado(crp); :}
+            comando_composto:cc {: RESULT = cc; :}
+            | atribuicao:a SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA {: RESULT = a; :}
+            | comando_condicional_casado:ccc {: RESULT = ccc; :}
+            | comando_repetitivo_casado:crp  {: RESULT = crp; :}
         ;
 
 comando_condicional_casado ::= 
@@ -259,7 +261,7 @@ chamada_de_procedimento ::=
                             IDENTIFICADOR:i
                             ABRE_PARENTESES lista_de_expressoes:le FECHA_PARENTESES 
                             {: RESULT = new ChamadaProcedimento(i,le); :}
-                            | IDENTIFICADOR ABRE_PARENTESES FECHA_PARENTESES {: RESULT = new ChamadaProcedimento(i,null); :}
+                            | IDENTIFICADOR:i ABRE_PARENTESES FECHA_PARENTESES {: RESULT = new ChamadaProcedimento(i,null); :}
                         ;
 
 lista_de_expressoes ::= 
@@ -293,8 +295,8 @@ expressao ::=
             ;
 
 expressao_simples ::= 
-                          termo:t repeticao_termo:rt {: rt.add(t); RESULT = rt; :}
-                        | termo:t {: RESULT = ExpressaoSimples(t); :}
+                          termo:t repeticao_termo:rt {: RESULT = new ExpressaoSimples(t, rt); :}
+                        | termo:t {: RESULT = new ExpressaoSimples(t); :}
                     ;
 
 repeticao_termo ::= 
@@ -309,8 +311,8 @@ repeticao_termo2 ::=
                     ;
 
 termo ::=   
-              fator:f repeticao_fator:rf {: RESULT = rf.add(f); RESULT = rf; :}
-            | fator:f                    {: RESULT = f; :}
+              fator:f repeticao_fator:rf {: RESULT = new Termo(f, rf); :}
+            | fator:f                    {: RESULT = new Termo(f); :}
         ;
 
 repeticao_fator ::= 

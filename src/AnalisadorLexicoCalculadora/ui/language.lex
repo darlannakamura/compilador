@@ -78,7 +78,7 @@ CARACTERE_DE_ENTRADA = [^\r\n]
     "*" { return new Symbol(Sym.OPERADOR_MATEMATICO_MULTIPLICACAO );}
     {OPERADOR_MATEMATICO_DIVISAO  } { return new Symbol(Sym.OPERADOR_MATEMATICO_DIVISAO );}
 
-    {NUMERO_INTEIRO}                     { return new Symbol(Sym.NUMERO_INTEIRO);}
+    {NUMERO_INTEIRO}                     { return new Symbol(Sym.NUMERO_INTEIRO, new Integer(yytext()));}
 
     "int"					{ return new Symbol(Sym.TIPO_VARIAVEL_INT);}
     "boolean"				{ return new Symbol(Sym.TIPO_VARIAVEL_BOOLEAN);}
@@ -96,7 +96,7 @@ CARACTERE_DE_ENTRADA = [^\r\n]
 
     {BRANCO} 							{}
 
-    {IDENTIFICADOR}    { return new Symbol(Sym.IDENTIFICADOR);}
+    {IDENTIFICADOR}    { return new Symbol(Sym.IDENTIFICADOR, yytext());}
 
     "."              { return new Symbol(Sym.FIM);}
 

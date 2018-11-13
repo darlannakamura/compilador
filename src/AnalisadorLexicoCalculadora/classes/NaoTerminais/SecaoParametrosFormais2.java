@@ -17,7 +17,7 @@ public class SecaoParametrosFormais2 {
     private String tipo;
     private ListaIdentificadores lista;
     
-    public SecaoParametrosFormais2(String var, String tipo, ListaIdentificadores lista){
+    public SecaoParametrosFormais2(boolean var, String tipo, ListaIdentificadores lista){
         this.var = true;
         this.tipo = tipo;
         this.lista = lista;

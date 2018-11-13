@@ -440,6 +440,17 @@ public class LexicalAnalyzer implements java_cup.runtime.Scanner {
    */
   private int zzFinalHighSurrogate = 0;
 
+  /* user code: */
+
+    public int getYyline() {
+        return yyline;
+    }
+
+    public int getYycolumn() {
+        return yycolumn;
+    }
+
+
 
   /**
    * Creates a new scanner
@@ -829,7 +840,7 @@ public class LexicalAnalyzer implements java_cup.runtime.Scanner {
             }
           case 38: break;
           case 2: 
-            { return new Symbol(Sym.IDENTIFICADOR);
+            { return new Symbol(Sym.IDENTIFICADOR, yytext());
             }
           case 39: break;
           case 3: 
@@ -837,7 +848,7 @@ public class LexicalAnalyzer implements java_cup.runtime.Scanner {
             }
           case 40: break;
           case 4: 
-            { return new Symbol(Sym.NUMERO_INTEIRO);
+            { return new Symbol(Sym.NUMERO_INTEIRO, new Integer(yytext()));
             }
           case 41: break;
           case 5: 
@@ -978,20 +989,6 @@ public class LexicalAnalyzer implements java_cup.runtime.Scanner {
       }
     }
   }
-
-    /**
-     * @return the yyline
-     */
-    public int getYyline() {
-        return yyline;
-    }
-
-    /**
-     * @return the yycolumn
-     */
-    public int getYycolumn() {
-        return yycolumn;
-    }
 
 
 }

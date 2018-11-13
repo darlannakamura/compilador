@@ -7,6 +7,7 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.NaoTerminais.Expressao;
 import AnalisadorLexicoCalculadora.classes.NaoTerminais.Casado;
+import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 
 /**
  *
@@ -20,4 +21,12 @@ public class ComandoRepetitivoCasado extends Casado {
         this.expressao = expressao;
         this.casado = casado;
     }
+    
+    @Override
+    public void run(TabelaSimbolos tabela){
+        while(expressao.run(tabela) != 0){
+            casado.run(tabela);
+        }
+    }
+
 }

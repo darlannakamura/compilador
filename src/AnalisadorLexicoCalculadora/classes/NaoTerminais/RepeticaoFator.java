@@ -5,7 +5,7 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
-import AnalisadorLexicoCalculadora.classes.NaoTerminais.RepeticaoFator2;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,6 +18,11 @@ public class RepeticaoFator {
         this.repeticaoFator2 = new ArrayList<>();
         repeticaoFator2.add(rf2);
         
+    }
+    
+    public RepeticaoFator add(RepeticaoFator2 rf2){
+        repeticaoFator2.add(rf2);
+        return this;
     }
     
     public ArrayList<RepeticaoFator2> getRepeticoesFator2(){

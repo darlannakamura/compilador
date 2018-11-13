@@ -11,12 +11,8 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  *
  * @author rafae
  */
-public class Comando {
-    
-    Comando comando;
-    
-    public Comando(Comando c){
-        this.comando = c;
-    }
+public abstract class Comando {
 
+    public abstract void run(TabelaSimbolos tabela);
+    
 }
