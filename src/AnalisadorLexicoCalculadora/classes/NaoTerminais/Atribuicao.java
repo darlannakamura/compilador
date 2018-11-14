@@ -5,8 +5,8 @@
  */
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
-import AnalisadorLexicoCalculadora.classes.Simbolo;
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.utils.ErrosSemanticos;
 import java.util.ArrayList;
 
 /**
@@ -40,8 +40,9 @@ public class Atribuicao extends Comando {
             System.out.println(resultadoLocal.get(i));
         }
         if(resultadoLocal.size() > 0){
-            System.out.println("Deu erro semantico");
-            System.exit(1);
+            for(String erro: resultadoLocal){
+                ErrosSemanticos.addErro("Erro na atribuição do identificador " + identificador + ": " + erro);
+            }
         }
         
         

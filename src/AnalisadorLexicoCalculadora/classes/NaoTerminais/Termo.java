@@ -7,6 +7,7 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 import AnalisadorLexicoCalculadora.ui.Sym;
+import AnalisadorLexicoCalculadora.utils.ErrosSemanticos;
 
 /**
  *
@@ -44,8 +45,7 @@ public class Termo {
                         //pois não se pode dividir por zero!!!
                         int retorno = rep2.getFator().run(global, local);
                         if(retorno == 0){
-                            System.out.println("Não se pode fazer divisão por zero!");
-                            System.exit(1);
+                            ErrosSemanticos.addErro("Não se pode fazer divisão por zero!");
                         }
                         valor /= retorno;
                         break;

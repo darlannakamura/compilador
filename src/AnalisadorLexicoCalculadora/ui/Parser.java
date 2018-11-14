@@ -367,7 +367,8 @@ public class Parser extends java_cup.runtime.lr_parser {
     }
 
     public void syntax_error(String mensagem){
-        System.out.println(mensagem + " Linha: " + String.valueOf(scanner.getYyline()));
+        // Adiciona o erro na lista de erros sintáticos
+        ItemSintatico erroSintatico = new ItemSintatico(mensagem, scanner.getYyline());
     }
 
 
@@ -380,9 +381,6 @@ public class Parser extends java_cup.runtime.lr_parser {
         return itensSintaticos;
     }
 
-    interface Expressao_Interface { int run(TabelaSimbolos tabela); }
-    interface Condicao_Interface { boolean test(TabelaSimbolos tabela); }
-    interface Comando_Interface { void run(TabelaSimbolos tabela); }
     
 
 

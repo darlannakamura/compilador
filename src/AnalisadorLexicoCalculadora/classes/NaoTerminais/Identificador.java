@@ -7,6 +7,7 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.NaoTerminais.Fator;
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.utils.ErrosSemanticos;
 
 /**
  *
@@ -34,10 +35,7 @@ public class Identificador extends Fator {
             return global.getValorVariavel(identificador);
         }
         else{
-            System.out.println("IDENTIFICADOr: "+identificador);
-           
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\nERRO SEMÂNTICO: classe Identificador, método .run()\n!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.exit(1);
+            ErrosSemanticos.addErro("O identificador " + identificador + " foi utilizado sem ser declarado");
             return Integer.MIN_VALUE;
         }
         
