@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 import java.util.ArrayList;
 
 /**
@@ -24,10 +25,10 @@ public class ListaExpressoes {
         listaExpressoes.add(expressao);
     }
     
-    public void run(TabelaSimbolos global, TabelaSimbolos local){
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo){
         // Executar cada expressão
         for(Expressao e: listaExpressoes){
-            e.run(global, local);
+            e.run(global, local, geracaoDeCodigo);
         }
     }    
 }

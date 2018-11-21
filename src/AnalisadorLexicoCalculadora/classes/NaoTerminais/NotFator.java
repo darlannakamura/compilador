@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -21,8 +22,12 @@ public class NotFator extends Fator {
   
 
     @Override
-    public int run(TabelaSimbolos global, TabelaSimbolos local) {
-        return (fator.run(global, local) == 0)? 1 : 0;
+    public int run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
+        
+        int r =  (fator.run(global, local, geracaoDeCodigo) == 0)? 1 : 0;
+        geracaoDeCodigo.add("NEGA");
+        return r;
+
     }
 
 }

@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -20,7 +21,11 @@ public class Numero extends Fator {
         this.numero = numero;
     }
 
-    public int run(TabelaSimbolos global, TabelaSimbolos local) {
+
+    @Override
+    public int run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
+        geracaoDeCodigo.add("CRCT", numero);
+        
         return numero;
     }
 }

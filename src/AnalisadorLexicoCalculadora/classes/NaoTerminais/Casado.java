@@ -7,6 +7,7 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.NaoTerminais.Comando;
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -40,20 +41,20 @@ public class Casado extends Comando {
     
     
     @Override
-    public void run(TabelaSimbolos global, TabelaSimbolos local) {
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
         System.out.println("entrou no run!!");
         if (comandoComposto != null){
             System.out.println("comando composto!!!");
-            comandoComposto.run(global, local);
+            comandoComposto.run(global, local, geracaoDeCodigo);
         } else if (atribuicao != null){
             System.out.println("atribbb");
-            atribuicao.run(global, local);
+            atribuicao.run(global, local, geracaoDeCodigo);
         } else if (comandoCondicionalCasado != null) {
             System.out.println("c.c casado");
-            comandoCondicionalCasado.run(global, local);
+            comandoCondicionalCasado.run(global, local, geracaoDeCodigo);
         } else if (comandoRepetitivoCasado != null ){
             System.out.println("c. repetitivo casado");
-            comandoRepetitivoCasado.run(global, local);
+            comandoRepetitivoCasado.run(global, local, geracaoDeCodigo);
         }
     }
                 

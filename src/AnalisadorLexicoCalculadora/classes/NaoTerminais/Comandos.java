@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 import java.util.ArrayList;
 
 /**
@@ -24,9 +25,9 @@ public class Comandos {
         comandos.add(comando);
     }
     
-    public void run(TabelaSimbolos global, TabelaSimbolos local){
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo){
         for(Comando c: comandos){
-            c.run(global, local);
+            c.run(global, local, geracaoDeCodigo);
         }
     }   
 }

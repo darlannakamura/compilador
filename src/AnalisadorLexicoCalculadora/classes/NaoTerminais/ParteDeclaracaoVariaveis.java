@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 import java.util.ArrayList;
 
 /**
@@ -26,10 +27,10 @@ public class ParteDeclaracaoVariaveis {
         return this;
     }
     
-    public void run(TabelaSimbolos global, TabelaSimbolos local){
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo){
         // Roda todas as declarações de variáveis
         for(DeclaracaoVariaveis d: declaracoesVariaveis){
-            d.run(global, local);
+            d.run(global, local, geracaoDeCodigo);
         }
     }
 }

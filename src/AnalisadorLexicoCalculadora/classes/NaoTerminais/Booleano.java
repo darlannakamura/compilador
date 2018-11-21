@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -25,7 +26,8 @@ public class Booleano extends Fator{
     
 
     @Override
-    public int run(TabelaSimbolos global, TabelaSimbolos local) {
+    public int run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
+        geracaoDeCodigo.add("CRCT", this.valor);
         System.out.println("Entrou no boolean :D vai retornar: "+this.valor);
         return this.valor;
     }

@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -35,7 +36,7 @@ public class NaoCasado extends Comando {
     }
     
     @Override
-    public void run(TabelaSimbolos global, TabelaSimbolos local) {
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
         System.out.println("Entrou no não casado (ELSE) ");
     }
 }

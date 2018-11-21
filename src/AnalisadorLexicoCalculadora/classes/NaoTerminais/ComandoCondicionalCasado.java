@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -21,16 +22,17 @@ public class ComandoCondicionalCasado extends Comando {
         this.comandoFalse = comandoFalse;
     }
 
+
     @Override
-    public void run(TabelaSimbolos global, TabelaSimbolos local) {
-            System.out.println("Entou aqui");
-        if(expressao.run(global, local) != 0){
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
+             System.out.println("Entou no comando condicional casado");
+        if(expressao.run(global, local, geracaoDeCodigo) != 0){
             System.out.println("resultado != 0");
-            comandoTrue.run(global, local);
+            comandoTrue.run(global, local, geracaoDeCodigo);
         }
         else{
             System.out.println("resultado == 0");
-            comandoFalse.run(global, local);
+            comandoFalse.run(global, local, geracaoDeCodigo);
         }
     }
 }

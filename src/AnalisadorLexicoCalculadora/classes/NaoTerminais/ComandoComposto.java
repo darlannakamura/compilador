@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -17,9 +18,10 @@ public class ComandoComposto extends Comando {
     public ComandoComposto(Comandos listaComandos){
         this.listaComandos = listaComandos;
     }
-    
-    public void run(TabelaSimbolos global, TabelaSimbolos local) {
+
+    @Override
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
         // Executar todos os comandos da lista
-        listaComandos.run(global, local);
-    }  
+        listaComandos.run(global, local, geracaoDeCodigo);
+    }
 }

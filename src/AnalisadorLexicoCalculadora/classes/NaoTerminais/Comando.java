@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -13,6 +14,6 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
  */
 public abstract class Comando {
 
-    public abstract void run(TabelaSimbolos global, TabelaSimbolos local);
+    public abstract void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo);
     
 }

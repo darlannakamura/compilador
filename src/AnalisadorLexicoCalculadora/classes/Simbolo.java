@@ -5,6 +5,8 @@
  */
 package AnalisadorLexicoCalculadora.classes;
 
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
+
 /**
  *
  * @author rafae
@@ -16,12 +18,25 @@ public class Simbolo {
     private String tipo;
     private int valor;
     private boolean utilizada;
+    private int endereco;
     
     public Simbolo(String lexema){
         this.lexema = lexema;
         this.utilizada = false;
         this.valor = 0;
     }
+    
+    public Simbolo(String lexema, String token, String categoria, String tipo, int endereco){
+        this.lexema = lexema;
+        this.token = token;
+        this.categoria = categoria;
+        this.tipo = tipo;
+        this.valor = 0;
+        this.utilizada = false;
+        this.endereco = endereco;
+    }
+
+    
     
     
     /**
@@ -101,4 +116,14 @@ public class Simbolo {
     public void setUtilizada(boolean utilizada) {
         this.utilizada = utilizada;
     }
+
+    public int getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(int endereco) {
+        this.endereco = endereco;
+    }
+    
+    
 }
