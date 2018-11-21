@@ -26,6 +26,14 @@ public class Instrucao {
         this.valor = valor;
     }
 
+    public Instrucao(String rotulo, String instrucao, int valor) {
+        this.rotulo = rotulo;
+        this.instrucao = instrucao;
+        this.valor = valor;
+    }
+    
+    
+
     public String getRotulo() {
         return rotulo;
     }
