@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -20,9 +21,12 @@ public class ComandoRepetitivoNaoCasado implements Comando_Interface {
         this.naoCasado = naoCasado;
     }
     
-    public void run(TabelaSimbolos global, TabelaSimbolos local) {
-        while(expressao.run(global, local) != 0){
-            naoCasado.run(global, local);
+    
+
+    @Override
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
+        while(expressao.run(global, local, geracaoDeCodigo) != 0){
+            naoCasado.run(global, local, geracaoDeCodigo);
         }
     }
 }

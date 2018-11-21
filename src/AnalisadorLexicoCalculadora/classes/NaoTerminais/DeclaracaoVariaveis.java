@@ -7,6 +7,7 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.Simbolo;
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -21,10 +22,13 @@ public class DeclaracaoVariaveis {
         this.listaIdentificadores = lista;
     }
 
-    public void run(TabelaSimbolos global, TabelaSimbolos local) {
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
         // Adiciona as variáveis na tabela do procedimento (ou global), checando se já existe
         for(String identificador: listaIdentificadores.getLista()){
-            local.adicionarSimbolo(new Simbolo(identificador, "identificador", "variavel", this.tipo.getTipo()));
+            geracaoDeCodigo.add("AMEM 1");
+            
+            local.adicionarSimbolo(new Simbolo(identificador, "identificador", "variavel", this.tipo.getTipo(), geracaoDeCodigo.alocaEndereco()));
+            
         }
     }    
 }

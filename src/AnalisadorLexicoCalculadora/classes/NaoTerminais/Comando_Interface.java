@@ -6,11 +6,12 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
  * @author rafae
  */
 public interface Comando_Interface {
-    void run(TabelaSimbolos global, TabelaSimbolos local);
+    void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo);
 }

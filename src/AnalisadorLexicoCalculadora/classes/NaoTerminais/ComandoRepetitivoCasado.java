@@ -8,24 +8,26 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 import AnalisadorLexicoCalculadora.classes.NaoTerminais.Expressao;
 import AnalisadorLexicoCalculadora.classes.NaoTerminais.Casado;
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
  * @author rafae
  */
 public class ComandoRepetitivoCasado extends Comando {
+
     Expressao expressao;
     Casado casado;
-    
-    public ComandoRepetitivoCasado(Expressao expressao, Casado casado){
+
+    public ComandoRepetitivoCasado(Expressao expressao, Casado casado) {
         this.expressao = expressao;
         this.casado = casado;
     }
-    
+
     @Override
-    public void run(TabelaSimbolos global, TabelaSimbolos local){
-        while(expressao.run(global, local) != 0){
-            casado.run(global, local);
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
+        while (expressao.run(global, local, geracaoDeCodigo) != 0) {
+            casado.run(global, local, geracaoDeCodigo);
         }
     }
 

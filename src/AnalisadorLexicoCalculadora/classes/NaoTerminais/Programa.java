@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -15,10 +16,12 @@ import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 public class Programa {
     Bloco bloco;
     String nomePrograma;
+    GeracaoDeCodigo geracaoDeCodigo;
     
     public Programa(Bloco bloco, String nome){
         this.bloco = bloco;
         this.nomePrograma = nome;
+        this.geracaoDeCodigo = new GeracaoDeCodigo();
     }
     
     public Programa(Bloco bloco){
@@ -27,10 +30,17 @@ public class Programa {
     }
     
     public void exec(){
+        //geração de código:
+        geracaoDeCodigo.add("INPP");
+       
         // Cria a tabela global
         TabelaSimbolos tabelaGlobal = new TabelaSimbolos(nomePrograma);
         bloco.setTabela(tabelaGlobal);
+        bloco.setGeracaoDeCodigo(geracaoDeCodigo);
         bloco.run(tabelaGlobal);
+        geracaoDeCodigo.add("PARA");
+        
+        geracaoDeCodigo.print();
         
     }
 }

@@ -7,6 +7,7 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.NaoTerminais.Fator;
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 import AnalisadorLexicoCalculadora.utils.ErrosSemanticos;
 
 /**
@@ -23,7 +24,17 @@ public class Identificador extends Fator {
         this.identificador = identificador;
     }
 
-    public int run(TabelaSimbolos global, TabelaSimbolos local) {
+
+    @Override
+    public int run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
+        
+        int enderecoMemoria = local.getEnderecoVariavel(identificador);
+        if(enderecoMemoria == Integer.MIN_VALUE){
+            System.out.println("ERRO! não foi possível pegar o endereco de memoria de "+identificador+" na classe Identificador");
+        }else{
+            geracaoDeCodigo.add("CRVL", enderecoMemoria);
+        }
+        
         // Primeiro checa se variável está no escopo local, depois no global.
         // Se não achar, dá erro
         if(local.getValorVariavel(identificador) != Integer.MIN_VALUE){

@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 import AnalisadorLexicoCalculadora.ui.Sym;
 
 /**
@@ -19,26 +20,43 @@ public class Expressao extends Fator{
         ExpressaoSimples expressaoSimples2;
     
         @Override
-        public int run(TabelaSimbolos global, TabelaSimbolos local) {
+        public int run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geradorDeCodigo) {
+            int r;
             if (expressaoSimples2 == null){
-                return expressaoSimples1.run(global, local);
+                return expressaoSimples1.run(global, local,geradorDeCodigo);
             }
             switch(operacao){
                 case Sym.SIMBOLOS_ESPECIAIS_IGUAL:
-                    return (expressaoSimples1.run(global, local) == expressaoSimples2.run(global, local)) ? 1: 0;
+                    
+                    r = (expressaoSimples1.run(global, local, geradorDeCodigo) == expressaoSimples2.run(global, local, geradorDeCodigo)) ? 1: 0;
+                    geradorDeCodigo.add("CMIG");
+                    return r;
                 case Sym.SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL:
-                    return (expressaoSimples1.run(global, local) >= expressaoSimples2.run(global, local)) ? 1: 0;
+                    
+                    r = (expressaoSimples1.run(global, local, geradorDeCodigo) >= expressaoSimples2.run(global, local, geradorDeCodigo)) ? 1: 0;
+                    geradorDeCodigo.add("CMAG");
+                    return r;
                 case Sym.SIMBOLOS_ESPECIAIS_MAIOR_QUE:
-                    return (expressaoSimples1.run(global, local) > expressaoSimples2.run(global, local)) ? 1: 0;
+                    r = (expressaoSimples1.run(global, local, geradorDeCodigo) > expressaoSimples2.run(global, local, geradorDeCodigo)) ? 1: 0;
+                    geradorDeCodigo.add("CMMA");
+                    return r;
                 case Sym.SIMBOLOS_ESPECIAIS_DIFERENTE:
-                    return (expressaoSimples1.run(global, local) != expressaoSimples2.run(global, local)) ? 1: 0;
+                    
+                    r = (expressaoSimples1.run(global, local, geradorDeCodigo) != expressaoSimples2.run(global, local, geradorDeCodigo)) ? 1: 0;
+                    geradorDeCodigo.add("CMDG");
+                    return r;
                 case Sym.SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL:
-                    return (expressaoSimples1.run(global, local) <= expressaoSimples2.run(global, local)) ? 1: 0;
+                   
+                    r = (expressaoSimples1.run(global, local, geradorDeCodigo) <= expressaoSimples2.run(global, local, geradorDeCodigo)) ? 1: 0;
+                    geradorDeCodigo.add("CMEG");
+                    return r;
                 case Sym.SIMBOLOS_ESPECIAIS_MENOR_QUE:
+                    
                     System.out.println("Entrou no menor que:");
-                    System.out.println("Exp 1: "+ expressaoSimples1.run(global, local));
-                    System.out.println("Exp 2: "+expressaoSimples2.run(global, local));
-                    int resp = (expressaoSimples1.run(global, local) < expressaoSimples2.run(global, local)) ? 1: 0;
+                    System.out.println("Exp 1: "+ expressaoSimples1.run(global, local, geradorDeCodigo));
+                    System.out.println("Exp 2: "+expressaoSimples2.run(global, local, geradorDeCodigo));
+                    int resp = (expressaoSimples1.run(global, local, geradorDeCodigo) < expressaoSimples2.run(global, local, geradorDeCodigo)) ? 1: 0;
+                    geradorDeCodigo.add("CMME");
                     System.out.println("resultado:" + resp);
                     return resp;
 

@@ -6,7 +6,7 @@ begin
 if (a < b) then
 begin
 	if (c < d) then 
-		a := b;
+		a := 2;
 	else 
 		begin 
 		a := c + d;

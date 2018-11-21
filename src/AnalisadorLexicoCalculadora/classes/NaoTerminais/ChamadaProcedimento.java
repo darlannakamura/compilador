@@ -6,6 +6,7 @@
 package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
+import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
 
 /**
  *
@@ -21,6 +22,16 @@ public class ChamadaProcedimento extends Comando {
     }
     
     public void run(TabelaSimbolos global, TabelaSimbolos local) {
+        if (listaExpressoes == null){
+            // Achar o procedimento e chamar
+        }
+        else{
+            // Calcular cada valor e chamar o procedimento com os valores
+        }
+    }
+
+    @Override
+    public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
         if (listaExpressoes == null){
             // Achar o procedimento e chamar
         }
