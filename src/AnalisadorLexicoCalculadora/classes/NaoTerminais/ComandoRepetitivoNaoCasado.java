@@ -25,8 +25,14 @@ public class ComandoRepetitivoNaoCasado implements Comando_Interface {
 
     @Override
     public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
-        while(expressao.run(global, local, geracaoDeCodigo) != 0){
-            naoCasado.run(global, local, geracaoDeCodigo);
-        }
+        int x = geracaoDeCodigo.getLinhaAtual();
+        int y = new Integer(-400);
+        geracaoDeCodigo.add(x, "NADA", Integer.MIN_VALUE);
+        expressao.run(global, local, geracaoDeCodigo);
+        geracaoDeCodigo.add("DSVF", y);
+        naoCasado.run(global, local, geracaoDeCodigo);
+        geracaoDeCodigo.add("DSVS", x); // voltar para o início da expressão
+        y = geracaoDeCodigo.getLinhaAtual();
+        geracaoDeCodigo.add(y, "NADA", Integer.MIN_VALUE);
     }
 }

@@ -10,23 +10,23 @@ package AnalisadorLexicoCalculadora.classes;
  * @author darla
  */
 public class Instrucao {
-   private String rotulo;
+   private Integer rotulo;
    private String instrucao;
-   private int valor;
+   private Integer valor;
    private boolean declarouValor;
 
     public Instrucao(String instrucao) {
-        this.rotulo = "";
+        this.rotulo = Integer.MIN_VALUE;
         this.instrucao = instrucao;
     }
 
-    public Instrucao(String instrucao, int valor) {
-        this.rotulo = "";
+    public Instrucao(String instrucao, Integer valor) {
+        this.rotulo = Integer.MIN_VALUE;
         this.instrucao = instrucao;
         this.valor = valor;
     }
 
-    public Instrucao(String rotulo, String instrucao, int valor) {
+    public Instrucao(int rotulo, String instrucao, Integer valor) {
         this.rotulo = rotulo;
         this.instrucao = instrucao;
         this.valor = valor;
@@ -34,11 +34,11 @@ public class Instrucao {
     
     
 
-    public String getRotulo() {
+    public int getRotulo() {
         return rotulo;
     }
 
-    public void setRotulo(String rotulo) {
+    public void setRotulo(Integer rotulo) {
         this.rotulo = rotulo;
     }
 
@@ -54,7 +54,7 @@ public class Instrucao {
         return valor;
     }
 
-    public void setValor(int valor) {
+    public void setValor(Integer valor) {
         this.valor = valor;
     }
 

@@ -53,8 +53,8 @@ public class Expressao extends Fator{
                 case Sym.SIMBOLOS_ESPECIAIS_MENOR_QUE:
                     
                     System.out.println("Entrou no menor que:");
-                    System.out.println("Exp 1: "+ expressaoSimples1.run(global, local, geradorDeCodigo));
-                    System.out.println("Exp 2: "+expressaoSimples2.run(global, local, geradorDeCodigo));
+//                    System.out.println("Exp 1: "+ expressaoSimples1.run(global, local, geradorDeCodigo));
+//                    System.out.println("Exp 2: "+expressaoSimples2.run(global, local, geradorDeCodigo));
                     int resp = (expressaoSimples1.run(global, local, geradorDeCodigo) < expressaoSimples2.run(global, local, geradorDeCodigo)) ? 1: 0;
                     geradorDeCodigo.add("CMME");
                     System.out.println("resultado:" + resp);

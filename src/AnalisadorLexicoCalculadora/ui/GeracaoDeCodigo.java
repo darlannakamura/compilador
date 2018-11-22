@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class GeracaoDeCodigo {
     private ArrayList<Instrucao> codigos;
     public int endereco;
+    private Integer linhaAtual = new Integer(-1);
     
     public GeracaoDeCodigo(){
         endereco = -1;
@@ -26,19 +27,22 @@ public class GeracaoDeCodigo {
         Instrucao i = new Instrucao(instrucao);
         i.setDeclarouValor(false);
         codigos.add(i);
+        linhaAtual++;
     }
     
     public void add(String instrucao, int valor){
         Instrucao i = new Instrucao(instrucao, valor);
         i.setDeclarouValor(true);
         codigos.add(i);
+        linhaAtual++;
     }
     
-    public void add(String rotulo, String instrucao, int valor){
+    public void add(int rotulo, String instrucao, int valor){
         Instrucao i = new Instrucao(instrucao, valor);
         i.setRotulo(rotulo);
         i.setDeclarouValor(true);
         codigos.add(i);
+        linhaAtual++;
     }
     
     public ArrayList<Instrucao> getCodigos(){
@@ -53,11 +57,30 @@ public class GeracaoDeCodigo {
         for(int i =0 ; i  < codigos.size(); i++){
             Instrucao ins = codigos.get(i);
             if(ins.isDeclarouValor()){
-                System.out.println(""+ins.getRotulo()+" "+ins.getInstrucao()+" "+ins.getValor());
+                String rotuloAux = String.valueOf(ins.getRotulo());
+                if(rotuloAux.equals(String.valueOf(Integer.MIN_VALUE))){
+                    rotuloAux = "";
+                }
+                String valorAux = String.valueOf(ins.getValor());
+                if(valorAux.equals(String.valueOf(Integer.MIN_VALUE))){
+                    valorAux = "";
+                }
+                System.out.println(""+rotuloAux+" "+ins.getInstrucao()+" "+valorAux);
             }else{
-                System.out.println(""+ins.getRotulo()+" "+ins.getInstrucao());
+                String rotuloAux = String.valueOf(ins.getRotulo());
+                if(rotuloAux.equals(String.valueOf(Integer.MIN_VALUE))){
+                    rotuloAux = "";
+                }
+                System.out.println(""+rotuloAux+" "+ins.getInstrucao());
             }
                 
         }
+    }
+
+    /**
+     * @return the linhaAtual
+     */
+    public Integer getLinhaAtual() {
+        return linhaAtual;
     }
 }

@@ -226,7 +226,7 @@ public class MEPA {
     private int getLinhaRotulo(int rotulo){
         // Busca o rótulo no código e retorna a linha correspondente
         for(int i=0; i<codigo.size(); i++){
-            if(codigo.get(i).getRotulo().equals(String.valueOf(rotulo))){
+            if(codigo.get(i).getRotulo() == rotulo){
                 return i;
             }
         }
@@ -247,7 +247,7 @@ public class MEPA {
         codigo.add(new Instrucao("CMMA"));
         codigo.add(new Instrucao("DSVF", 0));
         codigo.add(new Instrucao("CRVL", 0));
-        codigo.add(new Instrucao("0", "NADA", Integer.MIN_VALUE));
+        codigo.add(new Instrucao(0, "NADA", Integer.MIN_VALUE));
         codigo.add(new Instrucao("PARA"));
         MEPA maquina = new MEPA();
         maquina.interpretar(codigo);

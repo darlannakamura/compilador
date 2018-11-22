@@ -25,14 +25,17 @@ public class ComandoCondicionalCasado extends Comando {
 
     @Override
     public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
-             System.out.println("Entou no comando condicional casado");
-        if(expressao.run(global, local, geracaoDeCodigo) != 0){
-            System.out.println("resultado != 0");
-            comandoTrue.run(global, local, geracaoDeCodigo);
-        }
-        else{
-            System.out.println("resultado == 0");
-            comandoFalse.run(global, local, geracaoDeCodigo);
-        }
+        System.out.println("Entou no comando condicional casado");
+        expressao.run(global, local, geracaoDeCodigo);
+        Integer x = new Integer(-100);
+        geracaoDeCodigo.add("DSVF", x); // desviar pro início do false
+        comandoTrue.run(global, local, geracaoDeCodigo);
+        Integer y = new Integer(-200);
+        geracaoDeCodigo.add("DSVS", y); // desvia pra após o false
+        x = geracaoDeCodigo.getLinhaAtual();
+        geracaoDeCodigo.add(x, "NADA", Integer.MIN_VALUE);
+        comandoFalse.run(global, local, geracaoDeCodigo);
+        y = geracaoDeCodigo.getLinhaAtual();
+        geracaoDeCodigo.add(y, "NADA", Integer.MIN_VALUE);
     }
 }
