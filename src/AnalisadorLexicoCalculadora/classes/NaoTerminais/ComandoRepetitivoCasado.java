@@ -26,9 +26,17 @@ public class ComandoRepetitivoCasado extends Comando {
 
     @Override
     public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
-        while (expressao.run(global, local, geracaoDeCodigo) != 0) {
-            casado.run(global, local, geracaoDeCodigo);
-        }
+        
+        String rotuloComeco = geracaoDeCodigo.getRotulo();
+        String rotuloDoFim = geracaoDeCodigo.getRotulo();
+        
+        geracaoDeCodigo.add(rotuloComeco, "NADA");
+        expressao.run(global, local, geracaoDeCodigo);
+        geracaoDeCodigo.add(rotuloDoFim, "DVSF");
+        casado.run(global, local, geracaoDeCodigo);
+        geracaoDeCodigo.add(rotuloComeco, "DSVS");
+        geracaoDeCodigo.add(rotuloDoFim, "NADA");
     }
 
+    
 }

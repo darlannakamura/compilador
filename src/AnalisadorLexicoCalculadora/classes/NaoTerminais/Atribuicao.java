@@ -39,7 +39,7 @@ public class Atribuicao extends Comando {
             System.out.println("ERRO ao receber endereço de memória do identificador: "+identificador+ " na classe Atribuição");
         }
         
-        ArrayList<String> resultadoLocal = local.atribuicao(identificador, expressao.run(global, local, geracaoDeCodigo));
+        ArrayList<String> resultadoLocal = local.atribuicao(identificador, retornoExp);
         local.print();
         System.out.println("Retorno exp:" + retornoExp + " size resultadoLocal: " + resultadoLocal.size());
         for (int i = 0; i < resultadoLocal.size(); i++) {

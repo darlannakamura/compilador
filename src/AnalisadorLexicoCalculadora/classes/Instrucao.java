@@ -12,7 +12,7 @@ package AnalisadorLexicoCalculadora.classes;
 public class Instrucao {
    private String rotulo;
    private String instrucao;
-   private int valor;
+   private Integer valor;
    private boolean declarouValor;
 
     public Instrucao(String instrucao) {
@@ -20,19 +20,17 @@ public class Instrucao {
         this.instrucao = instrucao;
     }
 
-    public Instrucao(String instrucao, int valor) {
+    public Instrucao(String instrucao, Integer valor) {
         this.rotulo = "";
         this.instrucao = instrucao;
         this.valor = valor;
     }
 
-    public Instrucao(String rotulo, String instrucao, int valor) {
+    public Instrucao(String rotulo, String instrucao, Integer valor) {
         this.rotulo = rotulo;
         this.instrucao = instrucao;
         this.valor = valor;
     }
-    
-    
 
     public String getRotulo() {
         return rotulo;
@@ -41,6 +39,8 @@ public class Instrucao {
     public void setRotulo(String rotulo) {
         this.rotulo = rotulo;
     }
+    
+    
 
     public String getInstrucao() {
         return instrucao;
@@ -54,7 +54,7 @@ public class Instrucao {
         return valor;
     }
 
-    public void setValor(int valor) {
+    public void setValor(Integer valor) {
         this.valor = valor;
     }
 

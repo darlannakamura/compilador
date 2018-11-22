@@ -39,8 +39,7 @@ public class Programa {
         bloco.setGeracaoDeCodigo(geracaoDeCodigo);
         bloco.run(tabelaGlobal);
         geracaoDeCodigo.add("PARA");
-        
-        geracaoDeCodigo.print();
+        geracaoDeCodigo.gerarArquivo();
         
     }
 }

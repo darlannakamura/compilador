@@ -38,5 +38,27 @@ public class NaoCasado extends Comando {
     @Override
     public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
         System.out.println("Entrou no não casado (ELSE) ");
+        if (comando != null){ 
+            String rotulo = geracaoDeCodigo.getRotulo();
+            expressao.run(global, local, geracaoDeCodigo);
+            geracaoDeCodigo.add(rotulo, "DSVF");
+            comando.run(global, local, geracaoDeCodigo);
+        }
+        else if(casado != null){
+            String rotuloDoElse = geracaoDeCodigo.getRotulo();
+            String rotuloDeSaidaDoCasado = geracaoDeCodigo.getRotulo();
+            expressao.run(global, local, geracaoDeCodigo);
+            geracaoDeCodigo.add(rotuloDoElse, "DSVF");
+            casado.run(global, local, geracaoDeCodigo);
+            geracaoDeCodigo.add(rotuloDeSaidaDoCasado, "DSVS");
+            geracaoDeCodigo.add(rotuloDoElse, "NADA");
+            naoCasado.run(global, local, geracaoDeCodigo);
+            geracaoDeCodigo.add(rotuloDeSaidaDoCasado, "DSVS");
+            geracaoDeCodigo.add(rotuloDeSaidaDoCasado, "NADA");
+        }
+        else{ // comandoRepetitivoNaoCasado != null
+            comandoRepetitivoNaoCasado.run(global, local, geracaoDeCodigo);
+        }
+
     }
 }
