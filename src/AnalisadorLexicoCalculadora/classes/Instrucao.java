@@ -18,6 +18,7 @@ public class Instrucao {
     public Instrucao(String instrucao) {
         this.rotulo = "";
         this.instrucao = instrucao;
+        this.valor = 0;
     }
 
     public Instrucao(String instrucao, Integer valor) {

@@ -76,7 +76,7 @@ public class GeracaoDeCodigo {
             
             if(ins.isDeclarouValor()){
                 System.out.println(""+ins.getRotulo()+" "+ins.getInstrucao()+" "+ins.getValor());
-                html += ""+ins.getRotulo()+" "+ins.getInstrucao()+" "+ins.getValor()+"\n";
+                html += ""+ins.getInstrucao()+" "+ins.getValor()+"\n";
             }else { 
                 
                 if(ins.getInstrucao().contains("NADA")){

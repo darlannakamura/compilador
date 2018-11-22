@@ -17,26 +17,26 @@ public class ChamadaProcedimento extends Comando {
     ListaExpressoes listaExpressoes;
     
     public ChamadaProcedimento(String identificador, ListaExpressoes listaExpressoes){
+        System.out.println("Instanciando procedimento: "+identificador);
         this.identificador = identificador;
         this.listaExpressoes = listaExpressoes;
     }
     
-    public void run(TabelaSimbolos global, TabelaSimbolos local) {
-        if (listaExpressoes == null){
-            // Achar o procedimento e chamar
-        }
-        else{
-            // Calcular cada valor e chamar o procedimento com os valores
-        }
-    }
-
+   
     @Override
     public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
+        System.out.println("Entra no run de chamada de procedimento");
         if (listaExpressoes == null){
             // Achar o procedimento e chamar
+            if(identificador.equals("write")){
+                geracaoDeCodigo.add("IMPR");
+                
+            }
         }
         else{
             // Calcular cada valor e chamar o procedimento com os valores
+            
         }
+        return;
     }
 }

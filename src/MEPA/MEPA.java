@@ -6,8 +6,15 @@
 package MEPA;
 
 import AnalisadorLexicoCalculadora.classes.Instrucao;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,13 +25,19 @@ public class MEPA {
     private ArrayList<Instrucao> codigo;
     private Stack<Integer> dados;
     private int contadorPrograma;
+    private String saida;
     // Topo da pilha foi omitido, pois a classe Stack já é uma pilha
    
+    public MEPA(){
+        saida = "";
+        codigo = new ArrayList<>();
+        
+    }
     
     
-    public void interpretar(ArrayList<Instrucao> codigo){
+    public void interpretar(){
         this.contadorPrograma = 0;
-        this.codigo = codigo;
+       
         do{
             Instrucao instrucao = codigo.get(contadorPrograma);
             if (instrucao.getInstrucao().equals("PARA")){
@@ -53,6 +66,12 @@ public class MEPA {
                         for(int i=0; i<instrucao.getValor(); i++){
                             dados.add(Integer.MIN_VALUE);
                         }
+                        break;
+                    case "IMPR":
+                        //imprimimos
+                        int vl = dados.pop();
+                        System.out.println("SAIDA:"+vl);
+                        this.saida = ""+vl;
                         break;
                     case "DMEM":
                         // desaloca
@@ -193,13 +212,13 @@ public class MEPA {
                         break;
                     case "DSVS":
                         // desvia para o rotulo p
-                        contadorPrograma = getLinhaRotulo(instrucao.getValor()) - 1;
+                        contadorPrograma = getLinhaRotulo(instrucao.getRotulo()) - 1;
                         // -1 é para compensar o incremento após o switch
                         break;
                     case "DSVF":
                         topo = dados.pop();
                         if(topo == 0){
-                            contadorPrograma = getLinhaRotulo(instrucao.getValor()) - 1;
+                            contadorPrograma = getLinhaRotulo(instrucao.getRotulo()) - 1;
                             // -1 é para compensar o incremento após o switch
                         }
                         break;
@@ -223,34 +242,77 @@ public class MEPA {
         while(true);
     }
     
-    private int getLinhaRotulo(int rotulo){
+    private int getLinhaRotulo(String rotulo){
         // Busca o rótulo no código e retorna a linha correspondente
         for(int i=0; i<codigo.size(); i++){
-            if(codigo.get(i).getRotulo() == rotulo){
-                return i;
-            }
+//            if(codigo.get(i).getRotulo() == ""){;
+//                return i;
+//            }
+
+              if(codigo.get(i).getRotulo().equals(rotulo) && codigo.get(i).getInstrucao().equals("NADA")){
+                  return i;
+              }
+
+            
         }
         return Integer.MIN_VALUE;
     }
     
+    
+    private void leArquivo(String path) throws FileNotFoundException, IOException{
+        BufferedReader buffRead = new BufferedReader(new FileReader(path));
+        String linha = "";
+        while (true) {
+            if (linha != null) {
+                if(linha.contains(" ")){
+                //System.out.println(linha);
+                String[] arr = linha.split(" ");
+                //é porque é 1 comando só
+                if(arr.length == 1){ 
+                    codigo.add( new Instrucao(arr[0]));
+                } else if(arr.length == 2){ //é porque OU é ROTULO e NADA ou é comando seguido de valor
+                    if(linha.contains("NADA")){
+                        Instrucao inst = new Instrucao(arr[1]);
+                        inst.setRotulo(arr[0]);
+                        codigo.add(inst);
+                    } else {
+                        
+                        if(linha.contains("DS") || linha.contains("DV")){
+                            Instrucao ins = new Instrucao(arr[0]);
+                            ins.setRotulo(arr[1]);
+                            ins.setDeclarouValor(false);
+                            codigo.add(ins);
+                        }else{
+                          Instrucao instrucao = new Instrucao(arr[0]);
+                          instrucao.setValor(Integer.parseInt(arr[1]));
+                          instrucao.setDeclarouValor(true); 
+                          codigo.add(instrucao);
+                        }
+                        
+                    }
+                }
+                
+                }
+                 
+ 
+            } else
+                break;
+            linha = buffRead.readLine();
+        }
+        buffRead.close();
+    }
+    
     public static void main(String[] args){
-        ArrayList<Instrucao> codigo = new ArrayList();
-        codigo.add(new Instrucao("INPP"));
-        codigo.add(new Instrucao("AMEM", 1));
-        codigo.add(new Instrucao("AMEM", 1));
-        codigo.add(new Instrucao("CRCT", 5));
-        codigo.add(new Instrucao("ARMZ", 0));
-        codigo.add(new Instrucao("CRCT", 9));
-        codigo.add(new Instrucao("ARMZ", 1));
-        codigo.add(new Instrucao("CRVL", 0));
-        codigo.add(new Instrucao("CRVL", 1));
-        codigo.add(new Instrucao("CMMA"));
-        codigo.add(new Instrucao("DSVF", 0));
-        codigo.add(new Instrucao("CRVL", 0));
-        codigo.add(new Instrucao(0, "NADA", Integer.MIN_VALUE));
-        codigo.add(new Instrucao("PARA"));
         MEPA maquina = new MEPA();
-        maquina.interpretar(codigo);
         
+        try {
+            maquina.leArquivo("compilados/comp.radc");
+            maquina.interpretar();
+            System.out.println(""+maquina.saida);
+            JOptionPane.showMessageDialog(null, maquina.saida);
+        } catch (IOException ex) {
+            Logger.getLogger(MEPA.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }
 }
