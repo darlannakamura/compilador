@@ -24,6 +24,16 @@ public class ListaExpressoes {
     public void add(Expressao expressao){
         listaExpressoes.add(expressao);
     }
+
+    public ArrayList<Expressao> getListaExpressoes() {
+        return listaExpressoes;
+    }
+
+    public void setListaExpressoes(ArrayList<Expressao> listaExpressoes) {
+        this.listaExpressoes = listaExpressoes;
+    }
+    
+    
     
     public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo){
         // Executar cada expressão
