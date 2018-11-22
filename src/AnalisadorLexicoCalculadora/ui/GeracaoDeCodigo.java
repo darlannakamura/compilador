@@ -7,7 +7,12 @@ package AnalisadorLexicoCalculadora.ui;
 
 import AnalisadorLexicoCalculadora.classes.Instrucao;
 import AnalisadorLexicoCalculadora.classes.Pilha;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,9 +22,11 @@ public class GeracaoDeCodigo {
     private ArrayList<Instrucao> codigos;
     public int endereco;
     private Integer linhaAtual = new Integer(-1);
+    private int countRotulo;
     
     public GeracaoDeCodigo(){
         endereco = -1;
+        countRotulo = -1;
         codigos = new ArrayList<>();
     }
     
@@ -37,7 +44,15 @@ public class GeracaoDeCodigo {
         linhaAtual++;
     }
     
-    public void add(int rotulo, String instrucao, int valor){
+    public void add(String rotulo, String instrucao){
+        Instrucao i = new Instrucao(instrucao);
+        i.setRotulo(rotulo);
+        i.setDeclarouValor(false);
+        codigos.add(i);
+        linhaAtual++;
+    }
+    
+    public void add(String rotulo, String instrucao, int valor){
         Instrucao i = new Instrucao(instrucao, valor);
         i.setRotulo(rotulo);
         i.setDeclarouValor(true);
@@ -53,27 +68,41 @@ public class GeracaoDeCodigo {
         return ++endereco;
     }
     
-    public void print(){
+    public String print(){
+        String html = "";
+        
         for(int i =0 ; i  < codigos.size(); i++){
             Instrucao ins = codigos.get(i);
+            
             if(ins.isDeclarouValor()){
-                String rotuloAux = String.valueOf(ins.getRotulo());
-                if(rotuloAux.equals(String.valueOf(Integer.MIN_VALUE))){
-                    rotuloAux = "";
-                }
-                String valorAux = String.valueOf(ins.getValor());
-                if(valorAux.equals(String.valueOf(Integer.MIN_VALUE))){
-                    valorAux = "";
-                }
-                System.out.println(""+rotuloAux+" "+ins.getInstrucao()+" "+valorAux);
-            }else{
-                String rotuloAux = String.valueOf(ins.getRotulo());
-                if(rotuloAux.equals(String.valueOf(Integer.MIN_VALUE))){
-                    rotuloAux = "";
-                }
-                System.out.println(""+rotuloAux+" "+ins.getInstrucao());
-            }
+                System.out.println(""+ins.getRotulo()+" "+ins.getInstrucao()+" "+ins.getValor());
+                html += ""+ins.getRotulo()+" "+ins.getInstrucao()+" "+ins.getValor()+"\n";
+            }else { 
                 
+                if(ins.getInstrucao().contains("NADA")){
+                    System.out.println(""+ins.getRotulo()+" "+ins.getInstrucao());
+                    html += ""+ins.getRotulo()+" "+ins.getInstrucao()+"\n";
+                } else{
+                    System.out.println(""+ins.getInstrucao()+" "+ins.getRotulo());
+                    html += ""+ins.getInstrucao()+" "+ins.getRotulo()+"\n";
+                }
+                
+            }
+           
+                
+        }
+        
+        return html;
+    }
+    
+    public void gerarArquivo(){
+        BufferedWriter buffWrite;
+        try {
+            buffWrite = new BufferedWriter(new FileWriter("compilados/comp.radc"));
+            buffWrite.append(this.print());
+            buffWrite.close();
+        } catch (IOException ex) {
+            Logger.getLogger(GeracaoDeCodigo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -82,5 +111,10 @@ public class GeracaoDeCodigo {
      */
     public Integer getLinhaAtual() {
         return linhaAtual;
+    }
+    
+    public String getRotulo(){
+        countRotulo++;
+        return "L"+countRotulo;
     }
 }

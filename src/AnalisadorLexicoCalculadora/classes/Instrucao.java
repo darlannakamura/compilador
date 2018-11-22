@@ -10,37 +10,37 @@ package AnalisadorLexicoCalculadora.classes;
  * @author darla
  */
 public class Instrucao {
-   private Integer rotulo;
+   private String rotulo;
    private String instrucao;
    private Integer valor;
    private boolean declarouValor;
 
     public Instrucao(String instrucao) {
-        this.rotulo = Integer.MIN_VALUE;
+        this.rotulo = "";
         this.instrucao = instrucao;
     }
 
     public Instrucao(String instrucao, Integer valor) {
-        this.rotulo = Integer.MIN_VALUE;
+        this.rotulo = "";
         this.instrucao = instrucao;
         this.valor = valor;
     }
 
-    public Instrucao(int rotulo, String instrucao, Integer valor) {
+    public Instrucao(String rotulo, String instrucao, Integer valor) {
         this.rotulo = rotulo;
         this.instrucao = instrucao;
         this.valor = valor;
     }
-    
-    
 
-    public int getRotulo() {
+    public String getRotulo() {
         return rotulo;
     }
 
-    public void setRotulo(Integer rotulo) {
+    public void setRotulo(String rotulo) {
         this.rotulo = rotulo;
     }
+    
+    
 
     public String getInstrucao() {
         return instrucao;
