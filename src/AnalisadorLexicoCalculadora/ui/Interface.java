@@ -11,6 +11,7 @@ import AnalisadorLexicoCalculadora.classes.ItemLexico;
 import AnalisadorLexicoCalculadora.classes.ItemSintatico;
 import AnalisadorLexicoCalculadora.utils.ErrosSemanticos;
 import AnalisadorLexicoCalculadora.utils.TratamentoErros;
+import MEPA.MEPA;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -120,6 +121,8 @@ public class Interface extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
 
@@ -205,14 +208,32 @@ public class Interface extends javax.swing.JFrame {
 
         jMenu2.setText("Operações");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Analisar");
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Compilar");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Executar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem7.setText("Compilar e Executar");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
 
         jMenuBar1.add(jMenu2);
 
@@ -268,12 +289,7 @@ public class Interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        ErrosSemanticos.limparErros();
-        analiseLexica();
-        analiseSintatica(); // Também roda a semântica
-        
-        
-        //String codigo = lexical.getCodigoFonteColorido();
+        compilar();
      }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -340,6 +356,37 @@ public class Interface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        executar();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        compilar();
+        executar();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    
+    public void compilar(){
+        ErrosSemanticos.limparErros();
+        analiseLexica();
+        analiseSintatica(); // Também roda a semântica
+        
+        
+        //String codigo = lexical.getCodigoFonteColorido();
+    }
+    
+    public void executar(){
+        
+        try {
+            MEPA maquina = new MEPA();
+            
+            maquina.leArquivo("compilados/comp.radc");
+            maquina.interpretar();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Falha ao ler arquivo em compilados/comp.radc.\nVerifique se o programa foi realmente compilado.");
+            Logger.getLogger(MEPA.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void analiseSintatica(){
         try {
             String expressao = jTextPane1.getText();
@@ -481,10 +528,12 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItemAbrirArquivo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

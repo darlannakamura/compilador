@@ -67,11 +67,17 @@ public class MEPA {
                             dados.add(Integer.MIN_VALUE);
                         }
                         break;
+                        
+                    case "LEIT":
+                        int v = Integer.parseInt(JOptionPane.showInputDialog("Digite o valor da variável :"));
+                        dados.add(v);
+                        break;
                     case "IMPR":
                         //imprimimos
                         int vl = dados.pop();
                         System.out.println("SAIDA:"+vl);
-                        this.saida = ""+vl;
+                        this.saida = ""+vl+"\n";
+                        JOptionPane.showMessageDialog(null, vl);
                         break;
                     case "DMEM":
                         // desaloca
@@ -257,9 +263,18 @@ public class MEPA {
         }
         return Integer.MIN_VALUE;
     }
+
+    public String getSaida() {
+        return saida;
+    }
+
+    public void setSaida(String saida) {
+        this.saida = saida;
+    }
     
     
-    private void leArquivo(String path) throws FileNotFoundException, IOException{
+    
+    public void leArquivo(String path) throws FileNotFoundException, IOException{
         BufferedReader buffRead = new BufferedReader(new FileReader(path));
         String linha = "";
         while (true) {
@@ -309,7 +324,7 @@ public class MEPA {
             maquina.leArquivo("compilados/comp.radc");
             maquina.interpretar();
             System.out.println(""+maquina.saida);
-            JOptionPane.showMessageDialog(null, maquina.saida);
+            JOptionPane.showMessageDialog(null, ""+maquina.saida);
         } catch (IOException ex) {
             Logger.getLogger(MEPA.class.getName()).log(Level.SEVERE, null, ex);
         }

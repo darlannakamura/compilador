@@ -32,7 +32,7 @@ public class ComandoRepetitivoCasado extends Comando {
         
         geracaoDeCodigo.add(rotuloComeco, "NADA");
         expressao.run(global, local, geracaoDeCodigo);
-        geracaoDeCodigo.add(rotuloDoFim, "DVSF");
+        geracaoDeCodigo.add(rotuloDoFim, "DSVF");
         casado.run(global, local, geracaoDeCodigo);
         geracaoDeCodigo.add(rotuloComeco, "DSVS");
         geracaoDeCodigo.add(rotuloDoFim, "NADA");
