@@ -3,10 +3,15 @@ int a, b;
 boolean c, d;
 begin
 
+a := 0;
+b := 2;
+c := false;
+d := true;
+
 if (a < b) then
 begin
 	if (c < d) then 
-		a := 2;
+		a := b + 3;
 	else 
 		begin 
 		a := c + d;

@@ -26,6 +26,7 @@ public class Casado extends Comando {
 
     public Casado(Atribuicao atribuicao) {
         System.out.println("atribu");
+        System.out.println(atribuicao.identificador);
         this.atribuicao = atribuicao;
     }
 
