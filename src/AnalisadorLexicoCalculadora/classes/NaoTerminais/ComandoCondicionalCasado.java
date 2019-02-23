@@ -30,7 +30,7 @@ public class ComandoCondicionalCasado extends Comando {
         String rotuloDoFim = geracaoDeCodigo.getRotulo();
 
         expressao.run(global, local, geracaoDeCodigo);
-        geracaoDeCodigo.add(rotuloDoElse, "DVSF");
+        geracaoDeCodigo.add(rotuloDoElse, "DSVF");
         comandoTrue.run(global, local, geracaoDeCodigo);
         geracaoDeCodigo.add(rotuloDoFim, "DSVS");
         geracaoDeCodigo.add(rotuloDoElse, "NADA");

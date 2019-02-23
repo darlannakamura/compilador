@@ -40,7 +40,7 @@ public class ComandoRepetitivoNaoCasado implements Comando_Interface {
         
         geracaoDeCodigo.add(rotuloComeco, "NADA");
         expressao.run(global, local, geracaoDeCodigo);
-        geracaoDeCodigo.add(rotuloDoElse, "DVSF");
+        geracaoDeCodigo.add(rotuloDoElse, "DSVF");
         naoCasado.run(global, local, geracaoDeCodigo);
         geracaoDeCodigo.add(rotuloComeco, "DSVS");
         

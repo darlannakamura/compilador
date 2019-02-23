@@ -7,36 +7,46 @@ package AnalisadorLexicoCalculadora.classes.NaoTerminais;
 
 import AnalisadorLexicoCalculadora.classes.TabelaSimbolos;
 import AnalisadorLexicoCalculadora.ui.GeracaoDeCodigo;
+import AnalisadorLexicoCalculadora.utils.ErrosSemanticos;
 
 /**
  *
  * @author rafae
  */
 public class ChamadaProcedimento extends Comando {
+
     String identificador;
     ListaExpressoes listaExpressoes;
-    
-    public ChamadaProcedimento(String identificador, ListaExpressoes listaExpressoes){
+
+    public ChamadaProcedimento(String identificador, ListaExpressoes listaExpressoes) {
+        System.out.println("Instanciando procedimento: " + identificador);
         this.identificador = identificador;
         this.listaExpressoes = listaExpressoes;
-    }
-    
-    public void run(TabelaSimbolos global, TabelaSimbolos local) {
-        if (listaExpressoes == null){
-            // Achar o procedimento e chamar
-        }
-        else{
-            // Calcular cada valor e chamar o procedimento com os valores
-        }
     }
 
     @Override
     public void run(TabelaSimbolos global, TabelaSimbolos local, GeracaoDeCodigo geracaoDeCodigo) {
-        if (listaExpressoes == null){
+        System.out.println("Entra no run de chamada de procedimento");
+
+        if (listaExpressoes == null) {
             // Achar o procedimento e chamar
+            System.out.println("Erro semantico!\nRead e Write exigem pelo menos 1 parametro.");
+            ErrosSemanticos.addErro("Erro semantico!\nRead e Write exigem pelo menos 1 parametro.");
+        } else {
+            for (Expressao e : listaExpressoes.getListaExpressoes()) {
+                e.run(global, local, geracaoDeCodigo);
+                if (identificador.equals("write")) {
+                    geracaoDeCodigo.add("IMPR");
+                }
+                if (identificador.equals("read")) {
+                    geracaoDeCodigo.add("LEIT");
+                    Identificador i = (Identificador) e.expressaoSimples1.termo.fator;
+                    int endereco = global.getEnderecoVariavel(i.identificador);
+                    System.out.println("identificador: "+i.identificador);
+                    geracaoDeCodigo.add("ARMZ", endereco);
+                }
+            }
         }
-        else{
-            // Calcular cada valor e chamar o procedimento com os valores
-        }
+        return;
     }
 }
