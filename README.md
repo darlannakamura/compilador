@@ -1,6 +1,6 @@
 ﻿# Compilador
 
-##Sobre
+## Sobre
 Este projeto foi desenvolvido na disciplina de Compiladores da Faculdade de Ciências e Tecnologia (FCT - Unesp) campus de Presidente Prudente, no curso de ciência da computação.
 
 O projeto foi desenvolvido na Linguagem [Java](https://www.java.com).
