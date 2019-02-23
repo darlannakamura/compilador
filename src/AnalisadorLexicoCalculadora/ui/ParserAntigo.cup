@@ -1,0 +1,117 @@
+package AnalisadorLexicoCalculadora.ui;
+
+import java_cup.runtime.*;
+import java.util.*;
+import java.io.*;
+
+
+parser code {:
+
+    public void report_error(String message, Object info)  {
+        System.out.println("Warning - " + message);
+    }
+
+    public void report_fatal_error(String message, Object info)  {
+        System.out.println("Error - " + message);
+        System.exit(-1);
+    }
+
+:};
+
+
+// terminal PROGRAM, BEGIN, END, VARIABLE, COLON, INTEGER_TYPE, STRING_TYPE, CALL_FUNCTION;
+// terminal RIGHT_PARAMETER, LEFT_PARAMETER, INTEGER, STRING, SEMICOLON, FUNCTION;
+// terminal FUNCTION_PARAMS, LEFT_BRACKETS, RIGHT_BRACKETS, TT, FF, IF, ASSIGNMENT;
+// terminal SYMBOL_ASSIGNMENT;
+
+// non terminal program, statements, statement, statement_function;
+// non terminal decl_variable, decl_call_function, decl_call_params, decl_params, decl_function, decl_if;
+// non terminal decl_boolean,decl_assignments, decl_assignment;
+// non terminal params_type, data_types;
+
+non terminal program, identificador, bloco;
+
+start with program;
+
+
+//DECLARAÇÕES
+
+program ::= PALAVRA_RESERVADA_PROGRAM identificador SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco EOF;
+
+bloco ::= parte_de_declaracoes_de_variaveis | parte_de_declaracoes_de_subrotinas | comando_composto;
+
+parte_de_declaracoes_de_variaveis ::= parte_de_declaracoes_de_variaveis SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA parte_de_declaracoes_de_variaveis | declaracao_de_variavel SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA;
+
+declaracao_de_variavel ::= tipo lista_de_identificadores;
+
+tipo ::= TIPO_VARIAVEL_INT | TIPO_VARIAVEL_BOOLEAN;
+
+lista_de_identificadores ::= lista_de_identificadores SIMBOLOS_ESPECIAIS_VIRGULA IDENTIFICADOR | IDENTIFICADOR;
+
+parte_de_declaracoes_de_subrotinas ::= parte_de_declaracoes_de_subrotinas | declaracao_de_procedimento;
+
+declaracao_de_procedimento ::= PALAVRA_RESERVADA_PROCEDURE IDENTIFICADOR ABRE_PARENTESE parametros_formais FECHA_PARENTESE SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA bloco;
+
+parametros_formais ::= ABRE_PARENTESE secao_de_parametros_formais FECHA_PARENTESE;
+
+secao_de_parametros_formais ::= secao_de_parametros_formais SIMBOLOS_ESPECIAIS_PONTO_E_VIRGULA  secao_de_parametros_formais |  PALAVRA_RESERVADA_VAR lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS IDENTIFICADOR | lista_de_identificadores SIMBOLOS_ESPECIAIS_DOIS_PONTOS IDENTIFICADOR;
+
+//COMANDOS
+
+comando_composto ::= PALAVRA_RESERVADA_BEGIN comandos PALAVRA_RESERVADA_END;
+
+comandos ::= comandos comando | comando;  
+
+comando ::= atribuicao | chamada_de_procedimento | comando_composto | comando_condicional_1 | comando_repetitivo_1;
+
+atribuicao ::= variavel SIMBOLOS_ESPECIAIS_ATRIBUICAO expressao;
+
+chamada_de_procedimento ::= IDENTIFICADOR lista_de_expressoes;
+
+comando_condicional_1 ::= PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN comando | PALAVRA_RESERVADA_IF expressao PALAVRA_RESERVADA_THEN comando PALAVRA_RESERVADA_ELSE comando;
+
+comando_repetitivo_1 ::= PALAVRA_RESERVADA_WHILE expressao PALAVRA_RESERVADA_DO comando;
+
+//EXPRESSÕES
+
+expressao ::= expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MAIOR_OU_IGUAL expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MAIOR_QUE expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_DIFERENTE expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MENOR_OU_IGUAL expressao_simples | expressao_simples SIMBOLOS_ESPECIAIS_MENOR_QUE expressao_simples;
+
+expressao_simples ::= termo | OPERADOR_MATEMATICO_SOMA termo | OPERADOR_MATEMATICO_SUBTRACAO termo | termo repeticao_termo;
+
+repeticao_termo ::= repeticao_termo OPERADOR_MATEMATICO_SOMA termo | repeticao_termo OPERADOR_MATEMATICO_SUBTRACAO termo | repeticao_termo OPERADOR_LOGICO_OR termo | repeticao_termo termo;
+
+termo ::= fator | fator repeticao_fator;
+
+repeticao_fator ::= repeticao_fator OPERADOR_MATEMATICO_MULTIPLICACAO fator | repeticao_fator OPERADOR_MATEMATICO_DIVISAO fator | repeticao_fator OPERADOR_LOGICO_AND fator | OPERADOR_MATEMATICO_MULTIPLICACAO fator | OPERADOR_MATEMATICO_DIVISAO fator | OPERADOR_LOGICO_AND fator;
+
+fator ::= variavel | numero | ABRE_PARENTESE expressao FECHA_PARENTESE | OPERADOR_LOGICO_NOT fator;
+
+variavel ::= identificador;
+
+lista_de_expressoes ::= expressao |  lista_de_expressoes SIMBOLOS_ESPECIAIS_VIRGULA expressao;
+
+ 
+
+// statements ::= statements statement | statement ;
+
+// statement ::= decl_variable | decl_call_function | decl_function;
+
+// decl_function ::= FUNCTION LEFT_PARAMETER decl_params RIGHT_PARAMETER LEFT_BRACKETS statement_function RIGHT_BRACKETS;
+
+// decl_params ::= decl_params SEMICOLON FUNCTION_PARAMS | FUNCTION_PARAMS | ;
+
+// statement_function ::= statement_function decl_if | decl_if;
+// decl_if ::= IF decl_boolean LEFT_BRACKETS decl_assignments RIGHT_BRACKETS;
+
+// decl_assignments ::= decl_assignments decl_assignment | decl_assignment ; 
+
+// decl_assignment ::= ASSIGNMENT SYMBOL_ASSIGNMENT FUNCTION_PARAMS COLON;
+
+// decl_boolean ::= TT | FF;
+
+// decl_call_function ::= CALL_FUNCTION LEFT_PARAMETER decl_call_params RIGHT_PARAMETER COLON;
+// decl_call_params ::= decl_call_params SEMICOLON params_type | params_type | ;
+// params_type ::= INTEGER | STRING;
+
+// decl_variable ::= VARIABLE data_types COLON;
+// data_types ::= INTEGER_TYPE | STRING_TYPE;
