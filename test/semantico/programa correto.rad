@@ -1,0 +1,27 @@
+program correto;
+int a, b;
+boolean c, d;
+begin
+
+a := 0;
+b := 2;
+c := false;
+d := true;
+
+if (b < a) then
+begin
+	if (c < d) then 
+		a := b + 3;
+
+	else 
+		begin 
+		a := c + d;
+		end
+end
+else
+begin 
+	read(c);
+	c := c + 2;
+	write(c);
+end
+.
